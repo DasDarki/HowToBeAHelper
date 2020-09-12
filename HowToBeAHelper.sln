@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowToBeAHelper", "HowToBeAHelper\HowToBeAHelper.csproj", "{40E6B291-FEAC-49A7-8863-9E11C2757F09}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowToBeAHelper.Library", "HowToBeAHelper.Library\HowToBeAHelper.Library.csproj", "{7694FAB7-2E00-4925-A85B-4D5E3F842089}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{40E6B291-FEAC-49A7-8863-9E11C2757F09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40E6B291-FEAC-49A7-8863-9E11C2757F09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40E6B291-FEAC-49A7-8863-9E11C2757F09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40E6B291-FEAC-49A7-8863-9E11C2757F09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7694FAB7-2E00-4925-A85B-4D5E3F842089}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7694FAB7-2E00-4925-A85B-4D5E3F842089}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7694FAB7-2E00-4925-A85B-4D5E3F842089}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7694FAB7-2E00-4925-A85B-4D5E3F842089}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {954D1E12-2B36-4D21-8202-CA50516DA1A4}
+	EndGlobalSection
+EndGlobal

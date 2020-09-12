@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HowToBeAHelper</name>
+    </assembly>
+    <members>
+        <member name="T:HowToBeAHelper.Plugin">
+            <summary>
+            The main class for every plugin for HowToBeAHelper. This class is the initializer and entry point for the API.
+            From here every process is getting managed. This class is the only class with direct access to the API.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.Plugin.OnStart">
+            <summary>
+            Gets called when the plugin is getting started.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.Plugin.OnStop">
+            <summary>
+            Gets called when the plugin is getting stopped.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.Plugin.OnInit">
+            <summary>
+            Gets called when the plugin is initialized. The init step is shortly before any plugin is getting started.
+            </summary>
+        </member>
+    </members>
+</doc>

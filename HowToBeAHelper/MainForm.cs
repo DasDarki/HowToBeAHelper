@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
+using HowToBeAHelper.Properties;
 
 namespace HowToBeAHelper
 {
@@ -15,7 +8,17 @@ namespace HowToBeAHelper
         public MainForm()
         {
             InitializeComponent();
+            Text = Settings.Default.Title;
         }
 
+        #region Seals
+
+        public sealed override string Text
+        {
+            get => base.Text;
+            set => base.Text = value;
+        }
+
+        #endregion
     }
 }

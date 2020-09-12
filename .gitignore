@@ -552,3 +552,8 @@ MigrationBackup/
 .ionide/
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,jetbrains+all
+
+node_modules/
+.node_modules/
+
+*.env

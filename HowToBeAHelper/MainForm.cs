@@ -6,6 +6,7 @@ using CefSharp;
 using CefSharp.WinForms;
 using HowToBeAHelper.Net;
 using HowToBeAHelper.Properties;
+using Newtonsoft.Json;
 
 namespace HowToBeAHelper
 {
@@ -37,6 +38,8 @@ namespace HowToBeAHelper
                     UniversalAccessFromFileUrls = CefState.Enabled
                 }
             };
+            Browser.ExecuteScriptAsyncWhenPageLoaded(
+                $"emitLocalCharacters('{JsonConvert.SerializeObject(Bootstrap.CharacterManager.Characters)}')");
             Browser.JavascriptObjectRepository.Register("bridge", Bridge = new FrontendBridge(this), false,
                 BindingOptions.DefaultBinder);
             Controls.Add(Browser);
@@ -49,7 +52,7 @@ namespace HowToBeAHelper
                     SafeInvoke(() =>
                     {
                         Visible = true;
-                        new Thread(async () =>
+                        Run(async () =>
                         {
                             if (await Master.Connect())
                             {
@@ -60,10 +63,18 @@ namespace HowToBeAHelper
                                 NotifyError("Verbindung zum Master fehlgeschlagen!");
                                 StartReconnecting();
                             }
-                        }) {IsBackground = true}.Start();
+                        });
                     });
                 }
             };
+        }
+
+        internal void Run(Action callback)
+        {
+            new Thread(() =>
+            {
+                callback();
+            }){IsBackground = true}.Start();
         }
 
         internal void StartReconnecting()

@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading;
 using CefSharp;
 using CefSharp.WinForms;
 using HowToBeAHelper.Model.Characters;
@@ -21,29 +20,59 @@ namespace HowToBeAHelper
             _browser = _form.Browser;
         }
 
-        public void saveCharacter(string json, string username, IJavascriptCallback callback)
+        public void transferCharacter(string lastId, string json, string username, IJavascriptCallback callback)
         {
             Character character = JsonConvert.DeserializeObject<Character>(json);
-            if (string.IsNullOrEmpty(username))
+            if (string.IsNullOrEmpty(username) || !_form.Master.IsConnected)
             {
-                Bootstrap.CharacterManager.Characters.Add(character);
-                Bootstrap.CharacterManager.Save();
-                callback.ExecuteAsync(true);
+                callback.ExecuteAsync(false);
                 return;
             }
-            new Thread(async () =>
+            _form.Run(async () =>
             {
                 await _form.Master.SaveCharacter(username, character, status =>
                 {
-                    if (!status)
+                    if (status)
                     {
-                        Bootstrap.CharacterManager.Characters.Add(character);
+                        Bootstrap.CharacterManager.Characters.RemoveAll(o => o.ID == lastId);
                         Bootstrap.CharacterManager.Save();
                     }
 
                     callback.ExecuteAsync(status);
                 });
-            }) { IsBackground = true }.Start();
+            });
+        }
+
+        public void saveCharacter(string json, string username, IJavascriptCallback callback)
+        {
+            Character character = JsonConvert.DeserializeObject<Character>(json);
+            if (string.IsNullOrEmpty(username) || !_form.Master.IsConnected)
+            {
+                Bootstrap.CharacterManager.Characters.Add(character);
+                Bootstrap.CharacterManager.Save();
+                callback.ExecuteAsync(true, true);
+                return;
+            }
+            _form.Run(async () =>
+            {
+                await _form.Master.SaveCharacter(username, character, status =>
+                {
+                    bool local = false;
+                    if (!status)
+                    {
+                        Bootstrap.CharacterManager.Characters.Add(character);
+                        Bootstrap.CharacterManager.Save();
+                        local = true;
+                    }
+
+                    callback.ExecuteAsync(status, local);
+                });
+            });
+        }
+
+        public void openExternalUrl(string url)
+        {
+            Process.Start(url);
         }
 
         public void saveLogin(string username, string password)
@@ -56,24 +85,24 @@ namespace HowToBeAHelper
 
         public void registerUser(string username, string password, IJavascriptCallback callback)
         {
-            new Thread(async () =>
+            _form.Run(async () =>
             {
                 await _form.Master.RegisterUser(username, HashPassword(password), status =>
                 {
                     callback.ExecuteAsync(status);
                 });
-            }) {IsBackground = true}.Start();
+            });
         }
 
         public void loginUser(bool needsHash, string username, string password, IJavascriptCallback callback)
         {
-            new Thread(async () =>
+            _form.Run(async () =>
             {
                 await _form.Master.LoginUser(username, needsHash ? HashPassword(password) : password, chars =>
                 {
                     callback.ExecuteAsync(chars);
                 });
-            }) {IsBackground = true}.Start();
+            });
         }
 
         private string HashPassword(string password)

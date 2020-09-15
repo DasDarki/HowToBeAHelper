@@ -16,7 +16,7 @@ namespace HowToBeAHelper.Net
         /// <summary>
         /// Whether a connection to the master is established or not.
         /// </summary>
-        public bool IsConnected { get; private set; }
+        public bool IsConnected => _client.Connected;
 
         private readonly SocketIO _client;
         private Action<int> _registerCallback;
@@ -51,7 +51,6 @@ namespace HowToBeAHelper.Net
             try
             {
                 await _client.ConnectAsync();
-                IsConnected = true;
                 MainForm.Instance.Browser.ExecuteScriptAsync("switchMode(true, " + (Bootstrap.IsAutomaticallyLoggedIn ? "true" : "false") + ")");
                 if(Bootstrap.IsAutomaticallyLoggedIn)
                     MainForm.Instance.Browser.ExecuteScriptAsync($"autoLogin('{Bootstrap.StoredUsername}', '{Bootstrap.StoredPassword}')");

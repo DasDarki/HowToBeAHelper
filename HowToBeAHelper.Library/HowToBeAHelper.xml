@@ -21,6 +21,11 @@
             The data model for the character.
             </summary>
         </member>
+        <member name="P:HowToBeAHelper.Model.Characters.Character.ID">
+            <summary>
+            The name of the character.
+            </summary>
+        </member>
         <member name="P:HowToBeAHelper.Model.Characters.Character.Name">
             <summary>
             The name of the character.

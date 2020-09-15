@@ -12,6 +12,12 @@ namespace HowToBeAHelper.Model.Characters
         /// <summary>
         /// The name of the character.
         /// </summary>
+        [JsonProperty("uuid")]
+        public string ID { get; set; }
+
+        /// <summary>
+        /// The name of the character.
+        /// </summary>
         [JsonProperty("name")]
         public string Name { get; set; }
 

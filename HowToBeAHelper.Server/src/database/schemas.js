@@ -8,6 +8,7 @@ const skillSchema = new mongoose.Schema({
 const Skill = mongoose.model('Skill', skillSchema);
 
 const characterSchema = new mongoose.Schema({
+    uuid: String,
     name: String,
     age: Number,
     xp: Number,

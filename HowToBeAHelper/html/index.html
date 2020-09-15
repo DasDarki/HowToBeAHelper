@@ -20,6 +20,15 @@
             max-width: calc(100% - 20px);
             width: calc(100% - 20px);
         }
+
+        #loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -34,6 +43,7 @@
                     <li><a class="page-switch" data-page="dashboard">Dashboard</a></li>
                     <li><a class="page-switch" data-page="char-editor">Charakter-Editor</a></li>
                     <li><a class="page-switch" data-page="settings">Einstellungen</a></li>
+                    <li><a class="page-switch" data-page="about">Über das Tool</a></li>
                 </ul>
                 <p class="menu-label">
                     Plugins
@@ -181,20 +191,43 @@
                             </header>
                             <div class="card-table">
                                 <div class="content">
+                                    <br>
+                                    <div id="dashboard-remote-char-pack">
+                                        <div class="columns is-centered is-gapless" style="margin-bottom: 0">
+                                            <div class="column" style="margin-bottom: 0">
+                                                <hr style="margin-bottom: 0">
+                                            </div>
+                                            <div class="column is-2 has-text-centered">
+                                                <h4 class="subtitle is-4 has-text-centered">Cloud</h4>
+                                            </div>
+                                            <div class="column" style="margin-bottom: 0">
+                                                <hr style="margin-bottom: 0">
+                                            </div>
+                                        </div>
+                                        <table class="table is-fullwidth is-striped">
+                                            <tbody id="dashboard-remote-chars">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="columns is-centered is-gapless" style="margin-bottom: 0">
+                                        <div class="column" style="margin-bottom: 0">
+                                            <hr style="margin-bottom: 0">
+                                        </div>
+                                        <div class="column is-2 has-text-centered">
+                                            <h4 class="subtitle is-4 has-text-centered">Lokal</h4>
+                                        </div>
+                                        <div class="column" style="margin-bottom: 0">
+                                            <hr style="margin-bottom: 0">
+                                        </div>
+                                    </div>
                                     <table class="table is-fullwidth is-striped">
-                                        <tbody>
-                                        <tr>
-                                            <td width="5%"><i class="fa fa-bell-o"></i></td>
-                                            <td>Lorum ipsum dolem aire</td>
-                                            <td class="level-right"><a class="button is-small is-primary" href="#">Action</a>
-                                            </td>
-                                        </tr>
+                                        <tbody id="dashboard-local-chars">
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                             <footer class="card-footer">
-                                <a href="#" class="card-footer-item">View All</a>
+                                <a href="#" class="card-footer-item">Aktualisieren</a>
                             </footer>
                         </div>
                     </div>
@@ -1282,8 +1315,23 @@
                     </div>
                 </div>
             </div>
+            <div id="page-about" class="container" style="display: none">
+                <h1 class="title">Über das Tool</h1>
+                Das Tool ist ein Hilfsprogramme, welches dir beim Spielen von How To Be A Hero helfen soll.
+                Wir, die Entwickler, stehen in keinem direkten Zusammenhang zu der How to be a Hero e.V. Das Tool ist
+                absolut frei und kann von jedem benutzt werden.
+                Das Tool ist Open Source und kann auf <a href="https://github.com/DasDarki/HowToBeAHelper"
+                                                         class="external">Github</a>
+                eingesehen werden.
+                Das Tool steht unter der Creative Commons Namensnennung-Nicht kommerziell-Share Alike 4.0 International
+                Lizenz. Diese findest du <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.de"
+                                            class="external">hier</a>
+            </div>
         </div>
     </div>
+</div>
+<div id="loader" style="display: none">
+
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
@@ -1291,6 +1339,28 @@
     let currentCharacter;
     let editorSkillControls;
     let editorSkillBonuses;
+
+    function findCharacterById(id) {
+        for (let i = 0; i < characters.length; i++)
+            if (characters[i].uuid === id)
+                return characters[i];
+        return null;
+    }
+
+    function findLocalCharacterById(id) {
+        for (let i = 0; i < localCharacters.length; i++)
+            if (localCharacters[i].uuid === id)
+                return localCharacters[i];
+        return null;
+    }
+
+    function generateCharId() {
+        let uuid = uuidv4();
+        while (findCharacterById(uuid)) {
+            uuid = uuidv4();
+        }
+        return uuid;
+    }
 
     function parseIntSafely(val) {
         let i = parseInt(val);
@@ -1333,6 +1403,7 @@
             });
             return;
         }
+        currentCharacter.uuid = generateCharId();
         currentCharacter.age = parseIntSafely($('#editor-age').val());
         currentCharacter.name = name;
         currentCharacter.gender = $('#editor-gender').val();
@@ -1343,11 +1414,16 @@
         currentCharacter.stature = stature;
         currentCharacter.job = job;
         currentCharacter.pointsLeft = calculateFreePoints();
-        bridge.saveCharacter(JSON.stringify(currentCharacter), loginName, (success) => {
+        bridge.saveCharacter(JSON.stringify(currentCharacter), loginName, (success, isLocal) => {
             if (success) {
-                characters.push(currentCharacter);
+                if (isLocal) {
+                    localCharacters.push(currentCharacter);
+                    updateLocalCharacters();
+                } else {
+                    characters.push(currentCharacter);
+                    updateRemoteCharacters();
+                }
                 resetCharacterEditor();
-                updateCharacters();
                 Swal.fire({
                     icon: 'success',
                     title: 'Yeah!',
@@ -1543,9 +1619,90 @@
 <script>
     let loginName = null;
     let characters = [];
+    let localCharacters = [];
 
-    function updateCharacters() {
+    function editCharacter(idx, isLocal) {
 
+    }
+
+    function transferCharacter(idx) {
+        $('#loader').show();
+        let character = localCharacters[idx];
+        let lastId = character.uuid;
+        character.uuid = generateCharId();
+        bridge.transferCharacter(lastId, JSON.stringify(character), loginName, (success) => {
+            $('#loader').hide();
+            if (success) {
+                localCharacters.splice(idx, 1);
+                updateLocalCharacters();
+                characters.push(character);
+                updateRemoteCharacters();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Juhu!',
+                    text: 'Dein Charakter ist nun sicher in unserer Cloud! :)',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Upsi!',
+                    text: 'Leider konnten wir deinen Charakter nicht übertragen! Kein Sorge, dein Charakter bleibt sicher!',
+                });
+            }
+        });
+    }
+
+    function updateLocalCharacters() {
+        let q = $('#dashboard-local-chars');
+        q.html("");
+        if (localCharacters.length == 0) {
+            q.append(`<tr class="has-text-centered is-fullwidth">
+                        <td class="has-text-centered"><small style="color: rgba(0, 0, 0, 0.4); font-style: italic; font-size: 12px">Hier ist nichts zu sehen :(</small></td>
+                    </tr>`);
+        } else {
+            for (let i = 0; i < localCharacters.length; i++) {
+                q.append(generateCharacter(i, localCharacters[i], true));
+            }
+        }
+    }
+
+    function updateRemoteCharacters() {
+        $('#dashboard-remote-char-pack').show();
+        let q = $('#dashboard-remote-chars');
+        q.html("");
+        if (characters.length == 0) {
+            q.append(`<tr class="has-text-centered is-fullwidth">
+                        <td class="has-text-centered"><small style="color: rgba(0, 0, 0, 0.4); font-style: italic; font-size: 12px">Hier ist nichts zu sehen :(</small></td>
+                    </tr>`);
+        } else {
+            for (let i = 0; i < characters.length; i++) {
+                q.append(generateCharacter(i, characters[i], false));
+            }
+        }
+    }
+
+    function generateCharacter(idx, character, isLocal) {
+        let upload = "";
+        if (isLocal && isOnline && isLoggedIn()) {
+            upload = `<button class="button is-small" onclick="transferCharacter(${idx})">
+                        <span class="icon is-small">
+                          <i class="fas fa-cloud-upload-alt"></i>
+                        </span>
+                      </button>`;
+        }
+        return `<tr>
+                    <td width="5%"><i class="fas fa-users-cog"></i></td>
+                    <td>${character.name} (${character.gender}; ${character.age}yo; ${character.job})</td>
+                    <td class="level-right">
+                        ${upload}
+                        <a class="button is-small is-success" href="#" onclick="editCharacter(${idx}, ${isLocal})">Ansehen / Editieren</a>
+                    </td>
+                </tr>`;
+    }
+
+    function emitLocalCharacters(json) {
+        localCharacters = JSON.parse(json);
+        updateLocalCharacters();
     }
 
     function isLoggedIn() {
@@ -1589,7 +1746,8 @@
                 characters = JSON.parse(charactersJson.split('\\"').join('"'));
                 loginName = username;
                 $('#login-message').hide();
-                updateCharacters();
+                updateRemoteCharacters();
+                updateLocalCharacters();
                 $('#login-password').val("");
                 $('#login-name').val("");
                 selectPage("dashboard");
@@ -1620,7 +1778,8 @@
                 characters = JSON.parse(charactersJson.split('\\"').join('"'));
                 loginName = username;
                 $('#login-message').hide();
-                updateCharacters();
+                updateRemoteCharacters();
+                updateLocalCharacters();
                 $('#login-password').val("");
                 $('#login-name').val("");
                 selectPage("dashboard");
@@ -1735,6 +1894,7 @@
             if (!isLoggedIn() && !autoLogin)
                 $('#login-message').show();
         } else {
+            $('#dashboard-remote-char-pack').hide();
             $('#login-message').hide();
         }
     }
@@ -1760,6 +1920,22 @@
         duration = duration || 5000;
         notify(text, duration, "linear-gradient(to right, #ff5f6d, #ffc371)");
     }
+
+    function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    $('.external').each(function () {
+        let q = $(this);
+        q.click(function (e) {
+            e.preventDefault();
+            let url = q.attr("href");
+            bridge.openExternalUrl(url);
+        });
+    });
 </script>
 </body>
 </html>

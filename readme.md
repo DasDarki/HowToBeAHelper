@@ -1,2 +1,3 @@
 # HowToBeAHelper
-HowToBeAHelper (or HTBAH) is a helper software for the How to be a Hero PnP.
+Diese Software ist ein Hilfstool für das Pen and Paper How To Be A Hero. Um mehr über das Pen and Paper System zu erfahren, klicke auf den folgenden Link:
+https://howtobeahero.de/index.php?title=Hauptseite

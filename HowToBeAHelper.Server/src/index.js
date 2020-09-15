@@ -1,51 +1,30 @@
 require('dotenv').config();
 const isDev = process.env.IS_DEV === "true";
 
-const morgan = require('morgan');
-const cors = require('cors');
-const helmet = require('helmet');
-const express = require('express');
-const app = express();
+const app = require('express');
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 
-app.use((req, res, next) => {
-    let auth = req.get('Authorization');
-    if (auth) {
-        if (auth.startsWith('Bearer ')) {
-            let token = auth.replace('Bearer ', '');
-            //check if the token is correct
-            req.token = token;
-            return;
-        }
-    }
-    const error = new Error(`Auth failed - Permission denied for ${req.originalUrl}`);
-    res.status(401);
-    next(error);
-});
+const database = require('./database/index.js');
 
-app.use('/api/v1', require('./routes/v1/index.js')());
+database.start(() => {
+    io.on('connection', (socket) => {
+        socket.on("user:register", function (name, password) {
+            database.createUser(name, password, status => {
+                socket.emit("user:register:result", status);
+            });
+        });
+        socket.on("character:save", function (username, character, fn) {
+            database.saveCharacter(username, character, fn);
+        });
+        socket.on("user:login", function (name, password, fn) {
+            database.loginUser(name, password, fn);
+        });
+        console.log("User Connected!");
+    });
 
-app.use(morgan('common'));
-app.use(cors());
-app.use(helmet());
-app.use(express.json());
-app.use((req, res, next) => {
-    const error = new Error(`No route found for ${req.originalUrl}`);
-    res.status(404);
-    next(error);
-});
-app.use((error, req, res, next) => {
-    const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-    res.status(statusCode);
-    let result = {
-        message: error.message
-    };
-    if (isDev) {
-        result.stack = error.stack;
-    }
-    res.json(result);
-});
-
-const port = process.env.PORT || 1337;
-app.listen(port, () => {
-    console.log(`Listening at http://localhost:${port}`);
+    const port = process.env.PORT || 1339;
+    http.listen(port, function () {
+        console.log("Master Server running on *:" + port);
+    });
 });

@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
+using HowToBeAHelper.BuiltIn;
+using HowToBeAHelper.Model.Characters;
 
 namespace HowToBeAHelper
 {
@@ -31,17 +34,87 @@ namespace HowToBeAHelper
         internal static string PluginsPath { get; private set; }
 
         /// <summary>
+        /// The stored username.
+        /// </summary>
+        internal static string StoredUsername;
+
+        /// <summary>
+        /// The stored password.
+        /// </summary>
+        internal static string StoredPassword;
+
+        /// <summary>
+        /// Whether the user should be logged in automatically or not.
+        /// </summary>
+        internal static bool IsAutomaticallyLoggedIn { get; set; }
+
+        /// <summary>
+        /// The character manager of the local storage.
+        /// </summary>
+        internal static CharacterManager CharacterManager { get; set; }
+
+        /// <summary>
         /// Initializes the app, creates the structure, checks for updates and connects with the network.
         /// </summary>
         /// <returns>True if the app could be initialized successfully</returns>
         internal static bool Init()
         {
+            /*Character character = new Character
+            {
+                Name = "James Daunting",
+                Age = 18,
+                Gender = "männlich"
+            };
+            character.ActSkills[0].Name = "Schleichen";
+            character.ActSkills[0].Value = 90;
+            character.SocialSkills[0].Name = "Lügen";
+            character.SocialSkills[0].Value = 70;
+            character.KnowledgeSkills[0].Name = "Französisch";
+            character.KnowledgeSkills[0].Value = 80;
+            character.KnowledgeSkills[1].Name = "Spanisch";
+            character.KnowledgeSkills[1].Value = 80;
+            CharacterGenerator.GeneratePdf(character, @"C:\Users\DasDarki\Desktop\CharOutput.pdf");*/
             AppPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "";
             DataPath = CreateAppPath("data");
             TempPath = CreateAppPath("temp");
             ConfigPath = CreateAppPath("configs");
             PluginsPath = CreateAppPath("plugins");
+            CharacterManager = new CharacterManager();
+            IsAutomaticallyLoggedIn = Load(out StoredUsername, out StoredPassword);
             return true;
+        }
+
+        private static bool Load(out string username, out string password)
+        {
+            username = null;
+            password = null;
+            if (!File.Exists(Path.Combine(DataPath, "loginstorage.toml"))) return false;
+            try
+            {
+                var storage = File.ReadAllLines(Path.Combine(DataPath, "loginstorage.toml"));
+                username = storage[0];
+                password = storage[1];
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        internal static void Save(string username, string password)
+        {
+            try
+            {
+                File.WriteAllLines(Path.Combine(DataPath, "loginstorage.toml"), new List<string>
+                {
+                    username, password
+                });
+            }
+            catch
+            {
+                //Ignore
+            }
         }
 
         /// <summary>

@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>HowToBeAHelper</AssemblyName>
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyName>HowToBeAHelper.Library</AssemblyName>
     <RootNamespace>HowToBeAHelper</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>DasDarki</Authors>
@@ -14,6 +14,8 @@
     <Copyright>(c) DasDarki &amp; How to be a Hero e.V.</Copyright>
     <Description>This is a helper software for the How to be a Hero Pen and Paper system by How to be a Hero e.V.</Description>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -26,6 +28,11 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nett" Version="0.15.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 
 </Project>

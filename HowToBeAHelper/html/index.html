@@ -1,0 +1,1765 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>HTBAH</title>
+    <link rel="stylesheet" type="text/css" href="bulma.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <script src="jquery.js"></script>
+    <style>
+        html, body {
+            height: 100vh;
+            background: #ECF0F3;
+        }
+
+        #wrapper {
+            margin: 10px 10px 0;
+            height: 100%;
+            max-width: calc(100% - 20px);
+            width: calc(100% - 20px);
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="wrapper">
+    <div class="columns" style="margin-left: 10px">
+        <div class="column is-3 ">
+            <aside class="menu is-hidden-mobile">
+                <p class="menu-label">
+                    How to be a Helper
+                </p>
+                <ul class="menu-list">
+                    <li><a class="page-switch" data-page="dashboard">Dashboard</a></li>
+                    <li><a class="page-switch" data-page="char-editor">Charakter-Editor</a></li>
+                    <li><a class="page-switch" data-page="settings">Einstellungen</a></li>
+                </ul>
+                <p class="menu-label">
+                    Plugins
+                </p>
+                <ul class="menu-list">
+
+                </ul>
+            </aside>
+        </div>
+        <div class="column is-9" style="padding-top: 25px">
+            <div id="page-register" class="container" style="display: none">
+                <div class="columns is-centered">
+                    <div class="column is-6">
+                        <div class="card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    Erstelle dein Account!
+                                </p>
+                            </header>
+                            <div class="card-content">
+                                <div class="field">
+                                    <label class="label">Benutzername:</label>
+                                    <div class="control has-icons-left has-icons-right">
+                                        <input class="input" type="text" placeholder="Benutzername eingeben"
+                                               id="register-name" required>
+                                        <span class="icon is-small is-left">
+                                          <i class="fas fa-user"></i>
+                                        </span>
+                                        <span class="icon is-small is-right">
+                                          <i class="" id="register-name-icon"></i>
+                                        </span>
+                                    </div>
+                                    <p class="help is-danger" id="register-name-fail" style="display: none">Der
+                                        Benutzername existiert
+                                        bereits!</p>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Passwort:</label>
+                                    <div class="control has-icons-left has-icons-right">
+                                        <input class="input" type="password" placeholder="Passwort eingeben"
+                                               id="register-password" required>
+                                        <span class="icon is-small is-left">
+                                          <i class="fas fa-key"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Passwort wiederholen:</label>
+                                    <div class="control has-icons-left has-icons-right">
+                                        <input class="input" type="password" placeholder="Passwort wiederholen"
+                                               id="register-password-repeat" required>
+                                        <span class="icon is-small is-left">
+                                          <i class="fas fa-key"></i>
+                                        </span>
+                                    </div>
+                                    <p class="help is-danger" id="register-password-failed" style="display: none">Die
+                                        Passwörter stimmen nicht überein!</p>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <a href="#" class="card-footer-item" onclick="showRegisterAdvantages()">Deine
+                                    Vorteile</a>
+                                <a href="#" class="card-footer-item" id="register-finish" onclick="finishRegister()">Account
+                                    erstellen</a>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="page-login" class="container" style="display: none">
+                <div class="columns is-centered">
+                    <div class="column is-6">
+                        <div class="card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    Logge dich ein!
+                                </p>
+                            </header>
+                            <div class="card-content">
+                                <div class="field">
+                                    <label class="label">Benutzername:</label>
+                                    <div class="control has-icons-left has-icons-right">
+                                        <input class="input" type="text" placeholder="Benutzername eingeben"
+                                               id="login-name" required>
+                                        <span class="icon is-small is-left">
+                                          <i class="fas fa-user"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Passwort:</label>
+                                    <div class="control has-icons-left has-icons-right">
+                                        <input class="input" type="password" placeholder="Passwort eingeben"
+                                               id="login-password" required>
+                                        <span class="icon is-small is-left">
+                                          <i class="fas fa-key"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="control">
+                                        <label class="checkbox">
+                                            <input type="checkbox" id="login-save"> Daten merken
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <a href="#" class="card-footer-item" id="login-finish"
+                                   onclick="finishLogin()">Einloggen</a>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="page-dashboard">
+                <section id="login-message" class="hero is-warning welcome is-small" style="display: none">
+                    <div class="hero-body">
+                        <div class="container">
+                            <h1 class="title">
+                                Hey!
+                            </h1>
+                            <div class="subtitle">
+                                Es scheint so, dass du nicht eingeloggt bist. Login dich doch <a href="#"
+                                                                                                 onclick="showLoginPage()"><b>hier</b></a>
+                                ein!
+                                <br><br>
+                                Hast du noch kein Account? Erstelle dir doch <a href="#"
+                                                                                onclick="showRegisterPage()"><b>hier</b></a>
+                                einen. Dadurch erhälst
+                                du
+                                einige
+                                Vorteile!
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <div class="columns is-centered">
+                    <div class="column">
+                        <div class="card events-card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    Deine Charaktere
+                                </p>
+                            </header>
+                            <div class="card-table">
+                                <div class="content">
+                                    <table class="table is-fullwidth is-striped">
+                                        <tbody>
+                                        <tr>
+                                            <td width="5%"><i class="fa fa-bell-o"></i></td>
+                                            <td>Lorum ipsum dolem aire</td>
+                                            <td class="level-right"><a class="button is-small is-primary" href="#">Action</a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <a href="#" class="card-footer-item">View All</a>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="page-char-editor" style="display: none">
+                <div class="columns is-centered">
+                    <div class="column">
+                        <div class="card events-card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    Charakter-Editor
+                                </p>
+                            </header>
+                            <div class="card-table">
+                                <div class="card-content">
+                                    <div class="field">
+                                        <div class="field-body">
+                                            <div class="field">
+                                                <label class="label">Name:</label>
+                                                <div class="control">
+                                                    <input class="input" type="text" placeholder="Name eingeben"
+                                                           required id="editor-name">
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label class="label">Geschlecht:</label>
+                                                <div class="control">
+                                                    <div class="select is-fullwidth">
+                                                        <select id="editor-gender">
+                                                            <option value="divers">divers</option>
+                                                            <option value="männlich">männlich</option>
+                                                            <option value="weiblich">weiblich</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-body">
+                                            <div class="field">
+                                                <label class="label">Alter:</label>
+                                                <div class="control">
+                                                    <input class="input" type="number" placeholder="Alter eingeben"
+                                                           min="0"
+                                                           required id="editor-age">
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label class="label">Statur:</label>
+                                                <div class="control">
+                                                    <input class="input" type="text" placeholder="Statur eingeben"
+                                                           required id="editor-stature">
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label class="label">Religion:</label>
+                                                <div class="control">
+                                                    <input class="input" type="text" placeholder="Religion eingeben"
+                                                           required id="editor-religion">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-body">
+                                            <div class="field">
+                                                <label class="label">Beruf:</label>
+                                                <div class="control">
+                                                    <input class="input" type="text" placeholder="Beruf eingeben"
+                                                           required id="editor-job">
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label class="label">Familienstand:</label>
+                                                <div class="control">
+                                                    <div class="select is-fullwidth">
+                                                        <select id="editor-martialstatus">
+                                                            <option value="ledig">ledig</option>
+                                                            <option value="verheiratet">verheiratet</option>
+                                                            <option value="verwitwet">verwitwet</option>
+                                                            <option value="geschieden">geschieden</option>
+                                                            <option value="Ehe aufgehoben">Ehe aufgehoben</option>
+                                                            <option value="in eingetragener Lebenspartnerschaft">in
+                                                                eingetragener Lebenspartnerschaft
+                                                            </option>
+                                                            <option value="durch Tod aufgelöste Lebenspartnerschaft">
+                                                                durch Tod aufgelöste Lebenspartnerschaft
+                                                            </option>
+                                                            <option value="aufgehobene Lebenspartnerschaft">aufgehobene
+                                                                Lebenspartnerschaft
+                                                            </option>
+                                                            <option value="durch Todeserklärung aufgelöste Lebenspartnerschaft">
+                                                                durch Todeserklärung aufgelöste
+                                                                Lebenspartnerschaft
+                                                            </option>
+                                                            <option value="nicht bekannt">nicht bekannt</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="field">
+                                        <div class="field-body">
+                                            <div class="field is-expanded">
+                                                <h3 class="title is-3" style="font-size: 20px; margin-bottom: 10px">
+                                                    Fertigkeiten:</h3>
+                                            </div>
+                                            <div class="field">
+                                                <div class="field-body">
+                                                    <div class="field">
+                                                        <label class="label">Punkte gegeben:</label>
+                                                        <div class="control">
+                                                            <input class="input" type="number" value="400"
+                                                                   placeholder=""
+                                                                   id="editor-points">
+                                                        </div>
+                                                    </div>
+                                                    <div class="field">
+                                                        <label class="label">Punkte übrig:</label>
+                                                        <div class="control">
+                                                            <input class="input" type="number" value="400"
+                                                                   placeholder="" readonly
+                                                                   id="editor-points-left">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-body">
+                                            <div class="field" style="max-width: 280px">
+                                                <label class="label">Handeln: <i id="editor-actSkills-bonus">0</i> (<i
+                                                        id="editor-actSkills-brainstorm">0</i>)</label>
+                                                <div class="control">
+                                                    <div class="field" id="editor-skils-act">
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-actSkills-0-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-actSkills-0-name', 'actSkills', 0)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-actSkills-0-name', 'actSkills', 0)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-actSkills-0-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-actSkills-0-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-actSkills-1-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-actSkills-1-name', 'actSkills', 1)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-actSkills-1-name', 'actSkills', 1)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-actSkills-1-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-actSkills-1-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-actSkills-2-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-actSkills-2-name', 'actSkills', 2)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-actSkills-2-name', 'actSkills', 2)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-actSkills-2-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-actSkills-2-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-actSkills-3-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-actSkills-3-name', 'actSkills', 3)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-actSkills-3-name', 'actSkills', 3)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-actSkills-3-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-actSkills-3-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-actSkills-4-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-actSkills-4-name', 'actSkills', 4)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-actSkills-4-name', 'actSkills', 4)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-actSkills-4-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-actSkills-4-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-actSkills-5-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-actSkills-5-name', 'actSkills', 5)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-actSkills-5-name', 'actSkills', 5)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-actSkills-5-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-actSkills-5-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-actSkills-6-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-actSkills-6-name', 'actSkills', 6)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-actSkills-6-name', 'actSkills', 6)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-actSkills-6-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-actSkills-6-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-actSkills-7-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-actSkills-7-name', 'actSkills', 7)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-actSkills-7-name', 'actSkills', 7)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-actSkills-7-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-actSkills-7-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-actSkills-8-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-actSkills-8-name', 'actSkills', 8)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-actSkills-8-name', 'actSkills', 8)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-actSkills-8-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-actSkills-8-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-actSkills-9-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-actSkills-9-name', 'actSkills', 9)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-actSkills-9-name', 'actSkills', 9)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-actSkills-9-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-actSkills-9-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="field" style="max-width: 280px">
+                                                <label class="label">Wissen: <i id="editor-knowledgeSkills-bonus">0</i>
+                                                    (<i id="editor-knowledgeSkills-brainstorm">0</i>)</label>
+                                                <div class="control">
+                                                    <div class="field" id="editor-skils-knowledge">
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-knowledgeSkills-0-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-knowledgeSkills-0-name', 'knowledgeSkills', 0)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-knowledgeSkills-0-name', 'knowledgeSkills', 0)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-knowledgeSkills-0-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-knowledgeSkills-0-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-knowledgeSkills-1-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-knowledgeSkills-1-name', 'knowledgeSkills', 1)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-knowledgeSkills-1-name', 'knowledgeSkills', 1)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-knowledgeSkills-1-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-knowledgeSkills-1-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-knowledgeSkills-2-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-knowledgeSkills-2-name', 'knowledgeSkills', 2)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-knowledgeSkills-2-name', 'knowledgeSkills', 2)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-knowledgeSkills-2-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-knowledgeSkills-2-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-knowledgeSkills-3-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-knowledgeSkills-3-name', 'knowledgeSkills', 3)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-knowledgeSkills-3-name', 'knowledgeSkills', 3)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-knowledgeSkills-3-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-knowledgeSkills-3-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-knowledgeSkills-4-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-knowledgeSkills-4-name', 'knowledgeSkills', 4)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-knowledgeSkills-4-name', 'knowledgeSkills', 4)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-knowledgeSkills-4-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-knowledgeSkills-4-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-knowledgeSkills-5-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-knowledgeSkills-5-name', 'knowledgeSkills', 5)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-knowledgeSkills-5-name', 'knowledgeSkills', 5)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-knowledgeSkills-5-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-knowledgeSkills-5-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-knowledgeSkills-6-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-knowledgeSkills-6-name', 'knowledgeSkills', 6)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-knowledgeSkills-6-name', 'knowledgeSkills', 6)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-knowledgeSkills-6-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-knowledgeSkills-6-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-knowledgeSkills-7-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-knowledgeSkills-7-name', 'knowledgeSkills', 7)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-knowledgeSkills-7-name', 'knowledgeSkills', 7)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-knowledgeSkills-7-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-knowledgeSkills-7-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-knowledgeSkills-8-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-knowledgeSkills-8-name', 'knowledgeSkills', 8)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-knowledgeSkills-8-name', 'knowledgeSkills', 8)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-knowledgeSkills-8-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-knowledgeSkills-8-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-knowledgeSkills-9-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-knowledgeSkills-9-name', 'knowledgeSkills', 9)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-knowledgeSkills-9-name', 'knowledgeSkills', 9)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-knowledgeSkills-9-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-knowledgeSkills-9-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="field" style="max-width: 280px">
+                                                <label class="label">Soziales: <i id="editor-socialSkills-bonus">0</i> (<i
+                                                        id="editor-socialSkills-brainstorm">0</i>)</label>
+                                                <div class="control">
+                                                    <div class="field" id="editor-skils-social">
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-socialSkills-0-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-socialSkills-0-name', 'socialSkills', 0)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-socialSkills-0-name', 'socialSkills', 0)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-socialSkills-0-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-socialSkills-0-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-socialSkills-1-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-socialSkills-1-name', 'socialSkills', 1)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-socialSkills-1-name', 'socialSkills', 1)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-socialSkills-1-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-socialSkills-1-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-socialSkills-2-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-socialSkills-2-name', 'socialSkills', 2)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-socialSkills-2-name', 'socialSkills', 2)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-socialSkills-2-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-socialSkills-2-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-socialSkills-3-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-socialSkills-3-name', 'socialSkills', 3)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-socialSkills-3-name', 'socialSkills', 3)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-socialSkills-3-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-socialSkills-3-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-socialSkills-4-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-socialSkills-4-name', 'socialSkills', 4)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-socialSkills-4-name', 'socialSkills', 4)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-socialSkills-4-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-socialSkills-4-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-socialSkills-5-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-socialSkills-5-name', 'socialSkills', 5)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-socialSkills-5-name', 'socialSkills', 5)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-socialSkills-5-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-socialSkills-5-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-socialSkills-6-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-socialSkills-6-name', 'socialSkills', 6)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-socialSkills-6-name', 'socialSkills', 6)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-socialSkills-6-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-socialSkills-6-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-socialSkills-7-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-socialSkills-7-name', 'socialSkills', 7)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-socialSkills-7-name', 'socialSkills', 7)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-socialSkills-7-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-socialSkills-7-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-socialSkills-8-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-socialSkills-8-name', 'socialSkills', 8)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-socialSkills-8-name', 'socialSkills', 8)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-socialSkills-8-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-socialSkills-8-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="editor-socialSkills-9-name"
+                                                                               onchange="onEditorSkillsNameChange('editor-socialSkills-9-name', 'socialSkills', 9)"
+                                                                               onkeyup="onEditorSkillsNameChange('editor-socialSkills-9-name', 'socialSkills', 9)"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="editor-socialSkills-9-value"
+                                                                               value="0" data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="editor-socialSkills-9-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="field">
+                                        <div class="field-body">
+                                            <div class="field">
+                                                <label class="label">Inventar:</label>
+                                                <div class="control">
+                                                    <textarea class="textarea" id="editor-inventory"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label class="label">Anmerkungen:</label>
+                                                <div class="control">
+                                                    <textarea class="textarea" id="editor-notes"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <a href="#" class="card-footer-item" onclick="finishCharacter()">Charakter erstellen</a>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script>
+    let currentCharacter;
+    let editorSkillControls;
+    let editorSkillBonuses;
+
+    function parseIntSafely(val) {
+        let i = parseInt(val);
+        if (!i || isNaN(i))
+            i = 0;
+        return i;
+    }
+
+    function finishCharacter() {
+        $('#editor-name').removeClass('is-danger');
+        let name = $('#editor-name').val().trim();
+        if (name.length <= 0) {
+            $('#editor-name').addClass('is-danger');
+            Swal.fire({
+                icon: 'error',
+                title: 'Da fehlt was!',
+                text: 'Dein Charakter brauch einen Namen!',
+            });
+            return;
+        }
+        $('#editor-job').removeClass('is-danger');
+        let job = $('#editor-job').val().trim();
+        if (job.length <= 0) {
+            $('#editor-job').addClass('is-danger');
+            Swal.fire({
+                icon: 'error',
+                title: 'Du bist Arbeitslos!',
+                text: 'Bitte trage einen Beruf ein! Und ja, Arbeitsloser ist auch ein valider Beruf!',
+            });
+            return;
+        }
+        $('#editor-stature').removeClass('is-danger');
+        let stature = $('#editor-stature').val().trim();
+        if (stature.length <= 0) {
+            $('#editor-stature').addClass('is-danger');
+            Swal.fire({
+                icon: 'error',
+                title: 'Wie siehst du aus?',
+                text: 'Dein Charakter benötigt eine Statur, und sei es nur "Lauch"!',
+            });
+            return;
+        }
+        currentCharacter.age = parseIntSafely($('#editor-age').val());
+        currentCharacter.name = name;
+        currentCharacter.gender = $('#editor-gender').val();
+        currentCharacter.martialStatus = $('#editor-martialstatus').val();
+        currentCharacter.inventory = $('#editor-inventory').val();
+        currentCharacter.notes = $('#editor-notes').val();
+        currentCharacter.religion = $('#editor-religion').val();
+        currentCharacter.stature = stature;
+        currentCharacter.job = job;
+        currentCharacter.pointsLeft = calculateFreePoints();
+        bridge.saveCharacter(JSON.stringify(currentCharacter), loginName, (success) => {
+            if (success) {
+                characters.push(currentCharacter);
+                resetCharacterEditor();
+                updateCharacters();
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Yeah!',
+                    text: 'Dein Charakter ist jetzt sicher!',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Upsi!',
+                    text: 'Leider konnten wir deinen Charakter nicht abspeichern! Wir haben ihn solange lokal gespeichert!',
+                });
+            }
+        });
+    }
+
+    document.getElementById('editor-points').addEventListener('focusout', function (event) {
+        calculateFreePoints();
+    });
+    document.getElementById('editor-points').addEventListener('mouseup', function (event) {
+        calculateFreePoints();
+    });
+    document.getElementById('editor-points').addEventListener('change', function (event) {
+        calculateFreePoints();
+    });
+    document.getElementById('editor-points').addEventListener('keyup', function (event) {
+        calculateFreePoints();
+    });
+
+    function calculateFreePoints() {
+        let points = getGivenPoints() - calculateOccupiedPoints();
+        $('#editor-points-left').val(points.toString());
+        return points;
+    }
+
+    function getGivenPoints() {
+        let points = parseInt($('#editor-points').val());
+        if (!points || isNaN(points))
+            points = 0;
+        return points;
+    }
+
+    function calculateOccupiedPoints() {
+        return calculateOccupiedPointsForSkill("actSkills")
+            + calculateOccupiedPointsForSkill("knowledgeSkills")
+            + calculateOccupiedPointsForSkill("socialSkills");
+    }
+
+    function calculateOccupiedPointsForSkill(type) {
+        let points = 0;
+        for (let i = 0; i < 10; i++) {
+            let point = currentCharacter[type][i].value - editorSkillBonuses[type];
+            if (point < 0) point = 0;
+            points += point;
+        }
+        return points;
+    }
+
+    function resetCharacterEditor() {
+        editorSkillBonuses = {
+            actSkills: 0,
+            knowledgeSkills: 0,
+            socialSkills: 0
+        };
+        editorSkillControls = {
+            actSkills: [],
+            knowledgeSkills: [],
+            socialSkills: []
+        };
+        $('#editor-name').val("");
+        $('#editor-age').val("");
+        $('#editor-gender').val("divers");
+        $('#editor-martialstatus').val("ledig");
+        $('#editor-religion').val("");
+        $('#editor-job').val("");
+        $('#editor-stature').val("");
+        currentCharacter = {
+            name: "",
+            age: 0,
+            xp: 0,
+            gender: "divers",
+            health: 100,
+            stature: "",
+            religion: "",
+            job: "",
+            pointsLeft: 0,
+            martialStatus: "",
+            inventory: "",
+            notes: "",
+            actSkills: [],
+            knowledgeSkills: [],
+            socialSkills: []
+        };
+        resetSkills("actSkills", 0);
+        resetSkills("knowledgeSkills", 1);
+        resetSkills("socialSkills", 2);
+    }
+
+    function resetSkills(type, category) {
+        for (let i = 0; i < 10; i++) {
+            currentCharacter[type][i] = {
+                category: category,
+                name: "",
+                value: 0
+            };
+            let name = $(`#editor-${type}-${i}-name`);
+            name.data("bypass", "1");
+            name.val("");
+            let value = $(`#editor-${type}-${i}-value`);
+            value.data("bypass", "1");
+            value.val("0");
+            $(`#editor-${type}-${i}-calc`).val("");
+            editorSkillControls[type].push({
+                name: `editor-${type}-${i}-name`,
+                value: `editor-${type}-${i}-value`,
+                calc: `editor-${type}-${i}-calc`
+            });
+        }
+    }
+
+    function initSkills(type) {
+        for (let i = 0; i < 10; i++) {
+            let element = document.getElementById(`editor-${type}-${i}-value`);
+            element.addEventListener('focusout', (event) => {
+                onEditorSkillsValueChange(`editor-${type}-${i}-value`, type, i);
+            });
+            element.min = 0;
+        }
+    }
+
+    function onEditorSkillsValueChange(id, type, i) {
+        let value = document.getElementById(id);
+        let last = parseInt(value.dataset.last);
+        if (!last || isNaN(last)) last = 0;
+        if (value.dataset.bypass === "1") {
+            value.dataset.bypass = "0";
+            calculateFreePoints();
+            return;
+        }
+        let val = parseInt(value.value);
+        if (!val || isNaN(val)) return;
+        if (last < val) {
+            if (calculateFreePoints() - val < 0) {
+                value.dataset.bypass = "1";
+                value.value = last.toString();
+                currentCharacter[type][i].value = last;
+                calculateFreePoints();
+                return;
+            }
+        }
+        value.dataset.last = val.toString();
+        currentCharacter[type][i].value = val;
+        recalculateSkills(type);
+        calculateFreePoints();
+    }
+
+    function onEditorSkillsNameChange(id, type, i) {
+        let name = document.getElementById(id);
+        if (name.dataset.bypass === "1") {
+            name.dataset.bypass = "0";
+            return;
+        }
+        currentCharacter[type][i].name = name.value.trim();
+    }
+
+    function recalculateSkills(type) {
+        let skillControls = editorSkillControls[type];
+        let bonus = 0;
+        for (let i = 0; i < skillControls.length; i++) {
+            let skillControl = skillControls[i];
+            let val = parseInt(document.getElementById(skillControl.value).value);
+            if (!val || isNaN(val)) continue;
+            bonus += val;
+        }
+        bonus = Math.round(bonus / 10);
+        editorSkillBonuses[type] = bonus;
+        for (let i = 0; i < skillControls.length; i++) {
+            let skillControl = skillControls[i];
+            let val = parseInt(document.getElementById(skillControl.value).value);
+            if (!val || isNaN(val)) continue;
+            document.getElementById(skillControl.calc).value = (val + bonus).toString();
+            currentCharacter[type][i].value = (val + bonus);
+        }
+        let flash = Math.round(bonus / 10);
+        $('#editor-' + type + '-bonus').html(bonus.toString());
+        $('#editor-' + type + '-brainstorm').html(flash.toString());
+    }
+
+    resetCharacterEditor();
+    initSkills("actSkills");
+    initSkills("knowledgeSkills");
+    initSkills("socialSkills");
+</script>
+<script>
+    let loginName = null;
+    let characters = [];
+
+    function updateCharacters() {
+
+    }
+
+    function isLoggedIn() {
+        return loginName != null;
+    }
+</script>
+<script>
+    function showLoginPage() {
+        deselectCurrentPage();
+        let q = $('#page-login');
+        q.show();
+        currentPage = {
+            content: q,
+            switch: null
+        };
+    }
+
+    function showRegisterPage() {
+        deselectCurrentPage();
+        let q = $('#page-register');
+        q.show();
+        currentPage = {
+            content: q,
+            switch: null
+        };
+    }
+
+    function autoLogin(username, password) {
+        interactionLocked = true;
+        $('#login-finish').prop("disabled", true);
+        bridge.loginUser(false, username, password, charactersJson => {
+            interactionLocked = false;
+            $('#login-finish').prop("disabled", false);
+            if (charactersJson === null || charactersJson.trim().length <= 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Huch?',
+                    text: 'Wir konnten dich leider nicht automatisch einloggen!',
+                });
+            } else {
+                characters = JSON.parse(charactersJson.split('\\"').join('"'));
+                loginName = username;
+                $('#login-message').hide();
+                updateCharacters();
+                $('#login-password').val("");
+                $('#login-name').val("");
+                selectPage("dashboard");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Juhu!',
+                    text: 'Supi, du wurdest eingeloggt!',
+                });
+            }
+        });
+    }
+
+    function finishLogin() {
+        let username = $('#login-name').val();
+        let password = $('#login-password').val();
+        interactionLocked = true;
+        $('#login-finish').prop("disabled", true);
+        bridge.loginUser(true, username, password, charactersJson => {
+            interactionLocked = false;
+            $('#login-finish').prop("disabled", false);
+            if (charactersJson === null || charactersJson.trim().length <= 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Öhm... Vertippt?',
+                    text: 'Wir konnten leider kein Account in unserem System bei den angegebenen Daten finden!',
+                });
+            } else {
+                characters = JSON.parse(charactersJson.split('\\"').join('"'));
+                loginName = username;
+                $('#login-message').hide();
+                updateCharacters();
+                $('#login-password').val("");
+                $('#login-name').val("");
+                selectPage("dashboard");
+                if (document.getElementById('login-save').checked)
+                    bridge.saveLogin(username, password);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Juhu!',
+                    text: 'Supi, du wurdest eingeloggt!',
+                });
+            }
+        });
+    }
+
+    function finishRegister() {
+        resetRegisterFormFails();
+        let username = $('#register-name').val();
+        let password = $('#register-password').val();
+        let repeat = $('#register-password-repeat').val();
+        if (password !== repeat) {
+            $('#register-password-repeat').addClass('is-danger');
+            $('#register-password-failed').show();
+            return;
+        }
+        interactionLocked = true;
+        $('#register-finish').prop("disabled", true);
+        bridge.registerUser(username, password, status => {
+            resetRegisterFormFails();
+            interactionLocked = false;
+            $('#register-finish').prop("disabled", false);
+            if (status === 0) {
+                $('#register-name').val("");
+                $('#register-password').val("");
+                $('#register-password-repeat').val("");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Juhu! Willkommen!',
+                    text: 'Dein Account wurde erfolgreich erstellt!',
+                });
+            } else if (status === 1) {
+                $('#register-name').addClass('is-danger');
+                $('#register-name-icon').addClass('fas fa-exclamation-triangle');
+                $('#register-name-fail').show();
+            } else if (status === 2) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Das war so nicht geplant...',
+                    text: 'Leider ist ein interner Server aufgetreten! Bitte versuche es später erneut oder melde dich beim Support!',
+                });
+            }
+        });
+    }
+
+    function resetRegisterFormFails() {
+        $('#register-name').removeClass('is-danger');
+        $('#register-name-icon').removeClass('fas fa-check fa-exclamation-triangle');
+        $('#register-name-fail').hide();
+        $('#register-password-repeat').removeClass('is-danger');
+        $('#register-password-failed').hide();
+    }
+
+    function showRegisterAdvantages() {
+        Swal.fire({
+            title: "Deine Vorteile:",
+            html: `<ul><li>- Freier Charakter-Cloud-Speicher</li><li>- Synchroniserung von Charakteren</li><li>- Spielleiter-Modus</li></ul>`
+        });
+    }
+</script>
+<script>
+    let currentPage = null;
+    let pages = {};
+    let interactionLocked = false;
+
+    $('.page-switch').each(function () {
+        let q = $(this);
+        let pageName = q.data("page");
+        if (pageName) {
+            pages[pageName] = {
+                content: $('#page-' + pageName),
+                switch: q
+            };
+            q.click(function () {
+                if (interactionLocked) return;
+                selectPage(pageName);
+            });
+        }
+    })
+
+    function selectPage(pageName) {
+        deselectCurrentPage();
+        currentPage = pages[pageName];
+        currentPage.switch.addClass('is-active');
+        currentPage.content.show();
+    }
+
+    function deselectCurrentPage() {
+        if (currentPage) {
+            if (currentPage.switch)
+                currentPage.switch.removeClass('is-active');
+            currentPage.content.hide();
+        }
+    }
+
+    selectPage("dashboard");
+</script>
+<script>
+    let isOnline;
+
+    function switchMode(online, autoLogin) {
+        isOnline = online;
+        if (isOnline) {
+            if (!isLoggedIn() && !autoLogin)
+                $('#login-message').show();
+        } else {
+            $('#login-message').hide();
+        }
+    }
+
+    switchMode(false);
+</script>
+<script>
+    function notify(text, duration, gradient) {
+        Toastify({
+            text: text,
+            duration: duration,
+            close: true,
+            backgroundColor: gradient
+        }).showToast();
+    }
+
+    function notifySuccess(text, duration) {
+        duration = duration || 3000;
+        notify(text, duration, "linear-gradient(to right, #00b09b, #96c93d)");
+    }
+
+    function notifyError(text, duration) {
+        duration = duration || 5000;
+        notify(text, duration, "linear-gradient(to right, #ff5f6d, #ffc371)");
+    }
+</script>
+</body>
+</html>

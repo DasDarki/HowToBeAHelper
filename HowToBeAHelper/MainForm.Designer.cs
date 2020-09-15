@@ -1,18 +1,16 @@
-﻿using HowToBeAHelper.Properties;
-
-namespace HowToBeAHelper
+﻿namespace HowToBeAHelper
 {
     partial class MainForm
     {
         /// <summary>
-        ///  Required designer variable.
+        /// Erforderliche Designervariable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        ///  Clean up any resources being used.
+        /// Verwendete Ressourcen bereinigen.
         /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        /// <param name="disposing">True, wenn verwaltete Ressourcen gelöscht werden sollen; andernfalls False.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,24 +20,26 @@ namespace HowToBeAHelper
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Vom Windows Form-Designer generierter Code
 
         /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
+        /// Erforderliche Methode für die Designerunterstützung.
+        /// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.SuspendLayout();
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(1280, 720);
+            this.MinimumSize = new System.Drawing.Size(1280, 720);
             this.Name = "MainForm";
+            this.Text = "Form1";
             this.ResumeLayout(false);
 
         }

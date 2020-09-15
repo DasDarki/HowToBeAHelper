@@ -23,12 +23,27 @@ namespace HowToBeAHelper.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("How to be a Helper (c) 2020 DasDarki")]
         public string Title {
             get {
                 return ((string)(this["Title"]));
+            }
+            set {
+                this["Title"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:1337/")]
+        public string MasterUrl {
+            get {
+                return ((string)(this["MasterUrl"]));
+            }
+            set {
+                this["MasterUrl"] = value;
             }
         }
     }

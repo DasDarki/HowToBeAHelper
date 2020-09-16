@@ -29,6 +29,79 @@
             height: 100%;
             background-color: rgba(0, 0, 0, 0.4);
         }
+
+        #ld-holder {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .lds-ellipsis {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .lds-ellipsis div {
+            position: absolute;
+            top: 33px;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: #dfc;
+            animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+
+        .lds-ellipsis div:nth-child(1) {
+            left: 8px;
+            animation: lds-ellipsis1 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(2) {
+            left: 8px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(3) {
+            left: 32px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(4) {
+            left: 56px;
+            animation: lds-ellipsis3 0.6s infinite;
+        }
+
+        @keyframes lds-ellipsis1 {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes lds-ellipsis3 {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(0);
+            }
+        }
+
+        @keyframes lds-ellipsis2 {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(24px, 0);
+            }
+        }
     </style>
 </head>
 <body>
@@ -1315,6 +1388,1097 @@
                     </div>
                 </div>
             </div>
+            <div id="page-char-viewer" style="display: none">
+                <div class="columns is-centered">
+                    <div class="column">
+                        <div class="card events-card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    Charakter-Viewer
+                                </p>
+                            </header>
+                            <div class="card-table">
+                                <div class="card-content">
+                                    <div class="field">
+                                        <div class="message">
+                                            <div class="message-body">
+                                                <div class="field">
+                                                    <div class="field-body">
+                                                        <div class="field">
+                                                            <label class="label">Leben:</label>
+                                                            <div class="control">
+                                                                <input class="input editsync" type="number"
+                                                                       placeholder="Leben eingeben"
+                                                                       id="viewer-health"
+                                                                       data-editsync="health">
+                                                            </div>
+                                                        </div>
+                                                        <div class="field" style="max-width: 368px">
+                                                            <label class="label">Erfahrungspunkte:</label>
+                                                            <div class="control" style="max-width: 368px">
+                                                                <div class="columns is-gapless"
+                                                                     style="max-width: 368px">
+                                                                    <div class="column"
+                                                                         style="width: 270px; max-width: 270px">
+                                                                        <input class="input editsync" type="number"
+                                                                               style="width: 270px; max-width: 270px"
+                                                                               placeholder="EXP eingeben"
+                                                                               id="viewer-xp" data-editsync="xp">
+                                                                    </div>
+                                                                    <div class="column is-one-fifth">
+                                                                        <button class="button is-success"
+                                                                                onclick="levelCharacter()">
+                                                                            Aufleveln
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-body">
+                                            <div class="field">
+                                                <label class="label">Name:</label>
+                                                <div class="control">
+                                                    <input class="input editsync" type="text"
+                                                           placeholder="Name eingeben"
+                                                           required id="viewer-name" data-editsync="name">
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label class="label">Geschlecht:</label>
+                                                <div class="control">
+                                                    <div class="select is-fullwidth">
+                                                        <select id="viewer-gender" data-editsync="gender"
+                                                                class="editsync">
+                                                            <option value="divers">divers</option>
+                                                            <option value="männlich">männlich</option>
+                                                            <option value="weiblich">weiblich</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-body">
+                                            <div class="field">
+                                                <label class="label">Alter:</label>
+                                                <div class="control">
+                                                    <input class="input editsync" type="number"
+                                                           placeholder="Alter eingeben"
+                                                           min="0" data-editsync="age"
+                                                           required id="viewer-age">
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label class="label">Statur:</label>
+                                                <div class="control">
+                                                    <input class="input editsync" type="text"
+                                                           placeholder="Statur eingeben"
+                                                           required id="viewer-stature" data-editsync="stature">
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label class="label">Religion:</label>
+                                                <div class="control">
+                                                    <input class="input editsync" type="text"
+                                                           placeholder="Religion eingeben"
+                                                           id="viewer-religion" data-editsync="religion">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-body">
+                                            <div class="field">
+                                                <label class="label">Beruf:</label>
+                                                <div class="control">
+                                                    <input class="input editsync" type="text"
+                                                           placeholder="Beruf eingeben"
+                                                           required id="viewer-job" data-editsync="job">
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label class="label">Familienstand:</label>
+                                                <div class="control">
+                                                    <div class="select is-fullwidth">
+                                                        <select id="viewer-martialstatus" data-editsync="martialStatus"
+                                                                class="editsync">
+                                                            <option value="ledig">ledig</option>
+                                                            <option value="verheiratet">verheiratet</option>
+                                                            <option value="verwitwet">verwitwet</option>
+                                                            <option value="geschieden">geschieden</option>
+                                                            <option value="Ehe aufgehoben">Ehe aufgehoben</option>
+                                                            <option value="in eingetragener Lebenspartnerschaft">in
+                                                                eingetragener Lebenspartnerschaft
+                                                            </option>
+                                                            <option value="durch Tod aufgelöste Lebenspartnerschaft">
+                                                                durch Tod aufgelöste Lebenspartnerschaft
+                                                            </option>
+                                                            <option value="aufgehobene Lebenspartnerschaft">aufgehobene
+                                                                Lebenspartnerschaft
+                                                            </option>
+                                                            <option value="durch Todeserklärung aufgelöste Lebenspartnerschaft">
+                                                                durch Todeserklärung aufgelöste
+                                                                Lebenspartnerschaft
+                                                            </option>
+                                                            <option value="nicht bekannt">nicht bekannt</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="field">
+                                        <div class="field-body">
+                                            <div class="field is-expanded">
+                                                <h3 class="title is-3" style="font-size: 20px; margin-bottom: 10px">
+                                                    Fertigkeiten:</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-body">
+                                            <div class="field" style="max-width: 280px">
+                                                <label class="label">Handeln: <i id="viewer-actSkills-bonus">0</i> (<i
+                                                        id="viewer-actSkills-brainstorm">0</i>)</label>
+                                                <div class="control">
+                                                    <div class="field" id="viewer-skils-act">
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text" readonly
+                                                                               id="viewer-actSkills-0-name"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-actSkills-0-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-actSkills-0-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-actSkills-1-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="viewer-actSkills-1-value" value="0"
+                                                                               readonly
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-actSkills-1-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-actSkills-2-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="viewer-actSkills-2-value" value="0"
+                                                                               readonly
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-actSkills-2-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-actSkills-3-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-actSkills-3-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-actSkills-3-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-actSkills-4-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-actSkills-4-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-actSkills-4-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-actSkills-5-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-actSkills-5-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-actSkills-5-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-actSkills-6-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-actSkills-6-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-actSkills-6-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-actSkills-7-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-actSkills-7-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-actSkills-7-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-actSkills-8-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-actSkills-8-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-actSkills-8-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-actSkills-9-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-actSkills-9-value" value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-actSkills-9-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="field" style="max-width: 280px">
+                                                <label class="label">Handeln: <i id="viewer-knowledgeSkills-bonus">0</i>
+                                                    (<i
+                                                            id="viewer-knowledgeSkills-brainstorm">0</i>)</label>
+                                                <div class="control">
+                                                    <div class="field" id="viewer-skils-knowledge">
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text" readonly
+                                                                               id="viewer-knowledgeSkills-0-name"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-knowledgeSkills-0-value"
+                                                                               value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-knowledgeSkills-0-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-knowledgeSkills-1-name"
+                                                                               readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="viewer-knowledgeSkills-1-value"
+                                                                               value="0"
+                                                                               readonly
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-knowledgeSkills-1-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-knowledgeSkills-2-name"
+                                                                               readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="viewer-knowledgeSkills-2-value"
+                                                                               value="0"
+                                                                               readonly
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-knowledgeSkills-2-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-knowledgeSkills-3-name"
+                                                                               readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-knowledgeSkills-3-value"
+                                                                               value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-knowledgeSkills-3-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-knowledgeSkills-4-name"
+                                                                               readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-knowledgeSkills-4-value"
+                                                                               value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-knowledgeSkills-4-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-knowledgeSkills-5-name"
+                                                                               readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-knowledgeSkills-5-value"
+                                                                               value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-knowledgeSkills-5-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-knowledgeSkills-6-name"
+                                                                               readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-knowledgeSkills-6-value"
+                                                                               value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-knowledgeSkills-6-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-knowledgeSkills-7-name"
+                                                                               readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-knowledgeSkills-7-value"
+                                                                               value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-knowledgeSkills-7-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-knowledgeSkills-8-name"
+                                                                               readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-knowledgeSkills-8-value"
+                                                                               value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-knowledgeSkills-8-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-knowledgeSkills-9-name"
+                                                                               readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-knowledgeSkills-9-value"
+                                                                               value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-knowledgeSkills-9-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="field" style="max-width: 280px">
+                                                <label class="label">Handeln: <i id="viewer-socialSkills-bonus">0</i>
+                                                    (<i
+                                                            id="viewer-socialSkills-brainstorm">0</i>)</label>
+                                                <div class="control">
+                                                    <div class="field" id="viewer-skils-social">
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text" readonly
+                                                                               id="viewer-socialSkills-0-name"
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-socialSkills-0-value"
+                                                                               value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-socialSkills-0-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-socialSkills-1-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="viewer-socialSkills-1-value"
+                                                                               value="0"
+                                                                               readonly
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-socialSkills-1-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-socialSkills-2-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number"
+                                                                               id="viewer-socialSkills-2-value"
+                                                                               value="0"
+                                                                               readonly
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-socialSkills-2-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-socialSkills-3-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-socialSkills-3-value"
+                                                                               value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-socialSkills-3-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-socialSkills-4-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-socialSkills-4-value"
+                                                                               value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-socialSkills-4-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-socialSkills-5-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-socialSkills-5-value"
+                                                                               value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-socialSkills-5-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-socialSkills-6-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-socialSkills-6-value"
+                                                                               value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-socialSkills-6-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-socialSkills-7-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-socialSkills-7-value"
+                                                                               value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-socialSkills-7-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-socialSkills-8-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-socialSkills-8-value"
+                                                                               value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-socialSkills-8-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="columns is-gapless">
+                                                            <div class="column is-half">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="text"
+                                                                               id="viewer-socialSkills-9-name" readonly
+                                                                               placeholder="Name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly
+                                                                               id="viewer-socialSkills-9-value"
+                                                                               value="0"
+                                                                               data-last="0">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="column">
+                                                                <div class="field">
+                                                                    <div class="control">
+                                                                        <input class="input" type="number" readonly=""
+                                                                               id="viewer-socialSkills-9-calc">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="field">
+                                        <div class="field-body">
+                                            <div class="field">
+                                                <label class="label">Inventar:</label>
+                                                <div class="control">
+                                                    <textarea class="textarea editsync" id="viewer-inventory"
+                                                              data-editsync="inventory"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label class="label">Anmerkungen:</label>
+                                                <div class="control">
+                                                    <textarea class="textarea editsync" id="viewer-notes"
+                                                              data-editsync="notes"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <a href="#" class="card-footer-item" onclick="exportCharacter()">Charakter
+                                    exportieren</a>
+                                <a href="#" class="card-footer-item" onclick="deleteCharacter()" style="color: red">Charakter
+                                    löschen</a>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="page-about" class="container" style="display: none">
                 <h1 class="title">Über das Tool</h1>
                 Das Tool ist ein Hilfsprogramme, welches dir beim Spielen von How To Be A Hero helfen soll.
@@ -1330,11 +2494,762 @@
         </div>
     </div>
 </div>
-<div id="loader" style="display: none">
+<div class="modal" id="level-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Fertigkeiten leveln (<b id="level-xp"></b> EXP)</p>
+            <button class="delete" aria-label="close" onclick="$('#level-modal').removeClass('is-active')"></button>
+        </header>
+        <section class="modal-card-body">
+            <div id="level-simple">
+                <div class="tabs is-centered is-boxed" data-tab="level-simple" data-reset-tab="level-simple-up">
+                    <ul>
+                        <li class="is-active tab" data-tab="level-simple-up">
+                            <a>
+                                <span>Talent erhöhen</span>
+                            </a>
+                        </li>
+                        <li class="tab" data-tab="level-simple-reskill">
+                            <a>
+                                <span>Umskillen</span>
+                            </a>
+                        </li>
+                        <li class="tab" data-tab="level-simple-add">
+                            <a>
+                                <span>Talent hinzufügen</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="level-simple-up">
+                    <div class="columns is-fullwidth">
+                        <div class="column">
+                            <div class="field">
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select id="level-simple-up-talents">
 
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <div class="control">
+                                <button class="button is-success" id="level-simple-up-talent">Erhöhen (1)</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="level-simple-reskill" style="display: none">
+                    <div class="columns is-fullwidth">
+                        <div class="column">
+                            <div class="field">
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select id="level-simple-reskill-src">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select id="level-simple-reskill-dest">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <div class="control">
+                                <button class="button is-success" id="level-simple-reskill-talent">Umskillen (1)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="level-simple-add" style="display: none">
+                    <div class="columns is-fullwidth">
+                        <div class="column">
+                            <div class="field">
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select id="level-simple-add-slots">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <div class="control">
+                                    <input type="text" class="input" placeholder="Fertigkeitenname"
+                                           id="level-simple-add-name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <div class="control">
+                                <button class="button is-success" id="level-simple-add-talent">Hinzufügen (1)</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="level-complex" style="display: none">
+                <div class="tabs is-centered is-boxed" data-tab="level-complex" data-reset-tab="level-complex-up">
+                    <ul>
+                        <li class="is-active tab" data-tab="level-complex-up">
+                            <a>
+                                <span>Talent erhöhen</span>
+                            </a>
+                        </li>
+                        <li class="tab" data-tab="level-complex-reskill">
+                            <a>
+                                <span>Umskillen</span>
+                            </a>
+                        </li>
+                        <li class="tab" data-tab="level-complex-add">
+                            <a>
+                                <span>Talent hinzufügen</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="level-complex-up">
+                    <div class="columns is-fullwidth">
+                        <div class="column">
+                            <div class="field">
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select id="level-complex-up-talents">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <div class="control">
+                                <button class="button is-success" id="level-complex-up-talent">Erhöhen (?)</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="level-complex-reskill" style="display: none">
+                    <div class="columns is-fullwidth">
+                        <div class="column">
+                            <div class="field">
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select id="level-complex-reskill-src">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select id="level-complex-reskill-dest">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <div class="control">
+                                <button class="button is-success" id="level-complex-reskill-talent">Umskillen (?)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="level-complex-add" style="display: none">
+                    <div class="columns is-fullwidth">
+                        <div class="column">
+                            <div class="field">
+                                <div class="control">
+                                    <div class="select is-fullwidth">
+                                        <select id="level-complex-add-slots">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <div class="control">
+                                    <input type="text" class="input" placeholder="Fertigkeitenname"
+                                           id="level-complex-add-name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-quarter">
+                            <div class="control">
+                                <button class="button is-success" id="level-complex-add-talent">Hinzufügen (3)</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <div class="select is-fullwidth">
+                <select id="level-type">
+                    <option value="simple">Simples Levelsystem</option>
+                    <option value="complex">Komplexes Levelsystem</option>
+                </select>
+            </div>
+        </footer>
+    </div>
+</div>
+<div id="loader" style="display: none">
+    <div id="ld-holder">
+        <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script>
+    let selectedCharacter = null;
+    let selectedCharIdx = 0;
+    let localSelected = false;
+    let tabResets = {};
+    let tabControllers = {};
+    let complexLevelXp = 0;
+    let complexReskillXp = 0;
+
+    function addSkill(slot, name, xp, startVal) {
+        if (!name || name.trim().length <= 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Nö!',
+                text: `Dein neues Talent brauch auch einen Namen!`,
+            });
+            return;
+        }
+        if (slot == "-1") return;
+        let parts = slot.split('-');
+        let type = parts[0];
+        let idx = parseInt(parts[1]);
+        if (isNaN(idx)) return;
+        let skill = selectedCharacter[type][idx];
+        if (selectedCharacter.xp >= xp) {
+            selectedCharacter.xp -= xp;
+            $('#viewer-xp').val(selectedCharacter.xp);
+            $('#level-xp').html(selectedCharacter.xp);
+            skill.name = name;
+            skill.value = startVal;
+            fillAllLevelSkills();
+            fillCharSkillsInView(type);
+            $('#level-simple-add-name').val("");
+            if (localSelected) {
+                bridge.syncCharDataLocally(JSON.stringify(selectedCharacter));
+            } else {
+                bridge.syncCharData(loginName, selectedCharacter.uuid, "xp", JSON.stringify(selectedCharacter.xp));
+                bridge.syncSkills(loginName, selectedCharacter.uuid, JSON.stringify([{
+                    type: type,
+                    name: skill.name,
+                    idx: idx,
+                    val: skill.value
+                }]));
+            }
+            Swal.fire({
+                icon: 'success',
+                title: 'Skadaboosh!',
+                text: `Und nun ist dein Charakter durch ${name} besser! JUHUUUUU!`,
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Zu wenig!',
+                text: `Du hast leider nicht genug EXP (benötigt: ${xp})!`,
+            });
+        }
+    }
+
+    function reskillTalent(srcTalent, destTalent, xp) {
+        if (srcTalent == "-1") return;
+        let srcParts = srcTalent.split('-');
+        let srcType = srcParts[0];
+        let srcIdx = parseInt(srcParts[1]);
+        if (isNaN(srcIdx)) return;
+        let srcSkill = selectedCharacter[srcType][srcIdx];
+        if (srcSkill.value - 10 < 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Es wird zu klein...',
+                text: `Du kannst nicht ins Minus umskillen!`,
+            });
+            return;
+        }
+        if (destTalent == "-1") return;
+        let destParts = destTalent.split('-');
+        let destType = destParts[0];
+        let destIdx = parseInt(destParts[1]);
+        if (isNaN(destIdx)) return;
+        if (destType != srcType) {
+            Swal.fire({
+                icon: 'error',
+                title: 'You shall not pass!',
+                text: `Du kannst nur in der selben Kategorie umskillen!`,
+            });
+            return;
+        }
+        if (selectedCharacter.xp >= xp) {
+            selectedCharacter.xp -= xp;
+            $('#viewer-xp').val(selectedCharacter.xp);
+            $('#level-xp').html(selectedCharacter.xp);
+            let destSkill = selectedCharacter[destType][destIdx];
+            srcSkill.value -= 10;
+            destSkill.value += 10;
+            fillCharSkillsInView(srcType);
+            calculateReskillXp($('#level-complex-reskill-src').val(), $('#level-complex-reskill-dest').val());
+            if (localSelected) {
+                bridge.syncCharDataLocally(JSON.stringify(selectedCharacter));
+            } else {
+                bridge.syncCharData(loginName, selectedCharacter.uuid, "xp", JSON.stringify(selectedCharacter.xp));
+                bridge.syncSkills(loginName, selectedCharacter.uuid, JSON.stringify([{
+                    type: srcType,
+                    name: srcSkill.name,
+                    idx: srcIdx,
+                    val: srcSkill.value
+                }, {
+                    type: destType,
+                    name: destSkill.name,
+                    idx: destIdx,
+                    val: destSkill.value
+                }]));
+            }
+            Swal.fire({
+                icon: 'success',
+                title: 'Skadaboosh!',
+                text: `Und schon ist ${selectedCharacter[srcType][srcIdx].name} schwächer und ${selectedCharacter[destType][destIdx].name} stärker!`,
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Zu wenig!',
+                text: `Du hast leider nicht genug EXP (benötigt: ${xp})!`,
+            });
+        }
+    }
+
+    function levelTalent(skillType, skillIdx, raiseVal, xp) {
+        if (selectedCharacter.xp >= xp) {
+            selectedCharacter.xp -= xp;
+            $('#viewer-xp').val(selectedCharacter.xp);
+            $('#level-xp').html(selectedCharacter.xp);
+            let skill = selectedCharacter[skillType][skillIdx];
+            skill.value += raiseVal;
+            fillCharSkillsInView(skillType);
+            if (localSelected) {
+                bridge.syncCharDataLocally(JSON.stringify(selectedCharacter));
+            } else {
+                bridge.syncCharData(loginName, selectedCharacter.uuid, "xp", JSON.stringify(selectedCharacter.xp));
+                bridge.syncSkills(loginName, selectedCharacter.uuid, JSON.stringify([{
+                    type: skillType,
+                    name: skill.name,
+                    idx: skillIdx,
+                    val: skill.value
+                }]));
+            }
+            Swal.fire({
+                icon: 'success',
+                title: 'Skadaboosh!',
+                text: `Und schon bist du besser in ${selectedCharacter[skillType][skillIdx].name}!`,
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Zu wenig!',
+                text: `Du hast leider nicht genug EXP (benötigt: ${xp})!`,
+            });
+        }
+    }
+
+    $('#level-complex-add-talent').click(() => {
+        addSkill($('#level-complex-add-slots').val(), $('#level-complex-add-name').val(), 3, 5);
+    });
+
+    $('#level-simple-add-talent').click(() => {
+        addSkill($('#level-simple-add-slots').val(), $('#level-simple-add-name').val(), 1, 0);
+    });
+
+    $('#level-simple-reskill-talent').click(() => {
+        reskillTalent($('#level-simple-reskill-src').val(), $('#level-simple-reskill-dest').val(), 1);
+    });
+
+    $('#level-complex-reskill-talent').click(() => {
+        if (complexReskillXp <= -1) return;
+        reskillTalent($('#level-complex-reskill-src').val(), $('#level-complex-reskill-dest').val(), complexReskillXp);
+    });
+
+    $('#level-complex-up-talent').click(() => {
+        if (complexLevelXp <= -1) return;
+        let skill = $('#level-complex-up-talents').val();
+        if (skill == "-1") return;
+        let parts = skill.split('-');
+        let type = parts[0];
+        let idx = parseInt(parts[1]);
+        if (isNaN(idx)) return;
+        levelTalent(type, idx, 5, complexLevelXp);
+    });
+
+    $('#level-simple-up-talent').click(() => {
+        let skill = $('#level-simple-up-talents').val();
+        if (skill == "-1") return;
+        let parts = skill.split('-');
+        let type = parts[0];
+        let idx = parseInt(parts[1]);
+        if (isNaN(idx)) return;
+        levelTalent(type, idx, 5, 1);
+    });
+
+    $('#level-type').on('change', function () {
+        $('#level-complex').hide();
+        $('#level-simple').hide();
+        $('#level-' + this.value).show();
+    });
+
+    $('.tabs').each(function () {
+        let tabs = $(this);
+        let tabsName = tabs.data("tab");
+        let lastQ = null;
+        let deselect = () => {
+            if (lastQ != null) {
+                lastQ.tab.removeClass('is-active');
+                lastQ.page.hide();
+                lastQ = null;
+            }
+        };
+        let select = (name) => {
+            deselect();
+            let tab = tabControllers[name];
+            tab.addClass('is-active');
+            let page = $('#' + name);
+            page.show();
+            lastQ = {
+                tab: tab,
+                page: page
+            };
+        };
+        tabs.children().first().children('.tab').each(function () {
+            let tab = $(this);
+            const tabName = tab.data("tab");
+            tab.click(() => {
+                select(tabName);
+            });
+            tabControllers[tabName] = tab;
+        });
+        if (tabs.data("reset-tab")) {
+            const resetTab = tabs.data("reset-tab");
+            tabResets[tabsName] = () => {
+                select(resetTab);
+            };
+        }
+    });
+
+    function resetLevelModal() {
+        complexLevelXp = -1;
+        complexReskillXp = -1;
+        tabResets["level-simple"]();
+        tabResets["level-complex"]();
+        $('#level-complex-up-talent').html("Erhöhen (?)");
+        $('#level-complex-reskill-talent').html("Umskillen (?)");
+        $('#level-xp').html(selectedCharacter.xp);
+        $('#level-simple-add-name').val("");
+        fillAllLevelSkills();
+    }
+
+    function getSkillBonus(type) {
+        let skills = selectedCharacter[type];
+        let bonus = 0;
+        for (let i = 0; i < skills.length; i++) {
+            bonus += skills[i].value;
+        }
+        return Math.round(bonus / 10);
+    }
+
+    function calculateReskillXp(src, dest) {
+        if (src == "-1" || dest == "-1") {
+            complexReskillXp = -1;
+            $('#level-complex-reskill-talent').html("Umskillen (?)");
+            return;
+        }
+        let srcParts = src.split('-');
+        let srcType = srcParts[0];
+        let srcIdx = parseInt(srcParts[1]);
+        let srcVal = selectedCharacter[srcType][srcIdx].value;
+        let destParts = dest.split('-');
+        let destType = destParts[0];
+        let destIdx = parseInt(destParts[1]);
+        let destVal = selectedCharacter[destType][destIdx].value;
+        if (destType != srcType) {
+            complexReskillXp = -1;
+            $('#level-complex-reskill-talent').html("Umskillen (?)");
+            Swal.fire({
+                icon: 'error',
+                title: 'You shall not pass!',
+                text: `Du kannst nur in der selben Kategorie umskillen!`,
+            });
+            return;
+        }
+        complexReskillXp = Math.round((destVal - (srcVal - 5)) / ((getSkillBonus(srcType) / 10 + 1) * 5));
+        $('#level-complex-reskill-talent').html("Umskillen (" + complexReskillXp + ")");
+    }
+
+    $('#level-complex-reskill-dest').on("change", function () {
+        calculateReskillXp($('#level-complex-reskill-src').val(), $('#level-complex-reskill-dest').val());
+    });
+
+    $('#level-complex-reskill-src').on("change", function () {
+        calculateReskillXp($('#level-complex-reskill-src').val(), $('#level-complex-reskill-dest').val());
+    });
+
+    $('#level-complex-up-talents').on("change", function () {
+        let skill = this.value;
+        if (skill == "-1") {
+            complexLevelXp = -1;
+            $('#level-complex-up-talent').html("Erhöhen (?)");
+            return;
+        }
+        let parts = skill.split('-');
+        let type = parts[0];
+        let idx = parseInt(parts[1]);
+        let currentVal = selectedCharacter[type][idx].value;
+        let bonus = getSkillBonus(type);
+        complexLevelXp = Math.round((currentVal / 5) / (bonus / 10 + 1));
+        $('#level-complex-up-talent').html("Erhöhen (" + complexLevelXp + ")");
+    });
+
+    function fillAllLevelSkills() {
+        $('#level-simple-up-talents').html("");
+        $('#level-simple-up-talents').append(`<option value="-1">(Fertigkeit auswählen)</option>`);
+        fillLevelSkills($('#level-simple-up-talents'), "actSkills", "Handlen");
+        fillLevelSkills($('#level-simple-up-talents'), "knowledgeSkills", "Wissen");
+        fillLevelSkills($('#level-simple-up-talents'), "socialSkills", "Soziales");
+        $('#level-complex-up-talents').html("");
+        $('#level-complex-up-talents').append(`<option value="-1">(Fertigkeit auswählen)</option>`);
+        fillLevelSkills($('#level-complex-up-talents'), "actSkills", "Handlen");
+        fillLevelSkills($('#level-complex-up-talents'), "knowledgeSkills", "Wissen");
+        fillLevelSkills($('#level-complex-up-talents'), "socialSkills", "Soziales");
+        $('#level-simple-reskill-src').html("");
+        $('#level-simple-reskill-src').append(`<option value="-1">(Quell-Fertigkeit auswählen)</option>`);
+        fillLevelSkills($('#level-simple-reskill-src'), "actSkills", "Handlen");
+        fillLevelSkills($('#level-simple-reskill-src'), "knowledgeSkills", "Wissen");
+        fillLevelSkills($('#level-simple-reskill-src'), "socialSkills", "Soziales");
+        $('#level-simple-reskill-dest').html("");
+        $('#level-simple-reskill-dest').append(`<option value="-1">(Ziel-Fertigkeit auswählen)</option>`);
+        fillLevelSkills($('#level-simple-reskill-dest'), "actSkills", "Handlen");
+        fillLevelSkills($('#level-simple-reskill-dest'), "knowledgeSkills", "Wissen");
+        fillLevelSkills($('#level-simple-reskill-dest'), "socialSkills", "Soziales");
+        $('#level-complex-reskill-src').html("");
+        $('#level-complex-reskill-src').append(`<option value="-1">(Quell-Fertigkeit auswählen)</option>`);
+        fillLevelSkills($('#level-complex-reskill-src'), "actSkills", "Handlen");
+        fillLevelSkills($('#level-complex-reskill-src'), "knowledgeSkills", "Wissen");
+        fillLevelSkills($('#level-complex-reskill-src'), "socialSkills", "Soziales");
+        $('#level-complex-reskill-dest').html("");
+        $('#level-complex-reskill-dest').append(`<option value="-1">(Ziel-Fertigkeit auswählen)</option>`);
+        fillLevelSkills($('#level-complex-reskill-dest'), "actSkills", "Handlen");
+        fillLevelSkills($('#level-complex-reskill-dest'), "knowledgeSkills", "Wissen");
+        fillLevelSkills($('#level-complex-reskill-dest'), "socialSkills", "Soziales");
+        $('#level-simple-add-slots').html("");
+        $('#level-simple-add-slots').append(`<option value="-1">(Fertigkeitenslot auswählen)</option>`);
+        fillFreeSkills($('#level-simple-add-slots'), "actSkills", "Handlen");
+        fillFreeSkills($('#level-simple-add-slots'), "knowledgeSkills", "Wissen");
+        fillFreeSkills($('#level-simple-add-slots'), "socialSkills", "Soziales");
+        $('#level-complex-add-slots').html("");
+        $('#level-complex-add-slots').append(`<option value="-1">(Fertigkeitenslot auswählen)</option>`);
+        fillFreeSkills($('#level-complex-add-slots'), "actSkills", "Handlen");
+        fillFreeSkills($('#level-complex-add-slots'), "knowledgeSkills", "Wissen");
+        fillFreeSkills($('#level-complex-add-slots'), "socialSkills", "Soziales");
+    }
+
+    function fillFreeSkills(q, type, title) {
+        q.append(`<option value="-1">--- <b>${title}</b> ---</option>`);
+        let skills = selectedCharacter[type];
+        for (let i = 0; i < skills.length; i++) {
+            let name = skills[i].name;
+            if (!name || name.trim().length <= 0) {
+                q.append(`<option value="${type}-${i}">FREIER SLOT [${i + 1}]</option>`);
+            }
+        }
+    }
+
+    function fillLevelSkills(q, type, title) {
+        q.append(`<option value="-1">--- <b>${title}</b> ---</option>`);
+        let skills = selectedCharacter[type];
+        for (let i = 0; i < skills.length; i++) {
+            let name = skills[i].name;
+            if (!name || name.trim().length <= 0) continue;
+            q.append(`<option value="${type}-${i}">${name}</option>`);
+        }
+    }
+
+    function levelCharacter() {
+        resetLevelModal();
+        $('#level-modal').addClass('is-active');
+    }
+
+    function deleteCharacter() {
+        Swal.fire({
+            title: 'Wirklich?!',
+            text: "Bist du dir absolut sicher, dass du diesen Charakter löschen willst? Es kann nicht wieder rückgängig gemacht werden!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#62d630',
+            cancelButtonText: 'NEIN! Nicht löschen!',
+            confirmButtonText: 'Ja, ist ok!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                bridge.deleteCharacter(loginName, localSelected, selectedCharacter.uuid, success => {
+                    if (success) {
+                        if (localSelected) {
+                            localCharacters.splice(selectedCharIdx, 1);
+                            updateLocalCharacters();
+                        } else {
+                            characters.splice(selectedCharIdx, 1);
+                            updateRemoteCharacters();
+                        }
+                        selectPage("dashboard");
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Und weg ist er...',
+                            text: 'Ruhe er in Frieden!',
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Mhhmmm!',
+                            text: 'Nö, unsere Macht war nicht groß genug! Wir konnten ihn nicht töten, Meister.',
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    function exportCharacter() {
+        bridge.exportCharacter(JSON.stringify(selectedCharacter), success => {
+            if (success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Geschafft!',
+                    text: 'Dein Charakter wurde erfolgreich exportiert und dort gespeichert wo du wolltest!',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Fehler!',
+                    text: 'Irgendwie ist ein Fehler aufgetreten! :(',
+                });
+            }
+        });
+    }
+
+    function selectCharacter(character, isLocal, idx) {
+        selectedCharacter = character;
+        localSelected = isLocal;
+        selectedCharIdx = idx;
+        $('#viewer-xp').val(character.xp);
+        $('#viewer-health').val(character.health);
+        $('#viewer-name').val(character.name);
+        $('#viewer-age').val(character.age);
+        $('#viewer-gender').val(character.gender);
+        $('#viewer-religion').val(character.religion);
+        $('#viewer-job').val(character.job);
+        $('#viewer-stature').val(character.stature);
+        $('#viewer-martialstatus').val(character.martialStatus);
+        $('#viewer-notes').val(character.notes);
+        $('#viewer-inventory').val(character.inventory);
+        fillCharSkillsInView("actSkills");
+        fillCharSkillsInView("socialSkills");
+        fillCharSkillsInView("knowledgeSkills");
+        let q = $('#page-char-viewer');
+        q.show();
+        currentPage = {
+            content: q,
+            switch: null
+        };
+    }
+
+    function fillCharSkillsInView(type) {
+        let skills = selectedCharacter[type];
+        let bonus = 0;
+        for (let i = 0; i < 10; i++) {
+            bonus += skills[i].value;
+        }
+        bonus = Math.round(bonus / 10);
+        for (let i = 0; i < 10; i++) {
+            let skill = skills[i];
+            $(`#viewer-${type}-${i}-name`).val(skill.name);
+            $(`#viewer-${type}-${i}-value`).val(skill.value);
+            $(`#viewer-${type}-${i}-calc`).val(skill.value + bonus);
+        }
+        let flash = Math.round(bonus / 10);
+        $('#viewer-' + type + '-bonus').html(bonus.toString());
+        $('#viewer-' + type + '-brainstorm').html(flash.toString());
+    }
+
+    $('.editsync').each(function () {
+        let q = $(this);
+        let key = q.data("editsync");
+        if (key) {
+            let required = q.prop("required");
+            let cooldown = null;
+            let type = q.attr("type");
+            let isNumber = type && type == "number";
+            let sync = () => {
+                q.removeClass('is-danger');
+                let val = q.val();
+                if (required && (!val || val.trim().length <= 0)) {
+                    q.addClass('is-danger');
+                    return;
+                }
+                if (isNumber) val = parseIntSafely(val);
+                selectedCharacter[key] = val;
+                if (localSelected) {
+                    bridge.syncCharDataLocally(JSON.stringify(selectedCharacter));
+                } else {
+                    bridge.syncCharData(loginName, selectedCharacter.uuid, key, JSON.stringify(val));
+                }
+            };
+            q.on('keyup mouseup change paste input', () => {
+                if (cooldown != null) {
+                    clearTimeout(cooldown);
+                    cooldown = null;
+                }
+                cooldown = setTimeout(sync, 3000);
+            });
+            this.addEventListener('focusout', function () {
+                if (cooldown != null) {
+                    clearTimeout(cooldown);
+                    cooldown = null;
+                }
+                sync();
+            });
+        }
+    });
+</script>
 <script>
     let currentCharacter;
     let editorSkillControls;
@@ -1403,6 +3318,15 @@
             });
             return;
         }
+        let freePoints = calculateFreePoints();
+        if (freePoints > 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Huch!',
+                text: 'Du hast noch Punkte übrig! Die müssen noch weg :)',
+            });
+            return;
+        }
         currentCharacter.uuid = generateCharId();
         currentCharacter.age = parseIntSafely($('#editor-age').val());
         currentCharacter.name = name;
@@ -1413,7 +3337,7 @@
         currentCharacter.religion = $('#editor-religion').val();
         currentCharacter.stature = stature;
         currentCharacter.job = job;
-        currentCharacter.pointsLeft = calculateFreePoints();
+        currentCharacter.pointsLeft = freePoints;
         bridge.saveCharacter(JSON.stringify(currentCharacter), loginName, (success, isLocal) => {
             if (success) {
                 if (isLocal) {
@@ -1622,7 +3546,8 @@
     let localCharacters = [];
 
     function editCharacter(idx, isLocal) {
-
+        deselectCurrentPage();
+        selectCharacter((isLocal ? localCharacters : characters)[idx], isLocal, idx);
     }
 
     function transferCharacter(idx) {

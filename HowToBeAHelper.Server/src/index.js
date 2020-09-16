@@ -14,11 +14,20 @@ database.start(() => {
                 socket.emit("user:register:result", status);
             });
         });
+        socket.on("character:skills", function (username, charId, json) {
+            database.updateSkills(username, charId, json);
+        });
+        socket.on("character:update", function (username, charId, key, json) {
+            database.updateCharacter(username, charId, key, JSON.parse(json));
+        });
         socket.on("character:save", function (username, character, fn) {
             database.saveCharacter(username, character, fn);
         });
         socket.on("user:login", function (name, password, fn) {
             database.loginUser(name, password, fn);
+        });
+        socket.on("character:delete", function (username, charId, fn) {
+            database.deleteCharacter(username, charId, fn);
         });
         console.log("User Connected!");
     });

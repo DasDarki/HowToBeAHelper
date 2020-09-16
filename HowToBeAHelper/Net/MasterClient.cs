@@ -122,5 +122,29 @@ namespace HowToBeAHelper.Net
                 action(response.GetValue<bool>());
             }, username, character);
         }
+
+        /// <summary>
+        /// Deletes the character out of the users database.
+        /// </summary>
+        /// <param name="username">The name of the given user</param>
+        /// <param name="charId">The character</param>
+        /// <param name="action">Gets called after acknowledge</param>
+        internal async Task DeleteCharacter(string username, string charId, Action<bool> action)
+        {
+            await _client.EmitAsync("character:delete", response =>
+            {
+                action(response.GetValue<bool>());
+            }, username, charId);
+        }
+
+        internal async Task SyncSkills(string username, string charId, string json)
+        {
+            await _client.EmitAsync("character:skills", username, charId, json);
+        }
+
+        internal async Task SyncCharData(string username, string charId, string key, string val)
+        {
+            await _client.EmitAsync("character:update", username, charId, key, val);
+        }
     }
 }

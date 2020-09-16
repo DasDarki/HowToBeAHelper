@@ -11,10 +11,104 @@ function Database() {
             pass: process.env.MONGO_PASS
         }).then(() => {
             console.log("Connection to Mongo established!");
-
             callback();
         }).catch(err => {
             console.error(err);
+        });
+    };
+
+    this.updateSkills = function (username, charId, json) {
+        schemas.User.find({
+            name: {$regex: new RegExp(username, "i")}
+        }, null, {limit: 1}, function (err, result) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            if (result && result.length >= 1) {
+                let user = result[0];
+                let character = null;
+                for (let i = 0; i < user.characters.length; i++) {
+                    let o = user.characters[i];
+                    if (o.uuid == charId) {
+                        character = o;
+                        break;
+                    }
+                }
+                let newSkills = JSON.parse(json);
+                for (let i = 0; i < newSkills.length; i++) {
+                    let newSkill = newSkills[i];
+                    let skill = character[newSkill.type][newSkill.idx];
+                    skill.name = newSkill.name;
+                    skill.value = newSkill.val;
+                }
+                user.save(function (err, _) {
+                    if (err) {
+                        console.error(err);
+                    }
+                });
+            }
+        });
+    };
+
+    this.updateCharacter = function (username, charId, key, val) {
+        schemas.User.find({
+            name: {$regex: new RegExp(username, "i")}
+        }, null, {limit: 1}, function (err, result) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            if (result && result.length >= 1) {
+                let user = result[0];
+                let character = null;
+                for (let i = 0; i < user.characters.length; i++) {
+                    let o = user.characters[i];
+                    if (o.uuid == charId) {
+                        character = o;
+                        break;
+                    }
+                }
+                character[key] = val;
+                user.save(function (err, _) {
+                    if (err) {
+                        console.error(err);
+                    }
+                });
+            }
+        });
+    };
+
+    this.deleteCharacter = function (username, charId, callback) {
+        schemas.User.find({
+            name: {$regex: new RegExp(username, "i")}
+        }, null, {limit: 1}, function (err, result) {
+            if (err) {
+                console.error(err);
+                callback(false);
+                return;
+            }
+            if (result && result.length >= 1) {
+                let user = result[0];
+                let charIdx = null;
+                for (let i = 0; i < user.characters.length; i++) {
+                    if (user.characters[i].uuid == charId) {
+                        charIdx = i;
+                        break;
+                    }
+                }
+                user.characters.splice(charIdx, 1);
+                user.save(function (err, _) {
+                    if (err) {
+                        console.error(err);
+                        callback(false);
+                    } else {
+                        callback(true);
+                    }
+                });
+            } else {
+                callback(false);
+            }
         });
     };
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
@@ -105,7 +104,7 @@ namespace HowToBeAHelper
             Browser.ExecuteScriptAsync($"notifyError('{text}', {duration})");
         }
 
-        private void SafeInvoke(Action action)
+        internal void SafeInvoke(Action action)
         {
             Invoke(action);
         }

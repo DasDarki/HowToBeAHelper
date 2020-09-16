@@ -1,8 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
+using HowToBeAHelper.BuiltIn;
 using HowToBeAHelper.Model.Characters;
 using Newtonsoft.Json;
 
@@ -18,6 +20,119 @@ namespace HowToBeAHelper
         {
             _form = form;
             _browser = _form.Browser;
+        }
+
+        public void syncSkills(string username, string charId, string json)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(username))
+                {
+                    return;
+                }
+
+                _form.Run(async () =>
+                {
+                    await _form.Master.SyncSkills(username, charId, json);
+                });
+            }
+            catch
+            {
+                //Ignore: Need handling
+            }
+        }
+
+        public void syncCharDataLocally(string json)
+        {
+            try
+            {
+                Character character = JsonConvert.DeserializeObject<Character>(json);
+                Bootstrap.CharacterManager.Characters.RemoveAll(o => o.ID == character.ID);
+                Bootstrap.CharacterManager.Characters.Add(character);
+                Bootstrap.CharacterManager.Save();
+
+            }
+            catch
+            {
+                //Ignore: Need handling
+            }
+        }
+
+        public void syncCharData(string username, string charId, string key, string val)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(username))
+                {
+                    return;
+                }
+
+                _form.Run(async () =>
+                {
+                    await _form.Master.SyncCharData(username, charId, key, val);
+                });
+            }
+            catch
+            {
+                //Ignore: Need handling
+            }
+        }
+
+        public void deleteCharacter(string username, bool isLocal, string charId, IJavascriptCallback callback)
+        {
+            try
+            {
+                if (isLocal)
+                {
+                    Bootstrap.CharacterManager.Characters.RemoveAll(o => o.ID == charId);
+                    Bootstrap.CharacterManager.Save();
+                    callback.ExecuteAsync(true);
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(username))
+                    {
+                        callback.ExecuteAsync(false);
+                        return;
+                    }
+
+                    _form.Run(async () =>
+                    {
+                        await _form.Master.DeleteCharacter(username, charId, success =>
+                        {
+                            callback.ExecuteAsync(success);
+                        });
+                    });
+                }
+            }
+            catch
+            {
+                callback.ExecuteAsync(false);
+            }
+        }
+
+        public void exportCharacter(string json, IJavascriptCallback callback)
+        {
+            try
+            {
+                _form.SafeInvoke(() =>
+                {
+                    Character character = JsonConvert.DeserializeObject<Character>(json);
+                    using (SaveFileDialog dialog = new SaveFileDialog())
+                    {
+                        dialog.Filter = "PDF | *.pdf";
+                        if (dialog.ShowDialog() == DialogResult.OK)
+                        {
+                            CharacterGenerator.GeneratePdf(character, dialog.FileName);
+                            callback.ExecuteAsync(true);
+                        }
+                    }
+                });
+            }
+            catch
+            {
+                callback.ExecuteAsync(false);
+            }
         }
 
         public void transferCharacter(string lastId, string json, string username, IJavascriptCallback callback)

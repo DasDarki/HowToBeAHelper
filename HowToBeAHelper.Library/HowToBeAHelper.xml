@@ -101,6 +101,11 @@
             The points the character has left for skills.
             </summary>
         </member>
+        <member name="P:HowToBeAHelper.Model.Characters.Character.CreateYear">
+            <summary>
+            The year the character was created.
+            </summary>
+        </member>
         <member name="M:HowToBeAHelper.Model.Characters.Character.GetSkillsBonus(HowToBeAHelper.Model.Skills.Skill[])">
             <summary>
             Calculates the bonus for the given skills.

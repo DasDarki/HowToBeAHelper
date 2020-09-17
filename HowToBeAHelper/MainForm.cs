@@ -49,7 +49,7 @@ namespace HowToBeAHelper
             {
                 if (args.Frame.IsMain)
                 {
-                    Browser.ShowDevTools();
+                    //Browser.ShowDevTools();
                     SafeInvoke(() =>
                     {
                         Visible = true;

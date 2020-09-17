@@ -60,6 +60,21 @@ namespace HowToBeAHelper
             }
         }
 
+        public void refreshCharacters(string username, IJavascriptCallback callback)
+        {
+            try
+            {
+                _form.Run(async () =>
+                {
+                    await _form.Master.RefreshCharacters(username, json => callback.ExecuteAsync(json));
+                });
+            }
+            catch
+            {
+                //Ignore: Need handling
+            }
+        }
+
         public void logout()
         {
             try

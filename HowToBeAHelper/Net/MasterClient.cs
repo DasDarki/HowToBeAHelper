@@ -33,6 +33,29 @@ namespace HowToBeAHelper.Net
                 _registerCallback(response.GetValue<int>());
                 _registerCallback = null;
             });
+            _client.On("character:sync-data", response =>
+            {
+                string charId = response.GetValue<string>();
+                string key = response.GetValue<string>(1);
+                string json = response.GetValue<string>(2);
+                MainForm.Instance.Browser.ExecuteScriptAsync($"applyCharDataSync(`{charId}`, `{key}`, `{json}`)");
+            });
+            _client.On("character:sync-skills", response =>
+            {
+                string charId = response.GetValue<string>();
+                string json = response.GetValue<string>(1);
+                MainForm.Instance.Browser.ExecuteScriptAsync($"applyCharSkillsSync(`{charId}`, `{json}`)");
+            });
+            _client.On("character:sync-delete", response =>
+            {
+                string charId = response.GetValue<string>();
+                MainForm.Instance.Browser.ExecuteScriptAsync($"applyCharDeletionSync(`{charId}`)");
+            });
+            _client.On("character:sync-creation", response =>
+            {
+                string json = response.GetValue<string>();
+                MainForm.Instance.Browser.ExecuteScriptAsync($"applyCharCreationSync(`{json}`)");
+            });
         }
 
         private void OnDisconnected(object sender, string e)
@@ -137,19 +160,48 @@ namespace HowToBeAHelper.Net
             }, username, charId);
         }
 
+        /// <summary>
+        /// Syncs the skills of the character with the master.
+        /// </summary>
+        /// <param name="username">The username of the wanted user</param>
+        /// <param name="charId">The character to be synced</param>
+        /// <param name="json">The json containing the skills update</param>
         internal async Task SyncSkills(string username, string charId, string json)
         {
             await _client.EmitAsync("character:skills", username, charId, json);
         }
 
+        /// <summary>
+        /// Syncs the general data of the character with the master.
+        /// </summary>
+        /// <param name="username">The username of the wanted user</param>
+        /// <param name="charId">The character to be synced</param>
+        /// <param name="key">The key of the general data</param>
+        /// <param name="val">The new value of the data</param>
         internal async Task SyncCharData(string username, string charId, string key, string val)
         {
             await _client.EmitAsync("character:update", username, charId, key, val);
         }
 
+        /// <summary>
+        /// Triggers a logout on the master.
+        /// </summary>
         internal async Task Logout()
         {
             await _client.EmitAsync("user:logout");
+        }
+
+        /// <summary>
+        /// Requests a new set of characters for the user.
+        /// </summary>
+        /// <param name="username">The name of the user</param>
+        /// <param name="callback">The callback which gets called after acknowledgement</param>
+        internal async Task RefreshCharacters(string username, Action<string> callback)
+        {
+            await _client.EmitAsync("user:char-refresh", response =>
+            {
+                callback(response.GetValue<string>());
+            }, username);
         }
     }
 }

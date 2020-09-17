@@ -301,7 +301,7 @@
                                 </div>
                             </div>
                             <footer class="card-footer">
-                                <a href="#" class="card-footer-item">Aktualisieren</a>
+                                <a href="#" class="card-footer-item" id="refresh-characters">Aktualisieren</a>
                             </footer>
                         </div>
                     </div>
@@ -1508,7 +1508,7 @@
                                                 <label class="label">Familienstand:</label>
                                                 <div class="control">
                                                     <div class="select is-fullwidth">
-                                                        <select id="viewer-martialstatus" data-editsync="martialStatus"
+                                                        <select id="viewer-martialStatus" data-editsync="martialStatus"
                                                                 class="editsync">
                                                             <option value="ledig">ledig</option>
                                                             <option value="verheiratet">verheiratet</option>
@@ -3231,7 +3231,7 @@
         $('#viewer-religion').val(character.religion);
         $('#viewer-job').val(character.job);
         $('#viewer-stature').val(character.stature);
-        $('#viewer-martialstatus').val(character.martialStatus);
+        $('#viewer-martialStatus').val(character.martialStatus);
         $('#viewer-notes').val(character.notes);
         $('#viewer-inventory').val(character.inventory);
         fillCharSkillsInView("actSkills");
@@ -3246,6 +3246,7 @@
     }
 
     function fillCharSkillsInView(type) {
+        if (!selectedCharacter) return;
         let skills = selectedCharacter[type];
         let bonus = 0;
         for (let i = 0; i < 10; i++) {
@@ -3315,11 +3316,11 @@
         return null;
     }
 
-    function findLocalCharacterById(id) {
-        for (let i = 0; i < localCharacters.length; i++)
-            if (localCharacters[i].uuid === id)
-                return localCharacters[i];
-        return null;
+    function findCharacterIdxById(id) {
+        for (let i = 0; i < characters.length; i++)
+            if (characters[i].uuid === id)
+                return i;
+        return -1;
     }
 
     function generateCharId() {
@@ -3962,6 +3963,65 @@
     $('#settings-startmini').change(function () {
         let checked = $(this).is(":checked");
         bridge.updateSettingsBool("startmini", checked);
+    });
+</script>
+<script>
+    function applyCharDataSync(charId, key, json) {
+        console.log(charId);
+        console.log(key);
+        console.log(json);
+        let character = findCharacterById(charId);
+        let val = JSON.parse(json);
+        character[key] = val;
+        $('#viewer-' + key).val(val);
+        console.log($('#viewer-' + key));
+        console.log(character);
+        console.log(val);
+        updateRemoteCharacters();
+    }
+
+    function applyCharSkillsSync(charId, json) {
+        let character = findCharacterById(charId);
+        let newSkills = JSON.parse(json);
+        for (let i = 0; i < newSkills.length; i++) {
+            let newSkill = newSkills[i];
+            let skill = character[newSkill.type][newSkill.idx];
+            skill.name = newSkill.name;
+            skill.value = newSkill.val;
+        }
+        fillCharSkillsInView("actSkills");
+        fillCharSkillsInView("socialSkills");
+        fillCharSkillsInView("knowledgeSkills");
+        updateRemoteCharacters();
+    }
+
+    function applyCharCreationSync(json) {
+        let character = JSON.parse(json);
+        characters.push(character);
+        updateRemoteCharacters();
+    }
+
+    function applyCharDeletionSync(charId) {
+        let charIdx = findCharacterIdxById(charId);
+        if (charIdx != -1) {
+            characters.splice(charIdx, 1);
+            updateRemoteCharacters();
+            if (selectedCharacter && selectedCharacter.uuid == charId) {
+                $('#level-modal').removeClass('is-active');
+                selectPage("dashboard");
+            }
+        }
+    }
+
+    $('#refresh-characters').click(() => {
+        $('#loader').show();
+        bridge.refreshCharacters(loginName, charactersJson => {
+            $('#loader').hide();
+            if (charactersJson != "") {
+                characters = JSON.parse(charactersJson.split('\\"').join('"'));
+                updateRemoteCharacters();
+            }
+        });
     });
 </script>
 </body>

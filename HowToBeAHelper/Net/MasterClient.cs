@@ -23,7 +23,7 @@ namespace HowToBeAHelper.Net
 
         internal MasterClient()
         {
-            _client = new SocketIO(Settings.Default.MasterUrl, new SocketIOOptions
+            _client = new SocketIO(Properties.Settings.Default.MasterUrl, new SocketIOOptions
             {
                 Reconnection = false
             });
@@ -145,6 +145,11 @@ namespace HowToBeAHelper.Net
         internal async Task SyncCharData(string username, string charId, string key, string val)
         {
             await _client.EmitAsync("character:update", username, charId, key, val);
+        }
+
+        internal async Task Logout()
+        {
+            await _client.EmitAsync("user:logout");
         }
     }
 }

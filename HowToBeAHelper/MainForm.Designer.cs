@@ -28,7 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.SuspendLayout();
+            // 
+            // trayIcon
+            // 
+            this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
+            this.trayIcon.Text = "How to be a Helper";
+            this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseDoubleClick);
             // 
             // MainForm
             // 
@@ -40,11 +49,14 @@
             this.MinimumSize = new System.Drawing.Size(1280, 720);
             this.Name = "MainForm";
             this.Text = "Form1";
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.NotifyIcon trayIcon;
     }
 }
 

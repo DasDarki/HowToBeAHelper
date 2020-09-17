@@ -23,8 +23,16 @@ database.start(() => {
         socket.on("character:save", function (username, character, fn) {
             database.saveCharacter(username, character, fn);
         });
+        socket.on("user:logout", function () {
+            socket.loginName = null;
+        });
         socket.on("user:login", function (name, password, fn) {
-            database.loginUser(name, password, fn);
+            database.loginUser(name, password, data => {
+                if (data != "") {
+                    socket.loginName = name;
+                }
+                fn(data);
+            });
         });
         socket.on("character:delete", function (username, charId, fn) {
             database.deleteCharacter(username, charId, fn);

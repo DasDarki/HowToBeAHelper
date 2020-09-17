@@ -6,6 +6,7 @@ using CefSharp;
 using CefSharp.WinForms;
 using HowToBeAHelper.BuiltIn;
 using HowToBeAHelper.Model.Characters;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 
 // ReSharper disable InconsistentNaming
@@ -20,6 +21,62 @@ namespace HowToBeAHelper
         {
             _form = form;
             _browser = _form.Browser;
+        }
+
+        public void updateSettingsBool(string key, bool val)
+        {
+            try
+            {
+                switch (key)
+                {
+                    case "autostart":
+                        Bootstrap.Settings.AutoStart = val;
+                        using (RegistryKey regKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
+                        {
+                            if (regKey == null) return;
+                            if (val)
+                            {
+                                regKey.SetValue("How to be a Helper", Application.ExecutablePath);
+                            }
+                            else
+                            {
+                                regKey.DeleteValue("How to be a Helper");
+                            }
+                        }
+                        break;
+                    case "startmini":
+                        Bootstrap.Settings.StartMinimize = val;
+                        break;
+                    case "minitray":
+                        Bootstrap.Settings.MinimizeToTray = val;
+                        break;
+                }
+
+                Bootstrap.Settings.Save();
+            }
+            catch
+            {
+                //Ignore: Need handling
+            }
+        }
+
+        public void logout()
+        {
+            try
+            {
+                _form.Run(async () =>
+                {
+                    await _form.Master.Logout();
+                });
+                Bootstrap.IsAutomaticallyLoggedIn = false;
+                Bootstrap.StoredPassword = null;
+                Bootstrap.StoredUsername = null;
+                Bootstrap.DeleteLogin();
+            }
+            catch
+            {
+                //Ignore: Need handling
+            }
         }
 
         public void syncSkills(string username, string charId, string json)

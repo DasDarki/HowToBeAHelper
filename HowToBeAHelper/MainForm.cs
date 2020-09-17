@@ -38,8 +38,9 @@ namespace HowToBeAHelper
                 }
             };
             Browser.ExecuteScriptAsyncWhenPageLoaded(
-                $"emitLocalCharacters('{JsonConvert.SerializeObject(Bootstrap.CharacterManager.Characters)}')");
-            Browser.ExecuteScriptAsyncWhenPageLoaded($"setSettings('{JsonConvert.SerializeObject(Bootstrap.Settings)}')");
+                $"emitLocalCharacters(`{JsonConvert.SerializeObject(Bootstrap.CharacterManager.Characters)}`)");
+            Browser.ExecuteScriptAsyncWhenPageLoaded($"setSettings(`{JsonConvert.SerializeObject(Bootstrap.Settings)}`)");
+            Browser.ExecuteScriptAsyncWhenPageLoaded($"applyChangelog(`{Updater.Changelog.Version}`, `{Updater.Changelog.Summary}`, `{Updater.Changelog.Content}`, `{Updater.Changelog.Author.TrimEnd()}`, `{Updater.Changelog.Date.TrimEnd()}`)");
             Browser.JavascriptObjectRepository.Register("bridge", Bridge = new FrontendBridge(this), false,
                 BindingOptions.DefaultBinder);
             Controls.Add(Browser);
@@ -48,7 +49,7 @@ namespace HowToBeAHelper
             {
                 if (args.Frame.IsMain)
                 {
-                    //Browser.ShowDevTools();
+                    Browser.ShowDevTools();
                     SafeInvoke(() =>
                     {
                         Visible = true;

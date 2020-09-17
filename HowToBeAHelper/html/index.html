@@ -2491,6 +2491,13 @@
                 Das Tool steht unter der Creative Commons Namensnennung-Nicht kommerziell-Share Alike 4.0 International
                 Lizenz. Diese findest du <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.de"
                                             class="external">hier</a>
+                <br>
+                <br>
+                <h1 class="title" id="about-version" style="font-size: 30px">Aktuelle Version: </h1>
+                <i id="about-summary"></i>
+                <p id="about-author" style="text-align: right"></p>
+                <h3 class="title is-3" style="font-size: 20px; margin-top: 10px; margin-bottom: 0">Changelog</h3>
+                <p id="about-changes"></p>
             </div>
             <div id="page-settings" style="display: none">
                 <div class="columns is-centered">
@@ -3912,6 +3919,13 @@
     });
 </script>
 <script>
+    function applyChangelog(version, summary, content, author, date) {
+        $('#about-version').html("Aktuelle Version: " + version);
+        $('#about-summary').html(summary.split("\n").join("<br>"));
+        $('#about-author').html("− " + author + " am " + date);
+        $('#about-changes').html(content.split("\n").join("<br>"));
+    }
+
     function setSettings(json) {
         let settings = JSON.parse(json);
         if (settings.AutoStart)

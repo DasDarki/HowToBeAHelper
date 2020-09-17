@@ -106,6 +106,12 @@ namespace HowToBeAHelper.Model.Characters
         public int PointsLeft { get; set; } = 400;
 
         /// <summary>
+        /// The year the character was created.
+        /// </summary>
+        [JsonProperty("createdAt")]
+        public string CreateYear { get; set; } = DateTime.Now.Year.ToString();
+
+        /// <summary>
         /// Calculates the bonus for the given skills.
         /// </summary>
         /// <param name="skills">The skills group</param>

@@ -3174,6 +3174,8 @@
             confirmButtonText: 'Ja, ist ok!'
         }).then((result) => {
             if (result.isConfirmed) {
+                const fromYear = selectedCharacter.createdAt;
+                const toYear = new Date().getFullYear();
                 bridge.deleteCharacter(loginName, localSelected, selectedCharacter.uuid, success => {
                     if (success) {
                         if (localSelected) {
@@ -3187,7 +3189,7 @@
                         Swal.fire({
                             icon: 'success',
                             title: 'Und weg ist er...',
-                            text: 'Ruhe er in Frieden!',
+                            text: `Ruhe er in Frieden (${fromYear} - ${toYear})!`,
                         });
                     } else {
                         Swal.fire({

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
@@ -232,29 +233,37 @@ namespace HowToBeAHelper
 
         public void saveCharacter(string json, string username, IJavascriptCallback callback)
         {
-            Character character = JsonConvert.DeserializeObject<Character>(json);
-            if (string.IsNullOrEmpty(username) || !_form.Master.IsConnected)
+            try
             {
-                Bootstrap.CharacterManager.Characters.Add(character);
-                Bootstrap.CharacterManager.Save();
-                callback.ExecuteAsync(true, true);
-                return;
-            }
-            _form.Run(async () =>
-            {
-                await _form.Master.SaveCharacter(username, character, status =>
+                Character character = JsonConvert.DeserializeObject<Character>(json);
+                character.CreateYear = DateTime.Now.Year.ToString();
+                if (string.IsNullOrEmpty(username) || !_form.Master.IsConnected)
                 {
-                    bool local = false;
-                    if (!status)
+                    Bootstrap.CharacterManager.Characters.Add(character);
+                    Bootstrap.CharacterManager.Save();
+                    callback.ExecuteAsync(true, true);
+                    return;
+                }
+                _form.Run(async () =>
+                {
+                    await _form.Master.SaveCharacter(username, character, status =>
                     {
-                        Bootstrap.CharacterManager.Characters.Add(character);
-                        Bootstrap.CharacterManager.Save();
-                        local = true;
-                    }
+                        bool local = false;
+                        if (!status)
+                        {
+                            Bootstrap.CharacterManager.Characters.Add(character);
+                            Bootstrap.CharacterManager.Save();
+                            local = true;
+                        }
 
-                    callback.ExecuteAsync(status, local);
+                        callback.ExecuteAsync(status, local);
+                    });
                 });
-            });
+            }
+            catch
+            {
+                callback.ExecuteAsync(false, false);
+            }
         }
 
         public void openExternalUrl(string url)

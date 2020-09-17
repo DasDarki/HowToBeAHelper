@@ -17,6 +17,23 @@ function Database() {
         });
     };
 
+    this.refreshCharacters = function (username, fn) {
+        schemas.User.find({
+            name: {$regex: new RegExp(username, "i")}
+        }, null, {limit: 1}, function (err, result) {
+            if (err) {
+                console.error(err);
+                fn("");
+                return;
+            }
+            if (result && result.length >= 1) {
+                fn(JSON.stringify(result[0].characters).split('"').join('\\"'));
+            } else {
+                fn("");
+            }
+        });
+    };
+
     this.updateSkills = function (username, charId, json) {
         schemas.User.find({
             name: {$regex: new RegExp(username, "i")}

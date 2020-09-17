@@ -21,6 +21,7 @@ const characterSchema = new mongoose.Schema({
     inventory: String,
     notes: String,
     pointsLeft: Number,
+    createdAt: String,
     actSkills: [Skill.schema],
     knowledgeSkills: [Skill.schema],
     socialSkills: [Skill.schema]

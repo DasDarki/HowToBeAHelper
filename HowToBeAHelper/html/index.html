@@ -5,6 +5,7 @@
     <meta charset="utf-8"/>
     <title>HTBAH</title>
     <link rel="stylesheet" type="text/css" href="bulma.css">
+    <link rel="stylesheet" type="text/css" href="bulmaswitch.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="jquery.js"></script>
@@ -2491,6 +2492,47 @@
                 Lizenz. Diese findest du <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode.de"
                                             class="external">hier</a>
             </div>
+            <div id="page-settings" style="display: none">
+                <div class="columns is-centered">
+                    <div class="column">
+                        <div class="card events-card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    Allgemeine Einstellungen
+                                </p>
+                            </header>
+                            <div class="card-table">
+                                <div class="card-content">
+                                    <div class="field">
+                                        <div class="field-body">
+                                            <div class="field">
+                                                <input id="settings-autostart" type="checkbox"
+                                                       class="switch">
+                                                <label for="settings-autostart">Mit Windows starten (Auto
+                                                    Start)</label>
+                                            </div>
+                                            <div class="field">
+                                                <input id="settings-startmini" type="checkbox"
+                                                       class="switch">
+                                                <label for="settings-startmini">Minimiert Starten</label>
+                                            </div>
+                                            <div class="field">
+                                                <input id="settings-minitray" type="checkbox"
+                                                       class="switch">
+                                                <label for="settings-minitray">Zum Tray minimieren</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <a href="#" class="card-footer-item" id="settings-logout"
+                                   style="color: red">Ausloggen</a>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -3013,6 +3055,8 @@
             return;
         }
         complexReskillXp = Math.round((destVal - (srcVal - 5)) / ((getSkillBonus(srcType) / 10 + 1) * 5));
+        if (complexReskillXp < 1)
+            complexReskillXp = 1;
         $('#level-complex-reskill-talent').html("Umskillen (" + complexReskillXp + ")");
     }
 
@@ -3037,6 +3081,8 @@
         let currentVal = selectedCharacter[type][idx].value;
         let bonus = getSkillBonus(type);
         complexLevelXp = Math.round((currentVal / 5) / (bonus / 10 + 1));
+        if (complexLevelXp < 1)
+            complexLevelXp = 1;
         $('#level-complex-up-talent').html("Erhöhen (" + complexLevelXp + ")");
     });
 
@@ -3592,7 +3638,10 @@
     }
 
     function updateRemoteCharacters() {
-        $('#dashboard-remote-char-pack').show();
+        if (isLoggedIn())
+            $('#dashboard-remote-char-pack').show();
+        else
+            $('#dashboard-remote-char-pack').hide();
         let q = $('#dashboard-remote-chars');
         q.html("");
         if (characters.length == 0) {
@@ -3860,6 +3909,45 @@
             let url = q.attr("href");
             bridge.openExternalUrl(url);
         });
+    });
+</script>
+<script>
+    function setSettings(json) {
+        let settings = JSON.parse(json);
+        if (settings.AutoStart)
+            $('#settings-autostart').prop("checked", true);
+        if (settings.StartMinimize)
+            $('#settings-startmini').prop("checked", true);
+        if (settings.MinimizeToTray)
+            $('#settings-minitray').prop("checked", true);
+    }
+
+    $('#settings-logout').click(() => {
+        bridge.logout();
+        characters = [];
+        loginName = null;
+        $('#login-message').show();
+        updateRemoteCharacters();
+        Swal.fire({
+            icon: 'success',
+            title: 'Tschüss!',
+            text: 'Du bist nun ausgeloggt! Bis bald.',
+        });
+    });
+
+    $('#settings-autostart').change(function () {
+        let checked = $(this).is(":checked");
+        bridge.updateSettingsBool("autostart", checked);
+    });
+
+    $('#settings-minitray').change(function () {
+        let checked = $(this).is(":checked");
+        bridge.updateSettingsBool("minitray", checked);
+    });
+
+    $('#settings-startmini').change(function () {
+        let checked = $(this).is(":checked");
+        bridge.updateSettingsBool("startmini", checked);
     });
 </script>
 </body>

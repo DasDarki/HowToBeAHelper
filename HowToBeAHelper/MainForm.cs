@@ -23,7 +23,7 @@ namespace HowToBeAHelper
         {
             Master = new MasterClient();
             InitializeComponent();
-            Text = Settings.Default.Title;
+            Text = Properties.Settings.Default.Title;
             Icon = Resources.icon;
             CefSettings settings = new CefSettings();
             CefSharpSettings.LegacyJavascriptBindingEnabled = true;
@@ -39,6 +39,7 @@ namespace HowToBeAHelper
             };
             Browser.ExecuteScriptAsyncWhenPageLoaded(
                 $"emitLocalCharacters('{JsonConvert.SerializeObject(Bootstrap.CharacterManager.Characters)}')");
+            Browser.ExecuteScriptAsyncWhenPageLoaded($"setSettings('{JsonConvert.SerializeObject(Bootstrap.Settings)}')");
             Browser.JavascriptObjectRepository.Register("bridge", Bridge = new FrontendBridge(this), false,
                 BindingOptions.DefaultBinder);
             Controls.Add(Browser);
@@ -47,7 +48,7 @@ namespace HowToBeAHelper
             {
                 if (args.Frame.IsMain)
                 {
-                    Browser.ShowDevTools();
+                    //Browser.ShowDevTools();
                     SafeInvoke(() =>
                     {
                         Visible = true;
@@ -66,6 +67,10 @@ namespace HowToBeAHelper
                     });
                 }
             };
+            if (Bootstrap.Settings.StartMinimize)
+            {
+                WindowState = FormWindowState.Minimized;
+            }
         }
 
         internal void Run(Action callback)
@@ -118,5 +123,21 @@ namespace HowToBeAHelper
         }
 
         #endregion
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                Hide();
+                trayIcon.Visible = true;
+            }
+        }
+
+        private void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Show();
+            WindowState = FormWindowState.Normal;
+            trayIcon.Visible = false;
+        }
     }
 }

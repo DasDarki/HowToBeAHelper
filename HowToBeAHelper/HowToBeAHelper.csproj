@@ -127,6 +127,7 @@
     <Compile Include="Net\MasterClient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -172,6 +173,7 @@
     <Content Include="html\bulma.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="html\bulmaswitch.css" />
     <Content Include="html\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

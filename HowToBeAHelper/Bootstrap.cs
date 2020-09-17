@@ -53,32 +53,20 @@ namespace HowToBeAHelper
         /// </summary>
         internal static CharacterManager CharacterManager { get; set; }
 
+        internal static Settings Settings { get; set; }
+
         /// <summary>
         /// Initializes the app, creates the structure, checks for updates and connects with the network.
         /// </summary>
         /// <returns>True if the app could be initialized successfully</returns>
         internal static bool Init()
         {
-            /*Character character = new Character
-            {
-                Name = "James Daunting",
-                Age = 18,
-                Gender = "männlich"
-            };
-            character.ActSkills[0].Name = "Schleichen";
-            character.ActSkills[0].Value = 90;
-            character.SocialSkills[0].Name = "Lügen";
-            character.SocialSkills[0].Value = 70;
-            character.KnowledgeSkills[0].Name = "Französisch";
-            character.KnowledgeSkills[0].Value = 80;
-            character.KnowledgeSkills[1].Name = "Spanisch";
-            character.KnowledgeSkills[1].Value = 80;
-            CharacterGenerator.GeneratePdf(character, @"C:\Users\DasDarki\Desktop\CharOutput.pdf");*/
             AppPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "";
             DataPath = CreateAppPath("data");
             TempPath = CreateAppPath("temp");
             ConfigPath = CreateAppPath("configs");
             PluginsPath = CreateAppPath("plugins");
+            Settings = Settings.Load();
             CharacterManager = new CharacterManager();
             IsAutomaticallyLoggedIn = Load(out StoredUsername, out StoredPassword);
             return true;
@@ -127,6 +115,18 @@ namespace HowToBeAHelper
             string path = Path.Combine(AppPath, name);
             Directory.CreateDirectory(path);
             return path;
+        }
+
+        internal static void DeleteLogin()
+        {
+            try
+            {
+                File.Delete(Path.Combine(DataPath, "loginstorage.toml"));
+            }
+            catch
+            {
+                //Ignore
+            }
         }
     }
 }

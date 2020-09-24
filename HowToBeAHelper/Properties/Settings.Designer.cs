@@ -37,7 +37,7 @@ namespace HowToBeAHelper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:1337/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://open.eternitylife.de:14749/")]
         public string MasterUrl {
             get {
                 return ((string)(this["MasterUrl"]));

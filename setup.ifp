@@ -1,0 +1,358 @@
+﻿
+[Header]
+ProjectFileVersion = 1.1
+[General]
+Program name = HowToBeAHelper
+Program version = 1.0.0
+Windows 2000 = 0
+Windows XP = 0
+Windows Server 2003 = 0
+Windows Vista = 0
+Windows Server 2008 = 0
+Windows 7 = 1
+Windows 8 = 1
+Windows 10 = 1
+Windows Server 2016 = 0
+DoNotCheckOS = 0
+Company name = DasDarki and Contributors
+Website = https://github.com/DasDarki/HowToBeAHelper
+SFA = 1
+DFA = 1
+Comp = 1
+[Graphics]
+Wizard image = <main>
+Header image = <main>
+Show Label = 1
+VisualStylesEnabled = 1
+[Files]
+Installation path = <ProgramFiles>\<Company>\<AppName>\
+Autcip = 1
+[Uninstall]
+Vwau = 0
+Website = https://
+Include uninstaller = 1
+Uninstaller filename = uninst
+UseCustomDisplayIcon = 0
+CustomDisplayIcon = <InstallPath>\
+[Licence]
+Licence dialog = 1
+[Finish]
+Sart program = 0
+Reboot computer = 0
+Program = <InstallPath>\
+ProgramArguments = 
+[Shortcuts]
+Allowtc = 0
+Shortcut path = <Company>\<AppName>\
+[Serialoptions]
+Allows = 0
+Number = 1000
+Mask = #####-#####-#####-#####
+[SplashScreen]
+Image = 
+Sound = 
+Time = 2
+PlaySound = 0
+Allow = 0
+[Build]
+File = E:\Development\HowToBeAHelper\htbahinstall.exe
+SetupIconPath = ..\icons\ancient.ico
+UninstallIconPath = ..\icons\ancient.ico
+CompressionMethod = 0
+CompressionLevel = 2
+[Updater]
+Allow = 0
+1 = <AppName>
+2 = <AppVersion>
+3 = http://
+4 = http://
+5 = http://
+6 = Update
+Language = 0
+RunProg = 
+RunProgs = 0
+Execdlls = 0
+[Languages]
+0
+[Files/Dirs]
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\BouncyCastle.Crypto.dll
+2.7 MB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\BouncyCastle.Crypto.xml
+1.4 MB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\Common.Logging.Core.dll
+10 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\Common.Logging.Core.pdb
+11.5 KB
+pdb
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\Common.Logging.Core.xml
+54.6 KB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\Common.Logging.dll
+44 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\Common.Logging.pdb
+155.5 KB
+pdb
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\Common.Logging.xml
+170.6 KB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\debug.log
+2.7 KB
+log
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\DotNetZip.dll
+448 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\HowToBeAHelper.exe
+139.5 KB
+exe
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\HowToBeAHelper.exe.config
+1.3 KB
+config
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\HowToBeAHelper.Library.dll
+9 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\HowToBeAHelper.Library.pdb
+3.5 KB
+pdb
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\HowToBeAHelper.pdb
+127.5 KB
+pdb
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\HowToBeAHelper.Updater.exe
+6 KB
+exe
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.barcodes.dll
+142.5 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.barcodes.xml
+150.1 KB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.forms.dll
+118.5 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.forms.xml
+281.5 KB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.io.dll
+1.5 MB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.io.xml
+366.9 KB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.kernel.dll
+896.5 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.kernel.xml
+1.9 MB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.layout.dll
+329 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.layout.xml
+542.8 KB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.pdfa.dll
+87.5 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.pdfa.xml
+25.5 KB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.sign.dll
+94 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.sign.xml
+174.3 KB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.styledxmlparser.dll
+290.5 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.styledxmlparser.xml
+468.8 KB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.svg.dll
+114.5 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.svg.xml
+227.3 KB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\Nett.dll
+168 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\Newtonsoft.Json.dll
+683.9 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\Newtonsoft.Json.xml
+691.1 KB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\SocketIOClient.NetFx.dll
+35.5 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\System.Buffers.dll
+20.4 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\System.Buffers.xml
+3.4 KB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\System.Memory.dll
+137.9 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\System.Memory.xml
+13.6 KB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\System.Numerics.Vectors.dll
+113.1 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\System.Numerics.Vectors.xml
+179.2 KB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\System.Runtime.CompilerServices.Unsafe.dll
+16.4 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
+13.8 KB
+xml
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\websocket-sharp.dll
+239.5 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\icon.ico
+9.4 KB
+ico
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\html\
+N/A
+[Folder]
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\x64\
+N/A
+[Folder]
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\x86\
+N/A
+[Folder]
+[Licence_Begin]
+18858
+{\rtf1\ansi\ansicpg1252\deff0\deflang1031{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+\viewkind4\uc1\pard\fs20 Creative Commons Namensnennung-Nicht kommerziell-Share Alike 4.0 International Public License\par
+\par
+Durch die Aus\'fcbung der lizenzierten Rechte (wie unten definiert) erkl\'e4ren Sie sich rechtsverbindlich mit den Bedingungen dieser Creative Commons Namensnennung - Nicht kommerziell - Share Alike 4.0 International Public License (\ldblquote Public License\rdblquote ) einverstanden. Soweit die vorliegende Public License als Lizenzvertrag anzusehen ist, gew\'e4hrt Ihnen der Lizenzgeber die in der Public License genannten lizenzierten Rechte im Gegenzug daf\'fcr, dass Sie die Lizenzbedingungen akzeptieren, und gew\'e4hrt Ihnen die entsprechenden Rechte in Hinblick auf Vorteile, die der Lizenzgeber durch das Verf\'fcgbarmachen des lizenzierten Materials unter diesen Bedingungen hat.\par
+\par
+Abschnitt 1 - Definitionen\par
+\par
+    Abgewandeltes Material bezeichnet Material, welches durch Urheberrechte oder \'e4hnliche Rechte gesch\'fctzt ist und vom lizenzierten Material abgeleitet ist oder darauf aufbaut und in welchem das lizenzierte Material \'fcbersetzt, ver\'e4ndert, umarrangiert, umgestaltet oder anderweitig modifiziert in einer Weise enthalten ist, die aufgrund des Urheberrechts oder \'e4hnlicher Rechte des Lizenzgebers eine Zustimmung erfordert. Im Sinne der vorliegenden Public License entsteht immer abgewandeltes Material, wenn das lizenzierte Material ein Musikwerk, eine Darbietung oder eine Tonaufnahme ist und zur Vertonung von Bewegtbildern verwendet wird.\par
+    Abwandlungslizenz bezeichnet die Lizenz, die Sie in Bezug auf Ihr Urheberrecht oder \'e4hnliche Rechte an Ihren Beitr\'e4gen zum abgewandelten Material in \'dcbereinstimmng mit den Bedingungen der vorliegenden Public License erteilen.\par
+    BY-NC-SA-kompatible Lizenz bezeichnet eine unter creativecommons.org/compatiblelicenses genannte Lizenz, die Creative Commons als der vorliegenden Public License im Wesentlichen gleichwertig anerkannt hat.\par
+    Urheberrecht und \'e4hnliche Rechte bezeichnet das Urheberrecht und/oder \'e4hnliche, dem Urheberrecht eng verwandte Rechte, einschlie\'dflich insbesondere des Rechts des aus\'fcbenden K\'fcnstlers, des Rechts zur Sendung, zur Tonaufnahme und des Sui-generis-Datenbankrechts, unabh\'e4ngig davon, wie diese Rechte genannt oder kategorisiert werden. Im Sinne der vorliegenden Public License werden die in Abschnitt 2(b)(1)-(2) aufgef\'fchrten Rechte nicht als Urheberrecht und \'e4hnliche Rechte angesehen.\par
+    Wirksame technische Schutzma\'dfnahmen bezeichnet solche Ma\'dfnahmen, die gem\'e4\'df gesetzlichen Regelungen auf der Basis des Artikels 11 des WIPO Copyright Treaty vom 20. Dezember 1996 und/oder \'e4hnlicher internationaler Vereinbarungen ohne entsprechende Erlaubnis nicht umgangen werden d\'fcrfen.\par
+    Ausnahmen und Beschr\'e4nkungen bezeichnet Fair Use, Fair Dealing und/oder jegliche andere Ausnahme oder Beschr\'e4nkung des Urheberrechts oder \'e4hnlicher Rechte, die auf Ihre Nutzung des lizenzierten Materials Anwendung findet.\par
+    Lizenzelemente bezeichnet die Lizenzeigenschaften, die in der Bezeichnung einer Creative Commons Public License aufgef\'fchrt werden. Die Lizenzelemente der vorliegenden Public License sind Namensnennung, Nicht kommerziell und Share Alike.\par
+    Lizenziertes Material bezeichnet das Werk der Literatur oder Kunst, die Datenbank oder das sonstige Material, welches der Lizenzgeber unter die vorliegende Public License gestellt hat.\par
+    Lizenzierte Rechte bezeichnet die Ihnen unter den Bedingungen der vorliegenden Public License gew\'e4hrten Rechte, welche auf solche Urheberrechte und \'e4hnlichen Rechte beschr\'e4nkt sind, die Ihre Nutzung des lizenzierten Materials betreffen und die der Lizenzgeber zu lizenzieren berechtigt ist.\par
+    Lizenzgeber bezeichnet die nat\'fcrliche(n) oder juristische(n) Person(en), die unter der vorliegenden Public License Rechte gew\'e4hrt (oder gew\'e4hren).\par
+    Nicht kommerziell meint nicht vorrangig auf einen gesch\'e4ftlichen Vorteil oder eine geldwerte Verg\'fctung gerichtet. Der Austausch von lizenziertem Material gegen anderes unter Urheberrecht oder \'e4hnlichen Rechten gesch\'fctztes Material durch digitales File-Sharing oder \'e4hnliche Mittel ist nicht kommerziell im Sinne der vorliegenden Public License, sofern in Verbindung damit keine geldwerte Verg\'fctung erfolgt.\par
+    Weitergabe meint, Material der \'d6ffentlichkeit bereitzustellen durch beliebige Mittel oder Verfahren, die gem\'e4\'df der lizenzierten Rechte Zustimmung erfordern, wie zum Beispiel Vervielf\'e4ltigung, \'f6ffentliche Vorf\'fchrung, \'f6ffentliche Darbietung, Vertrieb, Verbreitung, Wiedergabe oder \'dcbernahme und \'f6ffentliche Zug\'e4nglichmachung bzw. Verf\'fcgbarmachung in solcher Weise, dass Mitglieder der \'d6ffentlichkeit auf das Material von Orten und zu Zeiten ihrer Wahl zugreifen k\'f6nnen.\par
+    Sui-generis Datenbankrechte bezeichnet Rechte, die keine Urheberrechte sind, sondern gegr\'fcndet sind auf die Richtlinie 96/9/EG des Europ\'e4ischen Parlaments und des Rates vom 11. M\'e4rz 1996 \'fcber den rechtlichen Schutz von Datenbanken in der jeweils g\'fcltigen Fassung bzw. deren Nachfolgeregelungen, sowie andere im Wesentlichen funktionsgleiche Rechte anderswo auf der Welt.\par
+    Sie bezeichnet die nat\'fcrliche oder juristische Person, die von lizenzierten Rechten unter der vorliegenden Public License Gebrauch macht. Ihr bzw. Ihre hat die entsprechende Bedeutung.\par
+\par
+Abschnitt 2 - Umfang\par
+\par
+    Lizenzgew\'e4hrung\par
+        Unter den Bedingungen der vorliegenden Public License gew\'e4hrt der Lizenzgeber Ihnen eine weltweite, verg\'fctungsfreie, nicht unterlizenzierbare, nicht-ausschlie\'dfliche, unwiderrufliche Lizenz zur Aus\'fcbung der lizenzierten Rechte am lizenzierten Material, um:\par
+            das lizenzierte Material ganz oder in Teilen zu vervielf\'e4ltigen und weiterzugeben, jedoch nur f\'fcr nicht kommerzielle Zwecke; und\par
+            abgewandeltes Material zu erstellen, zu vervielf\'e4ltigen und weiterzugeben, jedoch nur f\'fcr nicht kommerzielle Zwecke.\par
+        Ausnahmen und Beschr\'e4nkungen. Es sei klargestellt, dass, wo immer gesetzliche Ausnahmen und Beschr\'e4nkungen auf Ihre Nutzung Anwendung finden, die vorliegende Public License nicht anwendbar ist und Sie insoweit ihre Bedingungen nicht einhalten m\'fcssen.\par
+        Laufzeit. Die Laufzeit der vorliegenden Public License wird in Abschnitt 6(a) geregelt.\par
+        Medien und Formate; Gestattung technischer Modifikationen. Der Lizenzgeber erlaubt Ihnen, die lizenzierten Rechte in allen bekannten und zuk\'fcnftig entstehenden Medien und Formaten auszu\'fcben und die daf\'fcr notwendigen technischen Modifikationen vorzunehmen. Der Lizenzgeber verzichtet auf jegliche und/oder versichert die Nichtaus\'fcbung jeglicher Rechte und Befugnisse, Ihnen zu verbieten, technische Modifikationen vorzunehmen, die notwendig sind, um die lizenzierten Rechte aus\'fcben zu k\'f6nnen, einschlie\'dflich solcher, die zur Umgehung wirksamer technischer Schutzma\'dfnahmen erforderlich sind. Im Sinne der vorliegenden Public License entsteht kein abgewandeltes Material, soweit lediglich Modifikationen vorgenommen werden, die nach diesem Abschnitt 2(a)(4) zul\'e4ssig sind.\par
+        Nachfolgende Empf\'e4nger\par
+            Angebot des Lizenzgebers - Lizenziertes Material. Jeder Empf\'e4nger des lizenzierten Materials erh\'e4lt automatisch ein Angebot des Lizenzgebers, die lizenzierten Rechte unter den Bedingungen der vorliegenden Public License auzu\'fcben.\par
+            Zus\'e4tzliches Angebot des Lizenzgebers - Abgewandeltes Material. Jeder, der abgewandeltes Material von Ihnen erh\'e4lt, erh\'e4lt automatisch vom Lizenzgeber ein Angebot, die lizenzierten Rechte am abgewandelten Material unter den Bedingungen der durch Sie vergebenen Abwandlungslizenz auszu\'fcben.\par
+            Keine Beschr\'e4nkungen f\'fcr nachfolgende Empf\'e4nger. Sie d\'fcrfen keine zus\'e4tzlichen oder abweichenden Bedingungen fordern oder das lizenzierte Material mit solchen belegen oder darauf wirksame technische Ma\'dfnahmen anwenden, sofern dadurch die Aus\'fcbung der lizenzierten Rechte durch Empf\'e4nger des lizenzierten Materials eingeschr\'e4nkt wird.\par
+        Inhaltliche Indifferenz. Die vorliegende Public License begr\'fcndet nicht die Erlaubnis, zu behaupten oder den Eindruck zu erwecken, dass Sie oder Ihre Nutzung des lizenzierten Materials mit dem Lizenzgeber oder den Zuschreibungsempf\'e4ngern gem\'e4\'df Abschnitt 3(a)(1)(A)(i) in Verbindung stehen oder durch ihn gef\'f6rdert, gutgehei\'dfen oder offiziell anerkannt werden.\par
+\par
+    Sonstige Rechte\par
+        Urheberpers\'f6nlichkeitsrechte, wie etwa zum Schutz vor Werkentstellungen, werden durch die vorliegende Public License ebenso wenig mitlizenziert wie das Recht auf Privatheit, auf Datenschutz und/oder \'e4hnliche Pers\'f6nlichkeitsrechte; gleichwohl verzichtet der Lizenzgeber auf derlei Rechte bzw. ihre Durchsetzung, soweit dies f\'fcr Ihre Aus\'fcbung der lizenzierten Rechte erforderlich und m\'f6glich ist, jedoch nicht dar\'fcber hinaus.\par
+        Patent- und Kennzeichenrechte werden durch die vorliegende Public License nicht lizenziert.\par
+        Soweit wie m\'f6glich verzichtet der Lizenzgeber auf Verg\'fctung durch Sie f\'fcr die Aus\'fcbung der lizenzierten Rechte, sowohl direkt als auch durch eine Verwertungsgesellschaft unter welchem freiwilligen oder abdingbaren gesetzlichen oder Pflichtlizenzmechanismus auch immer eingezogen. In allen \'fcbrigen F\'e4llen beh\'e4lt sich der Lizenzgeber ausdr\'fccklich jedes Recht vor, Verg\'fctungen zu fordern, einschlie\'dflich f\'fcr Nutzungen des lizenzierten Materials f\'fcr andere als nicht kommerzielle Zwecke.\par
+\par
+Abschnitt 3 - Lizenzbedingungen\par
+\par
+Ihre Aus\'fcbung der lizenzierten Rechte unterliegt ausdr\'fccklich folgenden Bedingungen.\par
+\par
+    Namensnennung\par
+\par
+        Wenn Sie das lizenzierte Material weitergeben (auch in ver\'e4nderter Form), m\'fcssen Sie:\par
+            die folgenden Angaben beibehalten, soweit sie vom Lizenzgeber dem lizenzierten Material beigef\'fcgt wurden:\par
+                die Bezeichnung der/des Ersteller(s) des lizenzierten Materials und anderer, die f\'fcr eine Namensnennung vorgesehen sind (auch durch Pseudonym, falls angegeben), in jeder durch den Lizenzgeber verlangten Form, die angemessen ist;\par
+                einen Copyright-Vermerk;\par
+                einen Hinweis auf die vorliegende Public License;\par
+                einen Hinweis auf den Haftungsausschluss;\par
+                soweit vern\'fcnftigerweise praktikabel einen URI oder Hyperlink zum lizenzierten Material;\par
+            angeben, falls Sie das lizenzierte Material ver\'e4ndert haben, und alle vorherigen \'c4nderungsangaben beibehalten; und\par
+            angeben, dass das lizenzierte Material unter der vorliegenden Public License steht, und deren Text oder URI oder einen Hyperlink darauf beif\'fcgen.\par
+        Sie d\'fcrfen die Bedingungen des Abschnitts 3(a)(1) in jeder angemessenen Form erf\'fcllen, je nach Medium, Mittel und Kontext in bzw. mit dem Sie das lizenzierte Material weitergeben. Es kann zum Beispiel angemessen sein, die Bedingungen durch Angabe eines URI oder Hyperlinks auf eine Quelle zu erf\'fcllen, die die erforderlichen Informationen enth\'e4lt.\par
+        Falls der Lizenzgeber es verlangt, m\'fcssen Sie die gem\'e4\'df Abschnitt 3(a)(1)(A) erforderlichen Informationen entfernen, soweit dies vern\'fcnftigerweise praktikabel ist.\par
+    Share Alike\par
+\par
+    Zus\'e4tzlich zu den Bedingungen in Abschnitt 3(a) gelten die folgenden Bedingungen, falls Sie abgewandeltes Material weitergeben, welches Sie selbst erstellt haben.\par
+        Die Abwandlungslizenz, die Sie vergeben, muss eine Creative-Commons-Lizenz der vorliegenden oder einer sp\'e4teren Version mit den gleichen Lizenzelementen oder eine BY-NC-SA-kompatible Lizenz sein.\par
+        Sie m\'fcssen den Text oder einen URI oder Hyperlink auf die von Ihnen gew\'e4hlte Abwandlungslizenz beif\'fcgen. Diese Bedingung d\'fcrfen Sie in jeder angemessenen Form erf\'fcllen, je nach Medium, Mittel und Kontext in bzw. mit dem Sie abgewandeltes Material weitergeben.\par
+        Sie d\'fcrfen keine zus\'e4tzlichen oder abweichenden Bedingungen anbieten oder das abgewandelte Material mit solchen belegen oder darauf wirksame technische Ma\'dfnahmen anwenden, sofern dadurch die Aus\'fcbung der Rechte am abgewandelten Material eingeschr\'e4nkt wird, die Sie unter der Abwandlungslizenz gew\'e4hren.\par
+\par
+Abschnitt 4 - Sui-generis-Datenbankrechte\par
+\par
+Soweit die lizenzierten Rechte Sui-generis-Datenbankrechte beinhalten, die auf Ihre Nutzung des lizenzierten Materials Anwendung finden, gilt:\par
+\par
+    es sei klargestellt, dass Abschnitt 2(a)(1) Ihnen lediglich zu nicht kommerziellen Zwecken das Recht gew\'e4hrt, die gesamten Inhalte der Datenbank oder wesentliche Teile davon zu entnehmen, weiterzuverwenden, zu vervielf\'e4ltigen und weiterzugeben;\par
+    sofern Sie alle Inhalte der Datenbank oder wesentliche Teile davon in eine Datenbank aufnehmen, an der Sie Sui-generis-Datenbankrechte haben, dann gilt die Datenbank, an der Sie Sui-generis-Datenbankrechte haben (aber nicht ihre einzelnen Inhalte) als abgewandeltes Material, insbesondere in Bezug auf Abschnitt 3(b); und\par
+    Sie m\'fcssen die Bedingungen des Abschnitts 3(a) einhalten, wenn sie alle Datenbankinhalte oder wesentliche Teile davon weitergeben.\par
+\par
+Es sei ferner klargestellt, dass dieser Abschnitt 4 Ihre Verpflichtungen aus der vorliegenden Public License nur erg\'e4nzt und nicht ersetzt, soweit die lizenzierten Rechte andere Urheberrechte oder \'e4hnliche Rechte enthalten.\par
+\par
+Abschnitt 5 - Gew\'e4hrleistungsausschluss und Haftungsbeschr\'e4nkung\par
+\par
+    Sofern der Lizenzgeber nicht separat anderes erkl\'e4rt und so weit wie m\'f6glich, bietet der Lizenzgeber das lizenzierte Material so wie es ist und verf\'fcgbar ist an und sagt in Bezug auf das lizenzierte Material keine bestimmten Eigenschaften zu, weder ausdr\'fccklich noch konkludent oder anderweitig, und schlie\'dft jegliche Gew\'e4hrleistung aus, einschlie\'dflich der gesetzlichen. Dies umfasst insbesondere das Freisein von Rechtsm\'e4ngeln, Verkehrsf\'e4higkeit, Eignung f\'fcr einen bestimmten Zweck, Wahrung der Rechte Dritter, Freisein von (auch verdeckten) Sachm\'e4ngeln, Richtigkeit und das Vorliegen oder Nichtvorliegen von Irrt\'fcmern, gleichviel ob sie bekannt, unbekannt oder erkennbar sind. Dort, wo Gew\'e4hrleistungsausschl\'fcsse ganz oder teilweise unzul\'e4ssig sind, gilt der vorliegende Ausschluss m\'f6glicherweise f\'fcr Sie nicht.\par
+    Soweit wie m\'f6glich, haftet der Lizenzgeber Ihnen gegen\'fcber nach keinem rechtlichen Konstrukt (einschlie\'dflich insbesondere Fahrl\'e4ssigkeit) oder anderweitig f\'fcr irgendwelche direkten, speziellen, indirekten, zuf\'e4lligen, Folge-, Straf- exemplarischen oder anderen Verluste, Kosten, Aufwendungen oder Sch\'e4den, die sich aus der vorliegenden Public License oder der Nutzung des lizenzierten Materials ergeben, selbst wenn der Lizenzgeber auf die M\'f6glichkeit solcher Verluste, Kosten, Aufwendungen oder Sch\'e4den hingewiesen wurde. Dort, wo Haftungsbeschr\'e4nkungen ganz oder teilweise unzul\'e4ssig sind, gilt die vorliegende Beschr\'e4nkung m\'f6glicherweise f\'fcr Sie nicht.\par
+\par
+    Der Gew\'e4hrleistungsausschluss und die Haftungsbeschr\'e4nkung oben sollen so ausgelegt werden, dass sie soweit wie m\'f6glich einem absoluten Haftungs- und Gew\'e4hrleistungsausschluss nahe kommen.\par
+\par
+Abschnitt 6 - Laufzeit und Beendigung\par
+\par
+    Die vorliegende Public License gilt bis zum Ablauf der Schutzfrist des Urheberrechts und der \'e4hnlichen Rechte, die hiermit lizenziert werden. Gleichwohl erl\'f6schen Ihre Rechte aus dieser Public License automatisch, wenn Sie die Bestimmungen dieser Public License nicht einhalten.\par
+\par
+    Soweit Ihr Recht, das lizenzierte Material zu nutzen, gem\'e4\'df Abschnitt 6(a) erloschen ist, lebt es wieder auf:\par
+        automatisch zu dem Zeitpunkt, an welchem die Verletzung abgestellt ist, sofern dies innerhalb von 30 Tagen seit Ihrer Kenntnis der Verletzung geschieht; oder\par
+        durch ausdr\'fcckliche Wiedereinsetzung durch den Lizenzgeber.\par
+    Es sei klargestellt, dass dieser Abschnitt 6(b) die Rechte des Lizenzgebers, Ausgleich f\'fcr Ihre Verletzung der vorliegenden Public License zu verlangen, nicht einschr\'e4nkt.\par
+    Es sei klargestellt, dass der Lizenzgeber das lizenzierte Material auch unter anderen Bedingungen anbieten oder den Vertrieb des lizenzierten Materials jederzeit einstellen darf; gleichwohl erlischt dadurch die vorliegende Public License nicht.\par
+    Die Abschnitte 1, 5, 6, 7 und 8 gelten auch nach Erl\'f6schen der vorliegenden Public License fort.\par
+\par
+Abschnitt 7 - Sonstige Bedingungen\par
+\par
+    Der Lizenzgeber ist nicht an durch Sie gestellte zus\'e4tzliche oder abweichende Bedingungen gebunden, wenn diese nicht ausdr\'fccklich vereinbart wurden.\par
+    Jedwede das lizenzierte Material betreffenden und hier nicht genannten Umst\'e4nde, Annahmen oder Vereinbarungen sind getrennt und unabh\'e4ngig von den Bedingungen der vorliegenden Public License.\par
+\par
+Abschnitt 8 - Auslegung\par
+\par
+    Es sei klargestellt, dass die vorliegende Public License weder besagen noch dahingehend ausgelegt werden soll, dass sie solche Nutzungen des lizenzierten Materials verringert, begrenzt, einschr\'e4nkt oder mit Bedingungen belegt, die ohne eine Erlaubnis aus dieser Public License zul\'e4ssig sind.\par
+    Soweit wie m\'f6glich soll, falls eine Klausel der vorliegenden Public License als nicht durchsetzbar anzusehen ist, diese Klausel automatisch im geringst erforderlichen Ma\'dfe angepasst werden, um sie durchsetzbar zu machen. Falls die Klausel nicht anpassbar ist, soll sie von der vorliegenden Public License abgeschieden werden, ohne dass die Durchsetzbarkeit der verbleibenden Bedingungen tangiert wird.\par
+    Auf keine Bedingung der vorliegenden Public License wird verzichtet und kein Versto\'df dagegen soll als hingenommen gelten, au\'dfer der Lizenzgeber hat sich damit ausdr\'fccklich einverstanden erkl\'e4rt.\par
+    Nichts in der vorliegenden Public License soll zu einer Beschr\'e4nkung oder Aufhebung von Privilegien und Immunit\'e4ten f\'fchren, die dem Lizenzgeber oder Ihnen insbesondere aufgrund rechtlicher Regelungen irgendeiner Rechtsordnung oder Rechtsposition zustehen, oder dahingehend interpretiert werden.\par
+}
+ [Licence_End]
+[Registry]
+[Variables]
+[SCs]
+Startmenu
+HowToBeAHelper
+<InstallPath>\HowToBeAHelper.exe
+
+<InstallPath>\icon.ico
+0
+Desktop
+HowToBeAHelper
+<InstallPath>\HowToBeAHelper.exe
+
+<InstallPath>\icon.ico
+0
+[IFP_End]
+[Serials]
+[Serials_End]
+[Commands]

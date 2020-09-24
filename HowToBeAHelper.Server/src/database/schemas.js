@@ -28,16 +28,38 @@ const characterSchema = new mongoose.Schema({
 });
 const Character = mongoose.model('Character', characterSchema);
 
+const sessionUserSchema = new mongoose.Schema({
+    user: String,
+    userName: String,
+    session: String,
+    sessionName: String,
+    isPlayer: Boolean,
+    character: Character.schema
+});
+const SessionUser = mongoose.model('SessionUser', sessionUserSchema);
+
+const sessionSchema = new mongoose.Schema({
+    hostName: String,
+    uuid: String,
+    name: String,
+    password: String,
+    players: [{type: mongoose.Schema.Types.ObjectId, ref: 'SessionUser'}]
+});
+const Session = mongoose.model('Session', sessionSchema);
+
 const userSchema = new mongoose.Schema({
     uuid: String,
     name: String,
     password: String,
-    characters: [Character.schema]
+    characters: [Character.schema],
+    sessions: [{type: mongoose.Schema.Types.ObjectId, ref: 'SessionUser'}]
 });
 const User = mongoose.model('User', userSchema);
 
 module.exports = {
     Skill,
     Character,
-    User
+    User,
+    SessionUser,
+    Session
 };

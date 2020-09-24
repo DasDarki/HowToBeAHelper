@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net46</TargetFramework>
     <AssemblyName>HowToBeAHelper.Library</AssemblyName>
     <RootNamespace>HowToBeAHelper</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

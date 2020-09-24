@@ -6,7 +6,7 @@
       <Value Profile="(Default)">How to be a Helper (c) 2020 DasDarki</Value>
     </Setting>
     <Setting Name="MasterUrl" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://localhost:1337/</Value>
+      <Value Profile="(Default)">http://open.eternitylife.de:14749/</Value>
     </Setting>
   </Settings>
 </SettingsFile>

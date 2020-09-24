@@ -11,7 +11,7 @@ database.start(() => {
     function multicastLogin(exceptionId, username, callback) {
         for (let socketId in io.sockets.sockets) {
             let socket = io.sockets.sockets[socketId];
-            if (exceptionId == socket.id) continue;
+            if (exceptionId && exceptionId == socket.id) continue;
             if (socket.loginName == username) {
                 callback(socket);
             }
@@ -23,6 +23,63 @@ database.start(() => {
             database.createUser(name, password, status => {
                 socket.emit("user:register:result", status);
             });
+        });
+        socket.on("session:request", function (sessionId, fn) {
+            database.requestSessionData(sessionId, fn);
+        });
+        socket.on("session:close", function (sessionId, fn) {
+            database.closeSession(sessionId, (success, userName) => {
+                if (success) {
+                    multicastLogin(socket.id, userName, other => {
+                        other.emit("session:closed", sessionId);
+                    });
+                    fn(true);
+                } else {
+                    fn(false);
+                }
+            });
+        });
+        socket.on("session:kick-player", function (sessionId, playerId, fn) {
+            database.kickPlayer(sessionId, playerId, (success, userName) => {
+                if (success) {
+                    multicastLogin(socket.id, userName, other => {
+                        other.emit("session:kicked", sessionId);
+                    });
+                    fn(true);
+                } else {
+                    fn(false);
+                }
+            });
+        });
+        socket.on("session:sync-skills", function (sessionId, charId, json) {
+            database.updateSessionSkills(sessionId, charId, json, (hostName, playerName) => {
+                multicastLogin(socket.id, hostName, other => {
+                    other.emit("session:sync-skills", sessionId, json, charId);
+                });
+                multicastLogin(socket.id, playerName, other => {
+                    other.emit("session:sync-skills", sessionId, json, charId);
+                });
+            });
+        });
+        socket.on("session:sync-data", function (sessionId, username, charId, key, json) {
+            database.updateSessionCharacter(sessionId, username, charId, key, JSON.parse(json), (hostName, playerName) => {
+                multicastLogin(socket.id, hostName, other => {
+                    other.emit("session:sync-data", sessionId, key, json, charId);
+                });
+                multicastLogin(socket.id, playerName, other => {
+                    other.emit("session:sync-data", sessionId, key, json, charId);
+                });
+            });
+        });
+        socket.on("session:join", function (sessionId, sessionPassword, charId, fn) {
+            database.joinSession(socket.loginName, sessionId, sessionPassword, charId, fn, (hostName, sessionUid, json) => {
+                multicastLogin(null, hostName, other => {
+                    other.emit("session:sync-join", sessionUid, json);
+                });
+            });
+        });
+        socket.on("session:create", function (name, password, fn) {
+            database.createSession(socket.loginName, name, password, fn);
         });
         socket.on("character:skills", function (username, charId, json) {
             database.updateSkills(username, charId, json);
@@ -49,8 +106,8 @@ database.start(() => {
         socket.on("user:logout", function () {
             socket.loginName = null;
         });
-        socket.on("user:login", function (name, password, fn) {
-            database.loginUser(name, password, data => {
+        socket.on("user:login", async function (name, password, fn) {
+            await database.loginUser(name, password, data => {
                 if (data != "") {
                     socket.loginName = name;
                 }

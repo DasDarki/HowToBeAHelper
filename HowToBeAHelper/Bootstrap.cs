@@ -1,8 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using HowToBeAHelper.BuiltIn;
-using HowToBeAHelper.Model.Characters;
+using System.Web;
+using Microsoft.Win32;
+using Newtonsoft.Json;
+using WebSocketSharp;
 
 namespace HowToBeAHelper
 {
@@ -53,14 +58,27 @@ namespace HowToBeAHelper
         /// </summary>
         internal static CharacterManager CharacterManager { get; set; }
 
+        /// <summary>
+        /// The settings of the runtime.
+        /// </summary>
         internal static Settings Settings { get; set; }
+
+        /// <summary>
+        /// If set, the player will automatically try to join in the session when login.
+        /// </summary>
+        internal static string AutoJoinSession { get; set; } = "";
+
+        private const string UriScheme = "htbah";
+        private const string FriendlyName = "HowToBeAHelper";
 
         /// <summary>
         /// Initializes the app, creates the structure, checks for updates and connects with the network.
         /// </summary>
         /// <returns>True if the app could be initialized successfully</returns>
-        internal static bool Init()
+        internal static bool Init(string[] args)
         {
+            RegisterUriScheme();
+            UpdateAutoSessionJoin(args);
             AppPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "";
             DataPath = CreateAppPath("data");
             TempPath = CreateAppPath("temp");
@@ -70,6 +88,55 @@ namespace HowToBeAHelper
             CharacterManager = new CharacterManager();
             IsAutomaticallyLoggedIn = Load(out StoredUsername, out StoredPassword);
             return true;
+        }
+
+        private static void UpdateAutoSessionJoin(string[] args)
+        {
+            if (args.Length <= 0) return;
+            string arg = args[0];
+            if (string.IsNullOrEmpty(arg)) return;
+            try
+            {
+                string[] parts = arg.Split('?');
+                string url = parts[0].Replace("htbah://", "");
+                if (url.ToLower().StartsWith("session"))
+                {
+                    NameValueCollection queries = HttpUtility.ParseQueryString(parts[1]);
+                    if (!queries.AllKeys.Contains("id")) return;
+                    string id = queries["id"];
+                    string pw = queries.AllKeys.Contains("pw") ? queries["pw"] : "";
+                    AutoJoinSession = JsonConvert.SerializeObject(new {id, pw});
+                }
+            }
+            catch
+            {
+                //Needs: Error handling
+            }
+        }
+
+        private static void RegisterUriScheme()
+        {
+            if (!Program.IsElevated()) return;
+            using (var key = Registry.CurrentUser.CreateSubKey("SOFTWARE\\Classes\\" + UriScheme))
+            {
+                string applicationLocation = typeof(Program).Assembly.Location;
+
+                if (key != null)
+                {
+                    key.SetValue("", "URL:" + FriendlyName);
+                    key.SetValue("URL Protocol", "");
+
+                    using (var defaultIcon = key.CreateSubKey("DefaultIcon"))
+                    {
+                        defaultIcon?.SetValue("", applicationLocation + ",1");
+                    }
+
+                    using (var commandKey = key.CreateSubKey(@"shell\open\command"))
+                    {
+                        commandKey?.SetValue("", "\"" + applicationLocation + "\" \"%1\"");
+                    }
+                }
+            }
         }
 
         private static bool Load(out string username, out string password)

@@ -24,6 +24,124 @@ namespace HowToBeAHelper
             _browser = _form.Browser;
         }
 
+        public void closeSession(string sessionId, IJavascriptCallback callback)
+        {
+            try
+            {
+                _form.Run(async () =>
+                {
+                    await _form.Master.CloseSession(sessionId, b =>
+                    {
+                        callback.ExecuteAsync(b);
+                    });
+                });
+            }
+            catch
+            {
+                //Ignore: Need handling
+            }
+        }
+
+        public void kickPlayer(string sessionId, string userId, IJavascriptCallback callback)
+        {
+            try
+            {
+                _form.Run(async () =>
+                {
+                    await _form.Master.KickPlayer(sessionId, userId, b =>
+                    {
+                        callback.ExecuteAsync(b);
+                    });
+                });
+            }
+            catch
+            {
+                //Ignore: Need handling
+            }
+        }
+
+        public void syncSessionSkills(string sessionId, string charId, string json)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(charId))
+                {
+                    return;
+                }
+
+                _form.Run(async () =>
+                {
+                    await _form.Master.SyncSessionSkills(sessionId, charId, json);
+                });
+            }
+            catch
+            {
+                //Ignore: Need handling
+            }
+        }
+
+        public void syncSessionCharData(string sessionId, string username, string charId, string key, string json)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(username))
+                {
+                    return;
+                }
+
+                _form.Run(async () =>
+                {
+                    await _form.Master.SyncSessionCharData(sessionId, username, charId, key, json);
+                });
+            }
+            catch
+            {
+                //Ignore: Need handling
+            }
+        }
+
+        public void joinSession(string sessionId, string sessionPassword, string charId, IJavascriptCallback callback)
+        {
+            try
+            {
+                _form.Run(async () =>
+                {
+                    await _form.Master.JoinSession(sessionId, sessionPassword, charId, newSession =>
+                    {
+                        callback.ExecuteAsync(newSession);
+                    });
+                });
+            }
+            catch
+            {
+                callback.ExecuteAsync("");
+            }
+        }
+
+        public void createSession(string name, string password, IJavascriptCallback callback)
+        {
+            try
+            {
+                _form.Run(async () =>
+                {
+                    await _form.Master.CreateSession(name, password, newSession =>
+                    {
+                        callback.ExecuteAsync(newSession);
+                    });
+                });
+                
+            }
+            catch
+            {
+                callback.ExecuteAsync("");
+            }
+        }
+
+        public void showDevtools()
+        {
+            _browser.ShowDevTools();
+        }
+
         public void updateSettingsBool(string key, bool val)
         {
             try
@@ -31,6 +149,7 @@ namespace HowToBeAHelper
                 switch (key)
                 {
                     case "autostart":
+                        if (!Program.IsElevated()) return;
                         Bootstrap.Settings.AutoStart = val;
                         using (RegistryKey regKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true))
                         {

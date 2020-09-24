@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using CefSharp;
 using HowToBeAHelper.Model.Characters;
-using HowToBeAHelper.Properties;
 using SocketIOClient;
 
 namespace HowToBeAHelper.Net
@@ -39,12 +38,27 @@ namespace HowToBeAHelper.Net
                 string key = response.GetValue<string>(1);
                 string json = response.GetValue<string>(2);
                 MainForm.Instance.Browser.ExecuteScriptAsync($"applyCharDataSync(`{charId}`, `{key}`, `{json}`)");
+            }); 
+            _client.On("session:sync-data", response =>
+            {
+                string sessionId = response.GetValue<string>();
+                string key = response.GetValue<string>(1);
+                string json = response.GetValue<string>(2);
+                string charId = response.GetValue<string>(3);
+                MainForm.Instance.Browser.ExecuteScriptAsync($"applySessionCharDataSync(`{sessionId}`, `{key}`, `{json}`, `{charId}`)");
             });
             _client.On("character:sync-skills", response =>
             {
                 string charId = response.GetValue<string>();
                 string json = response.GetValue<string>(1);
                 MainForm.Instance.Browser.ExecuteScriptAsync($"applyCharSkillsSync(`{charId}`, `{json}`)");
+            });
+            _client.On("session:sync-skills", response =>
+            {
+                string sessionId = response.GetValue<string>();
+                string json = response.GetValue<string>(1);
+                string charId = response.GetValue<string>(2);
+                MainForm.Instance.Browser.ExecuteScriptAsync($"applySessionCharSkillsSync(`{sessionId}`, `{json}`, `{charId}`)");
             });
             _client.On("character:sync-delete", response =>
             {
@@ -55,6 +69,22 @@ namespace HowToBeAHelper.Net
             {
                 string json = response.GetValue<string>();
                 MainForm.Instance.Browser.ExecuteScriptAsync($"applyCharCreationSync(`{json}`)");
+            });
+            _client.On("session:sync-join", response =>
+            {
+                string sessionId = response.GetValue<string>();
+                string json = response.GetValue<string>(1);
+                MainForm.Instance.Browser.ExecuteScriptAsync($"applySessionJoinSync(`{sessionId}`, `{json}`)");
+            });
+            _client.On("session:kicked", response =>
+            {
+                string sessionId = response.GetValue<string>();
+                MainForm.Instance.Browser.ExecuteScriptAsync($"applySessionKick(`{sessionId}`)");
+            });
+            _client.On("session:closed", response =>
+            {
+                string sessionId = response.GetValue<string>();
+                MainForm.Instance.Browser.ExecuteScriptAsync($"applySessionKick(`{sessionId}`)");
             });
         }
 
@@ -202,6 +232,99 @@ namespace HowToBeAHelper.Net
             {
                 callback(response.GetValue<string>());
             }, username);
+        }
+
+        /// <summary>
+        /// Requests a session creation with the given arguments.
+        /// </summary>
+        /// <param name="name">The name of the session game</param>
+        /// <param name="password">The password of the session - if given</param>
+        /// <param name="callback">The callback which gets called after acknowledgement</param>
+        internal async Task CreateSession(string name, string password, Action<string> callback)
+        {
+            await _client.EmitAsync("session:create", response =>
+            {
+                callback(response.GetValue<string>());
+            }, name, password);
+        }
+
+        /// <summary>
+        /// Requests a session join with the given arguments.
+        /// </summary>
+        /// <param name="sessionId">The id of the session</param>
+        /// <param name="sessionPassword">The password of the session - if given</param>
+        /// <param name="charId">The character for the session</param>
+        /// <param name="callback">The callback which gets called after acknowledgement</param>
+        internal async Task JoinSession(string sessionId, string sessionPassword, string charId, Action<string> callback)
+        {
+            await _client.EmitAsync("session:join", response =>
+            {
+                callback(response.GetValue<string>());
+            }, sessionId, sessionPassword, charId);
+        }
+
+        /// <summary>
+        /// Requests a session data with the given arguments.
+        /// </summary>
+        /// <param name="sessionId">The id of the session</param>
+        /// <param name="callback">The callback which gets called after acknowledgement</param>
+        internal async Task RequestSession(string sessionId, Action<string> callback)
+        {
+            await _client.EmitAsync("session:request", response =>
+            {
+                callback(response.GetValue<string>());
+            }, sessionId);
+        }
+
+        /// <summary>
+        /// Syncs the char data with the session.
+        /// </summary>
+        /// <param name="sessionId">The id of the session</param>
+        /// <param name="username">The name of the user</param>
+        /// <param name="charId">The char id which gets synced</param>
+        /// <param name="key">The key of the property</param>
+        /// <param name="json">The value which gets synced</param>
+        internal async Task SyncSessionCharData(string sessionId, string username, string charId, string key, string json)
+        {
+            await _client.EmitAsync("session:sync-data", sessionId, username, charId, key, json);
+        }
+
+        /// <summary>
+        /// Syncs the skills data with the session.
+        /// </summary>
+        /// <param name="sessionId">The id of the session</param>
+        /// <param name="charId">The char id which gets synced</param>
+        /// <param name="json">The value which gets synced</param>
+        internal async Task SyncSessionSkills(string sessionId, string charId, string json)
+        {
+            await _client.EmitAsync("session:sync-skills", sessionId, charId, json);
+        }
+
+        /// <summary>
+        /// Kicks the player from the session.
+        /// </summary>
+        /// <param name="sessionId">The id of the session</param>
+        /// <param name="playerId">The id of the player from the session</param>
+        /// <param name="callback">The callback which gets called after acknowledgement</param>
+        internal async Task KickPlayer(string sessionId, string playerId, Action<bool> callback)
+        {
+            await _client.EmitAsync("session:kick-player", response =>
+            {
+                callback(response.GetValue<bool>());
+            }, sessionId, playerId);
+        }
+
+        /// <summary>
+        /// Kicks the player from the session.
+        /// </summary>
+        /// <param name="sessionId">The id of the session</param>
+        /// <param name="callback">The callback which gets called after acknowledgement</param>
+        internal async Task CloseSession(string sessionId, Action<bool> callback)
+        {
+            await _client.EmitAsync("session:close", response =>
+            {
+                callback(response.GetValue<bool>());
+            }, sessionId);
         }
     }
 }

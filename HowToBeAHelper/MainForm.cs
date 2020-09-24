@@ -39,12 +39,14 @@ namespace HowToBeAHelper
             };
             Browser.ExecuteScriptAsyncWhenPageLoaded(
                 $"emitLocalCharacters(`{JsonConvert.SerializeObject(Bootstrap.CharacterManager.Characters)}`)");
+            Browser.ExecuteScriptAsyncWhenPageLoaded($"applyAutoSessionJoin(`{Bootstrap.AutoJoinSession}`)");
             Browser.ExecuteScriptAsyncWhenPageLoaded($"setSettings(`{JsonConvert.SerializeObject(Bootstrap.Settings)}`)");
             Browser.ExecuteScriptAsyncWhenPageLoaded($"applyChangelog(`{Updater.Changelog.Version}`, `{Updater.Changelog.Summary}`, `{Updater.Changelog.Content}`, `{Updater.Changelog.Author.TrimEnd()}`, `{Updater.Changelog.Date.TrimEnd()}`)");
             Browser.JavascriptObjectRepository.Register("bridge", Bridge = new FrontendBridge(this), false,
                 BindingOptions.DefaultBinder);
             Controls.Add(Browser);
             Browser.Dock = DockStyle.Fill;
+            Browser.MenuHandler = new HiddenMenuHandler();
             Browser.FrameLoadEnd += (sender, args) =>
             {
                 if (args.Frame.IsMain)
@@ -127,7 +129,7 @@ namespace HowToBeAHelper
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            if (WindowState == FormWindowState.Minimized)
+            if (WindowState == FormWindowState.Minimized && Bootstrap.Settings.MinimizeToTray)
             {
                 Hide();
                 trayIcon.Visible = true;
@@ -139,6 +141,31 @@ namespace HowToBeAHelper
             Show();
             WindowState = FormWindowState.Normal;
             trayIcon.Visible = false;
+        }
+
+        internal class HiddenMenuHandler : IContextMenuHandler
+        {
+            public void OnBeforeContextMenu(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters,
+                IMenuModel model)
+            {
+                
+            }
+
+            public bool OnContextMenuCommand(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters,
+                CefMenuCommand commandId, CefEventFlags eventFlags)
+            {
+                return true;
+            }
+
+            public void OnContextMenuDismissed(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame)
+            {
+            }
+
+            public bool RunContextMenu(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters,
+                IMenuModel model, IRunContextMenuCallback callback)
+            {
+                return true;
+            }
         }
     }
 }

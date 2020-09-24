@@ -25,6 +25,7 @@
             position: absolute;
             top: 0;
             left: 0;
+            z-index: 100000;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.4);
@@ -118,6 +119,12 @@
                     <li><a class="page-switch" data-page="settings">Einstellungen</a></li>
                     <li><a class="page-switch" data-page="about">Über das Tool</a></li>
                 </ul>
+                <p class="menu-label" id="sessions-list-title">
+                    Sessions <a class="tag is-primary" id="sessions-list-actions">+</a>
+                </p>
+                <ul class="menu-list" id="sessions-list">
+
+                </ul>
                 <p class="menu-label">
                     Plugins
                 </p>
@@ -127,6 +134,82 @@
             </aside>
         </div>
         <div class="column is-9" style="padding-top: 25px">
+            <div id="page-sessions-actions" class="container" style="display: none">
+                <div class="columns is-centered">
+                    <div class="column is-6">
+                        <div class="card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    Einer Session beitreten
+                                </p>
+                            </header>
+                            <div class="card-content">
+                                <div class="field">
+                                    <label class="label">Session-ID:</label>
+                                    <div class="control has-icons-left has-icons-right">
+                                        <input class="input" type="text" placeholder="Session-ID eingeben"
+                                               id="session-join-id" required>
+                                        <span class="icon is-small is-left">
+                                          <i class="fas fa-key"></i>
+                                        </span>
+                                    </div>
+                                    <p class="help is-danger" id="session-join-id-fail" style="display: none">Eine
+                                        Session mit dieser ID existiert nicht!</p>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Passwort:</label>
+                                    <div class="control has-icons-left has-icons-right">
+                                        <input class="input" type="password" placeholder="Passwort eingeben"
+                                               id="session-join-password" required>
+                                        <span class="icon is-small is-left">
+                                          <i class="fas fa-lock"></i>
+                                        </span>
+                                    </div>
+                                    <p class="help is-danger" id="session-join-password-fail" style="display: none">Das
+                                        Session-Passwort ist falsch!</p>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <a href="#" class="card-footer-item" id="session-join" onclick="joinSession()">Session
+                                    beitreten</a>
+                            </footer>
+                        </div>
+                        <div class="card" style="margin-top: 25px">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    Eine Session erstellen
+                                </p>
+                            </header>
+                            <div class="card-content">
+                                <div class="field">
+                                    <label class="label">Spiel-Name:</label>
+                                    <div class="control has-icons-left has-icons-right">
+                                        <input class="input" type="text" placeholder="Spiel-Name eingeben"
+                                               id="session-create-name" required>
+                                        <span class="icon is-small is-left">
+                                          <i class="fas fa-key"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Passwort:</label>
+                                    <div class="control has-icons-left has-icons-right">
+                                        <input class="input" type="password" placeholder="Passwort eingeben"
+                                               id="session-create-password" required>
+                                        <span class="icon is-small is-left">
+                                          <i class="fas fa-lock"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <footer class="card-footer">
+                                <a href="#" class="card-footer-item" id="session-create" onclick="createSession()">Session
+                                    erstellen</a>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="page-register" class="container" style="display: none">
                 <div class="columns is-centered">
                     <div class="column is-6">
@@ -428,6 +511,14 @@
                                                             <input class="input" type="number" value="400"
                                                                    placeholder="" readonly
                                                                    id="editor-points-left">
+                                                        </div>
+                                                    </div>
+                                                    <div class="field">
+                                                        <label class="label">Punkte aktualisieren:</label>
+                                                        <div class="control">
+                                                            <button class="button is-warning"
+                                                                    id="editor-points-refresh">Forcieren
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1383,6 +1474,7 @@
                             </div>
                             <footer class="card-footer">
                                 <a href="#" class="card-footer-item" onclick="finishCharacter()">Charakter erstellen</a>
+                                <a href="#" class="card-footer-item" onclick="resetCharEditor()" style="color: red">Zurücksetzen</a>
                             </footer>
                         </div>
                     </div>
@@ -1836,7 +1928,7 @@
                                                 </div>
                                             </div>
                                             <div class="field" style="max-width: 280px">
-                                                <label class="label">Handeln: <i id="viewer-knowledgeSkills-bonus">0</i>
+                                                <label class="label">Wissen: <i id="viewer-knowledgeSkills-bonus">0</i>
                                                     (<i
                                                             id="viewer-knowledgeSkills-brainstorm">0</i>)</label>
                                                 <div class="control">
@@ -2146,7 +2238,7 @@
                                                 </div>
                                             </div>
                                             <div class="field" style="max-width: 280px">
-                                                <label class="label">Handeln: <i id="viewer-socialSkills-bonus">0</i>
+                                                <label class="label">Soziales: <i id="viewer-socialSkills-bonus">0</i>
                                                     (<i
                                                             id="viewer-socialSkills-brainstorm">0</i>)</label>
                                                 <div class="control">
@@ -2472,7 +2564,8 @@
                             <footer class="card-footer">
                                 <a href="#" class="card-footer-item" onclick="exportCharacter()">Charakter
                                     exportieren</a>
-                                <a href="#" class="card-footer-item" onclick="deleteCharacter()" style="color: red">Charakter
+                                <a href="#" class="card-footer-item" id="viewer-delete-char" onclick="deleteCharacter()"
+                                   style="color: red">Charakter
                                     löschen</a>
                             </footer>
                         </div>
@@ -2536,6 +2629,31 @@
                                    style="color: red">Ausloggen</a>
                             </footer>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div id="page-session" style="display: none">
+                <div class="column">
+                    <div class="card events-card">
+                        <header class="card-header">
+                            <p class="card-header-title" id="session-title">
+
+                            </p>
+                            <button class="button is-success is-small" id="session-invite">Einladen</button>
+                        </header>
+                        <div class="card-table">
+                            <div class="content">
+                                <br>
+                                <table class="table is-fullwidth is-striped">
+                                    <tbody id="session-players">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <a href="#" class="card-footer-item" id="session-close" style="color: red">Session
+                                schließen</a>
+                        </footer>
                     </div>
                 </div>
             </div>
@@ -2763,6 +2881,36 @@
         </footer>
     </div>
 </div>
+<div class="modal" id="join-session-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Wähle deinen Charakter!</p>
+            <button class="delete" aria-label="close"
+                    onclick="$('#join-session-modal').removeClass('is-active')"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="columns is-fullwidth">
+                <div class="column">
+                    <div class="field">
+                        <div class="control">
+                            <div class="select is-fullwidth">
+                                <select id="join-session-characters">
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-success" id="join-session">Session beitreten</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
 <div id="loader" style="display: none">
     <div id="ld-holder">
         <div class="lds-ellipsis">
@@ -2776,6 +2924,258 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
+    let currentSession = null;
+    let joiningSessionId = null;
+    let joiningSessionPassword = null;
+    let joiningSessionCallback = null;
+
+    $('#session-invite').click(() => {
+        if (!currentSession) return;
+        Swal.fire({
+            title: 'Hier, zum Einladen:',
+            icon: 'info',
+            html: `Entweder ganz automatisch: <br><b>htbah://session/?id=${currentSession.session}&pw=${currentSession.sessionObj.password}</b><br>oder manuell:<br>ID: <b>${currentSession.session}</b><br>Passwort: <b>${currentSession.sessionObj.password}</b>`,
+            showCloseButton: true
+        });
+    });
+
+    $('#join-session').click(() => {
+        let charIdx = $('#join-session-characters').val();
+        if (charIdx == -1) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Warte!',
+                text: 'Du musst einen Charakter auswählen!',
+            });
+            return;
+        }
+        $('#loader').show();
+        bridge.joinSession(joiningSessionId, joiningSessionPassword, characters[charIdx].uuid, (newSession) => {
+            joiningSessionCallback(newSession);
+            joiningSessionCallback = null;
+            joiningSessionPassword = null;
+            joiningSessionId = null;
+            $('#session-join-id').val("");
+            $('#session-join-password').val("");
+            $('#join-session-modal').removeClass('is-active');
+            $('#loader').hide();
+        });
+    });
+
+    function createSession() {
+        $('#session-create-name').removeClass('is-danger');
+        let name = $('#session-create-name').val();
+        if (!name || name.trim().length <= 0) {
+            $('#session-create-name').addClass('is-danger');
+            return;
+        }
+        let password = $('#session-create-password').val() || "";
+        $('#loader').show();
+        bridge.createSession(name, password, newSession => {
+            if (newSession.trim().length > 0) {
+                $('#session-create-name').val("");
+                $('#session-create-password').val("");
+                let sessionData = JSON.parse(newSession.split('\\"').join('"'));
+                let session = sessionData[0];
+                session.sessionObj = sessionData[1];
+                sessions.push(session);
+                appendSession(session, sessions.length - 1);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Viel Spaß!',
+                    text: 'Deine Sesssion wurde angelegt!',
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Nop!',
+                    text: 'Leider konnten wir keine Session für dich anlegen!',
+                });
+            }
+            $('#loader').hide();
+        });
+    }
+
+    function joinSession() {
+        $('#session-join-id').removeClass('is-danger');
+        let sessionId = $('#session-join-id').val();
+        if (!sessionId || sessionId.trim().length <= 0) {
+            $('#session-join-id').addClass('is-danger');
+            return;
+        }
+        let sessionPassword = $('#session-join-password').val();
+        joinSpecificSession(sessionId, sessionPassword);
+    }
+
+    function joinSpecificSession(sessionId, sessionPassword) {
+        joiningSessionId = sessionId;
+        joiningSessionPassword = sessionPassword;
+        joiningSessionCallback = (newSession) => {
+            if (!newSession || newSession.trim().length <= 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Die magische Barriere ist zu stark!',
+                    text: 'Leider konntest du der Session nicht beitreten!',
+                });
+            } else {
+                let session = JSON.parse(newSession.split('\\"').join('"'));
+                sessions.push(session);
+                appendSession(session, sessions.length - 1);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Eingetreten!',
+                    text: 'Du bist nun in der Welt von "' + session.sessionName + '"',
+                });
+            }
+        };
+        $('#join-session-characters').html("");
+        $('#join-session-characters').append(`<option value="-1">(Charakter auswählen)</option>`);
+        for (let i = 0; i < characters.length; i++) {
+            $('#join-session-characters').append(`<option value="${i}">${characters[i].name}</option>`)
+        }
+        $('#join-session-modal').addClass('is-active');
+    }
+
+    function appendSessionPlayer(sessionIdx, i) {
+        if (!currentSession) return;
+        let player = currentSession.sessionObj.players[i];
+        if (!player.isPlayer) return;
+        $('#session-players').append(`<tr>
+                    <td width="5%"><i class="fas fa-users-cog"></i></td>
+                    <td>${player.userName}</td>
+                    <td class="level-right">
+                        <a class="button is-small is-success" href="#" onclick="selectSessionPlayer(${i})">Ansehen</a>
+                        <button class="button is-small is-danger" onclick="kickPlayer(${sessionIdx}, ${i})">Kicken</button>
+                    </td>
+                </tr>`);
+    }
+
+    $('#session-close').click(() => {
+        if (!currentSession) return;
+        Swal.fire({
+            title: 'Wirklich?!',
+            text: "Bist du dir sicher, dass du die Session " + currentSession.name + " löschen willst?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#62d630',
+            cancelButtonText: 'Huch, NEIN!',
+            confirmButtonText: 'Ja, will ich!'
+        }).then(result => {
+            if (result.isConfirmed) {
+                $('#loader').show();
+                bridge.closeSession(currentSession.session, success => {
+                    if (success) {
+                        applySessionKick(currentSession.session);
+                        $('#loader').hide();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Es ist weg...',
+                            text: `Die Session wurde gelöscht!`,
+                        });
+                    } else {
+                        $('#loader').hide();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Huch?',
+                            text: `Leider konnten wir sie nicht entfernen!`,
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    function kickPlayer(sessionIdx, i) {
+        if (!currentSession) return;
+        let player = currentSession.sessionObj.players[i];
+        Swal.fire({
+            title: 'Wirklich?!',
+            text: "Bist du dir sicher, dass du " + player.userName + " herauswerfen willst?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#62d630',
+            cancelButtonText: 'Huch, NEIN!',
+            confirmButtonText: 'Ja, will ich!'
+        }).then(result => {
+            if (result.isConfirmed) {
+                $('#loader').show();
+                let playerId = player.user;
+                bridge.kickPlayer(currentSession.session, playerId, success => {
+                    if (success) {
+                        let idx = -1;
+                        for (let i = 0; i < currentSession.sessionObj.players.length; i++) {
+                            if (currentSession.sessionObj.players[i].user == playerId) {
+                                idx = i;
+                                break;
+                            }
+                        }
+                        if (idx != -1) {
+                            currentSession.sessionObj.players.splice(idx, 1);
+                            selectSession(sessionIdx);
+                        }
+                        $('#loader').hide();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Er ist weg...',
+                            text: `Der Spieler wurde erfolgreich entfernt!`,
+                        });
+                    } else {
+                        $('#loader').hide();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Huch?',
+                            text: `Leider konnten wir ihn nicht entfernen!`,
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    function selectSessionPlayer(i) {
+        if (!currentSession) return;
+        let player = currentSession.sessionObj.players[i];
+        selectCharacter(player.character, true, -1001);
+    }
+
+    function selectSession(idx) {
+        deselectCurrentPage();
+        let session = sessions[idx];
+        currentSession = session;
+        let q;
+        if (session.isPlayer) {
+            q = $('#page-char-viewer');
+            selectCharacter(session.character, true, -1001);
+        } else {
+            $('#session-title').html(session.sessionName);
+            $('#session-players').html("");
+            for (let i = 0; i < session.sessionObj.players.length; i++) {
+                appendSessionPlayer(idx, i);
+            }
+            q = $('#page-session');
+        }
+        q.show();
+        let s = $('#session-switch-' + session.session);
+        s.addClass('is-active');
+        currentPage = {
+            content: q,
+            switch: s
+        };
+    }
+
+    $('#sessions-list-actions').click(() => {
+        deselectCurrentPage();
+        let q = $('#page-sessions-actions');
+        q.show();
+        currentPage = {
+            content: q,
+            switch: null
+        };
+    });
+</script>
+<script>
     let selectedCharacter = null;
     let selectedCharIdx = 0;
     let localSelected = false;
@@ -2783,6 +3183,7 @@
     let tabControllers = {};
     let complexLevelXp = 0;
     let complexReskillXp = 0;
+    let isSessionView = false;
 
     function addSkill(slot, name, xp, startVal) {
         if (!name || name.trim().length <= 0) {
@@ -2808,7 +3209,15 @@
             fillAllLevelSkills();
             fillCharSkillsInView(type);
             $('#level-simple-add-name').val("");
-            if (localSelected) {
+            if (isSessionView) {
+                bridge.syncSessionCharData(currentSession.session, loginName, selectedCharacter.uuid, "xp", JSON.stringify(selectedCharacter.xp));
+                bridge.syncSessionSkills(currentSession.session, selectedCharacter.uuid, JSON.stringify([{
+                    type: type,
+                    name: skill.name,
+                    idx: idx,
+                    val: skill.value
+                }]));
+            } else if (localSelected) {
                 bridge.syncCharDataLocally(JSON.stringify(selectedCharacter));
             } else {
                 bridge.syncCharData(loginName, selectedCharacter.uuid, "xp", JSON.stringify(selectedCharacter.xp));
@@ -2870,7 +3279,20 @@
             destSkill.value += 10;
             fillCharSkillsInView(srcType);
             calculateReskillXp($('#level-complex-reskill-src').val(), $('#level-complex-reskill-dest').val());
-            if (localSelected) {
+            if (isSessionView) {
+                bridge.syncSessionCharData(currentSession.session, loginName, selectedCharacter.uuid, "xp", JSON.stringify(selectedCharacter.xp));
+                bridge.syncSessionSkills(currentSession.session, selectedCharacter.uuid, JSON.stringify([{
+                    type: srcType,
+                    name: srcSkill.name,
+                    idx: srcIdx,
+                    val: srcSkill.value
+                }, {
+                    type: destType,
+                    name: destSkill.name,
+                    idx: destIdx,
+                    val: destSkill.value
+                }]));
+            } else if (localSelected) {
                 bridge.syncCharDataLocally(JSON.stringify(selectedCharacter));
             } else {
                 bridge.syncCharData(loginName, selectedCharacter.uuid, "xp", JSON.stringify(selectedCharacter.xp));
@@ -2908,7 +3330,15 @@
             let skill = selectedCharacter[skillType][skillIdx];
             skill.value += raiseVal;
             fillCharSkillsInView(skillType);
-            if (localSelected) {
+            if (isSessionView) {
+                bridge.syncSessionCharData(currentSession.session, loginName, selectedCharacter.uuid, "xp", JSON.stringify(selectedCharacter.xp));
+                bridge.syncSessionSkills(currentSession.session, selectedCharacter.uuid, JSON.stringify([{
+                    type: skillType,
+                    name: skill.name,
+                    idx: skillIdx,
+                    val: skill.value
+                }]));
+            } else if (localSelected) {
                 bridge.syncCharDataLocally(JSON.stringify(selectedCharacter));
             } else {
                 bridge.syncCharData(loginName, selectedCharacter.uuid, "xp", JSON.stringify(selectedCharacter.xp));
@@ -3115,22 +3545,22 @@
         fillLevelSkills($('#level-simple-reskill-dest'), "socialSkills", "Soziales");
         $('#level-complex-reskill-src').html("");
         $('#level-complex-reskill-src').append(`<option value="-1">(Quell-Fertigkeit auswählen)</option>`);
-        fillLevelSkills($('#level-complex-reskill-src'), "actSkills", "Handlen");
+        fillLevelSkills($('#level-complex-reskill-src'), "actSkills", "Handeln");
         fillLevelSkills($('#level-complex-reskill-src'), "knowledgeSkills", "Wissen");
         fillLevelSkills($('#level-complex-reskill-src'), "socialSkills", "Soziales");
         $('#level-complex-reskill-dest').html("");
         $('#level-complex-reskill-dest').append(`<option value="-1">(Ziel-Fertigkeit auswählen)</option>`);
-        fillLevelSkills($('#level-complex-reskill-dest'), "actSkills", "Handlen");
+        fillLevelSkills($('#level-complex-reskill-dest'), "actSkills", "Handeln");
         fillLevelSkills($('#level-complex-reskill-dest'), "knowledgeSkills", "Wissen");
         fillLevelSkills($('#level-complex-reskill-dest'), "socialSkills", "Soziales");
         $('#level-simple-add-slots').html("");
         $('#level-simple-add-slots').append(`<option value="-1">(Fertigkeitenslot auswählen)</option>`);
-        fillFreeSkills($('#level-simple-add-slots'), "actSkills", "Handlen");
+        fillFreeSkills($('#level-simple-add-slots'), "actSkills", "Handeln");
         fillFreeSkills($('#level-simple-add-slots'), "knowledgeSkills", "Wissen");
         fillFreeSkills($('#level-simple-add-slots'), "socialSkills", "Soziales");
         $('#level-complex-add-slots').html("");
         $('#level-complex-add-slots').append(`<option value="-1">(Fertigkeitenslot auswählen)</option>`);
-        fillFreeSkills($('#level-complex-add-slots'), "actSkills", "Handlen");
+        fillFreeSkills($('#level-complex-add-slots'), "actSkills", "Handeln");
         fillFreeSkills($('#level-complex-add-slots'), "knowledgeSkills", "Wissen");
         fillFreeSkills($('#level-complex-add-slots'), "socialSkills", "Soziales");
     }
@@ -3162,6 +3592,7 @@
     }
 
     function deleteCharacter() {
+        if (!isSessionView) return;
         Swal.fire({
             title: 'Wirklich?!',
             text: "Bist du dir absolut sicher, dass du diesen Charakter löschen willst? Es kann nicht wieder rückgängig gemacht werden!",
@@ -3221,6 +3652,12 @@
     }
 
     function selectCharacter(character, isLocal, idx) {
+        isSessionView = idx == -1001;
+        if (isSessionView) {
+            $('#viewer-delete-char').hide();
+        } else {
+            $('#viewer-delete-char').show();
+        }
         selectedCharacter = character;
         localSelected = isLocal;
         selectedCharIdx = idx;
@@ -3282,10 +3719,14 @@
                 }
                 if (isNumber) val = parseIntSafely(val);
                 selectedCharacter[key] = val;
-                if (localSelected) {
+                if (isSessionView) {
+                    bridge.syncSessionCharData(currentSession.session, loginName, selectedCharacter.uuid, key, JSON.stringify(val));
+                } else if (localSelected) {
                     bridge.syncCharDataLocally(JSON.stringify(selectedCharacter));
+                    updateLocalCharacters();
                 } else {
                     bridge.syncCharData(loginName, selectedCharacter.uuid, key, JSON.stringify(val));
+                    updateRemoteCharacters();
                 }
             };
             q.on('keyup mouseup change paste input', () => {
@@ -3339,6 +3780,23 @@
         return i;
     }
 
+    function resetCharEditor() {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Sicher?',
+            text: 'Bist du dir sicher, dass du dies tun möchtest?',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#62d630',
+            cancelButtonText: 'Nein, warn versehen!',
+            confirmButtonText: 'JA!'
+        }).then(result => {
+            if (result) {
+                resetCharacterEditor();
+            }
+        });
+    }
+
     function finishCharacter() {
         $('#editor-name').removeClass('is-danger');
         let name = $('#editor-name').val().trim();
@@ -3373,49 +3831,61 @@
             });
             return;
         }
+        let callback = () => {
+            currentCharacter.uuid = generateCharId();
+            currentCharacter.age = parseIntSafely($('#editor-age').val());
+            currentCharacter.name = name;
+            currentCharacter.gender = $('#editor-gender').val();
+            currentCharacter.martialStatus = $('#editor-martialstatus').val();
+            currentCharacter.inventory = $('#editor-inventory').val();
+            currentCharacter.notes = $('#editor-notes').val();
+            currentCharacter.religion = $('#editor-religion').val();
+            currentCharacter.stature = stature;
+            currentCharacter.job = job;
+            currentCharacter.pointsLeft = freePoints;
+            bridge.saveCharacter(JSON.stringify(currentCharacter), loginName, (success, isLocal) => {
+                if (success) {
+                    if (isLocal) {
+                        localCharacters.push(currentCharacter);
+                        updateLocalCharacters();
+                    } else {
+                        characters.push(currentCharacter);
+                        updateRemoteCharacters();
+                    }
+                    resetCharacterEditor();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Yeah!',
+                        text: 'Dein Charakter ist jetzt sicher!',
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Upsi!',
+                        text: 'Leider konnten wir deinen Charakter nicht abspeichern! Wir haben ihn solange lokal gespeichert!',
+                    });
+                }
+            });
+        };
         let freePoints = calculateFreePoints();
         if (freePoints > 0) {
             Swal.fire({
                 icon: 'error',
                 title: 'Huch!',
-                text: 'Du hast noch Punkte übrig! Die müssen noch weg :)',
+                text: 'Du hast noch Punkte übrig! Die müssen noch weg :) Wichtig: Du kannst die Punkte nach der Beendigung des Charakters nicht mehr verwenden!',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#62d630',
+                cancelButtonText: 'Ok, ich geb sie noch aus!',
+                confirmButtonText: 'Egal...'
+            }).then(result => {
+                if (result) {
+                    callback();
+                }
             });
             return;
         }
-        currentCharacter.uuid = generateCharId();
-        currentCharacter.age = parseIntSafely($('#editor-age').val());
-        currentCharacter.name = name;
-        currentCharacter.gender = $('#editor-gender').val();
-        currentCharacter.martialStatus = $('#editor-martialstatus').val();
-        currentCharacter.inventory = $('#editor-inventory').val();
-        currentCharacter.notes = $('#editor-notes').val();
-        currentCharacter.religion = $('#editor-religion').val();
-        currentCharacter.stature = stature;
-        currentCharacter.job = job;
-        currentCharacter.pointsLeft = freePoints;
-        bridge.saveCharacter(JSON.stringify(currentCharacter), loginName, (success, isLocal) => {
-            if (success) {
-                if (isLocal) {
-                    localCharacters.push(currentCharacter);
-                    updateLocalCharacters();
-                } else {
-                    characters.push(currentCharacter);
-                    updateRemoteCharacters();
-                }
-                resetCharacterEditor();
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Yeah!',
-                    text: 'Dein Charakter ist jetzt sicher!',
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Upsi!',
-                    text: 'Leider konnten wir deinen Charakter nicht abspeichern! Wir haben ihn solange lokal gespeichert!',
-                });
-            }
-        });
+        callback();
     }
 
     document.getElementById('editor-points').addEventListener('focusout', function (event) {
@@ -3498,9 +3968,15 @@
         resetSkills("actSkills", 0);
         resetSkills("knowledgeSkills", 1);
         resetSkills("socialSkills", 2);
+        $('#editor-inventory').val("");
+        $('#editor-notes').val("");
+        $('#editor-points').val("400");
+        calculateFreePoints();
     }
 
     function resetSkills(type, category) {
+        $(`#editor-${type}-bonus`).html("0");
+        $(`#editor-${type}-brainstorm`).html("0");
         for (let i = 0; i < 10; i++) {
             currentCharacter[type][i] = {
                 category: category,
@@ -3542,7 +4018,7 @@
             return;
         }
         let val = parseInt(value.value);
-        if (!val || isNaN(val)) return;
+        if (!val || isNaN(val)) val = 0;
         if (last < val) {
             if (calculateFreePoints() - val < 0) {
                 value.dataset.bypass = "1";
@@ -3567,13 +4043,23 @@
         currentCharacter[type][i].name = name.value.trim();
     }
 
+    $('#editor-points-refresh').click(() => {
+        recalculateSkills("actSkills");
+        recalculateSkills("knowledgeSkills");
+        recalculateSkills("socialSkills");
+    });
+
     function recalculateSkills(type) {
         let skillControls = editorSkillControls[type];
         let bonus = 0;
         for (let i = 0; i < skillControls.length; i++) {
             let skillControl = skillControls[i];
             let val = parseInt(document.getElementById(skillControl.value).value);
-            if (!val || isNaN(val)) continue;
+            currentCharacter[type][i].value = val;
+            if (!val || isNaN(val)) {
+                document.getElementById(skillControl.value).value = "0";
+                val = 0;
+            }
             bonus += val;
         }
         bonus = Math.round(bonus / 10);
@@ -3581,7 +4067,11 @@
         for (let i = 0; i < skillControls.length; i++) {
             let skillControl = skillControls[i];
             let val = parseInt(document.getElementById(skillControl.value).value);
-            if (!val || isNaN(val)) continue;
+            if (!val || isNaN(val)) {
+                document.getElementById(skillControl.value).value = "0";
+                val = 0;
+            }
+            currentCharacter[type][i].value = val;
             document.getElementById(skillControl.calc).value = (val + bonus).toString();
             currentCharacter[type][i].value = (val + bonus);
         }
@@ -3598,6 +4088,7 @@
 <script>
     let loginName = null;
     let characters = [];
+    let sessions = [];
     let localCharacters = [];
 
     function editCharacter(idx, isLocal) {
@@ -3716,24 +4207,37 @@
     function autoLogin(username, password) {
         interactionLocked = true;
         $('#login-finish').prop("disabled", true);
-        bridge.loginUser(false, username, password, charactersJson => {
+        bridge.loginUser(false, username, password, json => {
             interactionLocked = false;
             $('#login-finish').prop("disabled", false);
-            if (charactersJson === null || charactersJson.trim().length <= 0) {
+            if (json === null || json.trim().length <= 0) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Huch?',
                     text: 'Wir konnten dich leider nicht automatisch einloggen!',
                 });
             } else {
-                characters = JSON.parse(charactersJson.split('\\"').join('"'));
+                let arr = JSON.parse(json.split('\\"').join('"'));
+                characters = arr[0];
+                sessions = arr[1];
+                let sessionObjs = arr[2];
+                for (let i = 0; i < sessions.length; i++) {
+                    sessions[i].sessionObj = sessionObjs[i];
+                }
                 loginName = username;
                 $('#login-message').hide();
                 updateRemoteCharacters();
                 updateLocalCharacters();
                 $('#login-password').val("");
                 $('#login-name').val("");
+                $('#sessions-list-title').show();
+                updateSessions();
+                $('#sessions-list').show();
                 selectPage("dashboard");
+                if (autoSessionJoin != null) {
+                    joinSpecificSession(autoSessionJoin.id, autoSessionJoin.pw);
+                    autoSessionJoin = null;
+                }
                 Swal.fire({
                     icon: 'success',
                     title: 'Juhu!',
@@ -3748,17 +4252,23 @@
         let password = $('#login-password').val();
         interactionLocked = true;
         $('#login-finish').prop("disabled", true);
-        bridge.loginUser(true, username, password, charactersJson => {
+        bridge.loginUser(true, username, password, json => {
             interactionLocked = false;
             $('#login-finish').prop("disabled", false);
-            if (charactersJson === null || charactersJson.trim().length <= 0) {
+            if (json === null || json.trim().length <= 0) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Öhm... Vertippt?',
                     text: 'Wir konnten leider kein Account in unserem System bei den angegebenen Daten finden!',
                 });
             } else {
-                characters = JSON.parse(charactersJson.split('\\"').join('"'));
+                let arr = JSON.parse(json.split('\\"').join('"'));
+                characters = arr[0];
+                sessions = arr[1];
+                let sessionObjs = arr[2];
+                for (let i = 0; i < sessions.length; i++) {
+                    sessions[i].sessionObj = sessionObjs[i];
+                }
                 loginName = username;
                 $('#login-message').hide();
                 updateRemoteCharacters();
@@ -3768,6 +4278,13 @@
                 selectPage("dashboard");
                 if (document.getElementById('login-save').checked)
                     bridge.saveLogin(username, password);
+                $('#sessions-list-title').show();
+                updateSessions();
+                $('#sessions-list').show();
+                if (autoSessionJoin != null) {
+                    joinSpecificSession(autoSessionJoin.id, autoSessionJoin.pw);
+                    autoSessionJoin = null;
+                }
                 Swal.fire({
                     icon: 'success',
                     title: 'Juhu!',
@@ -3775,6 +4292,18 @@
                 });
             }
         });
+    }
+
+    function updateSessions() {
+        $('#sessions-list').html("");
+        for (let i = 0; i < sessions.length; i++) {
+            let session = sessions[i];
+            appendSession(session, i);
+        }
+    }
+
+    function appendSession(session, i) {
+        $('#sessions-list').append(`<li><a id="session-switch-${session.session}" onclick="selectSession(${i})">${session.sessionName}</a></li>`);
     }
 
     function finishRegister() {
@@ -3879,6 +4408,9 @@
         } else {
             $('#dashboard-remote-char-pack').hide();
             $('#login-message').hide();
+            $('#sessions-list-title').hide();
+            $('#sessions-list').hide();
+            $('#sessions-list').html("");
         }
     }
 
@@ -3922,10 +4454,13 @@
 </script>
 <script>
     function applyChangelog(version, summary, content, author, date) {
-        $('#about-version').html("Aktuelle Version: " + version);
-        $('#about-summary').html(summary.split("\n").join("<br>"));
-        $('#about-author').html("− " + author + " am " + date);
-        $('#about-changes').html(content.split("\n").join("<br>"));
+        let umlauts = (raw) => {
+            return raw.split('sz').join('ß').split('oe').join('ö').split('ae').join('ä').split('uee').join('ü');
+        };
+        $('#about-version').html(umlauts("Aktuelle Version: " + version));
+        $('#about-summary').html(umlauts(summary.split("\n").join("<br>")));
+        $('#about-author').html(umlauts("− " + author + " am " + date));
+        $('#about-changes').html(umlauts(content.split("\n").join("<br>")));
     }
 
     function setSettings(json) {
@@ -3939,8 +4474,12 @@
     }
 
     $('#settings-logout').click(() => {
+        if (!loginName) return;
         bridge.logout();
         characters = [];
+        $('#sessions-list-title').hide();
+        $('#sessions-list').hide();
+        $('#sessions-list').html("");
         loginName = null;
         $('#login-message').show();
         updateRemoteCharacters();
@@ -3967,18 +4506,74 @@
     });
 </script>
 <script>
+    let autoSessionJoin = null;
+
+    function applySessionCharDataSync(sessionId, key, json, charId) {
+        let character = null;
+        for (let i = 0; i < sessions.length; i++) {
+            let session = sessions[i]
+            if (session.session == sessionId) {
+                if (session.sessionObj) {
+                    for (let j = 0; j < session.sessionObj.players.length; j++) {
+                        let player = session.sessionObj.players[j];
+                        if (!player.character) continue;
+                        if (player.character.uuid == charId) {
+                            character = player.character;
+                            break;
+                        }
+                    }
+                } else {
+                    character = session.character;
+                }
+                break;
+            }
+        }
+        if (character == null) return;
+        let val = JSON.parse(json);
+        character[key] = val;
+        if (!selectedCharacter || selectedCharacter.uuid != character.uuid) return;
+        $('#viewer-' + key).val(val);
+    }
+
     function applyCharDataSync(charId, key, json) {
-        console.log(charId);
-        console.log(key);
-        console.log(json);
         let character = findCharacterById(charId);
         let val = JSON.parse(json);
         character[key] = val;
-        $('#viewer-' + key).val(val);
-        console.log($('#viewer-' + key));
-        console.log(character);
-        console.log(val);
         updateRemoteCharacters();
+        if (!selectedCharacter || selectedCharacter.uuid != character.uuid) return;
+        $('#viewer-' + key).val(val);
+    }
+
+    function applySessionCharSkillsSync(sessionId, json, charId) {
+        let character = null;
+        for (let i = 0; i < sessions.length; i++) {
+            let session = sessions[i]
+            if (session.session == sessionId) {
+                if (session.sessionObj) {
+                    for (let j = 0; j < session.sessionObj.players.length; j++) {
+                        if (session.sessionObj.players[j].uuid == charId) {
+                            character = session.sessionObj.players[j].character;
+                            break;
+                        }
+                    }
+                } else {
+                    character = session.character;
+                }
+                break;
+            }
+        }
+        if (character == null) return;
+        let newSkills = JSON.parse(json);
+        for (let i = 0; i < newSkills.length; i++) {
+            let newSkill = newSkills[i];
+            let skill = character[newSkill.type][newSkill.idx];
+            skill.name = newSkill.name;
+            skill.value = newSkill.val;
+        }
+        if (!selectedCharacter || selectedCharacter.uuid != character.uuid) return;
+        fillCharSkillsInView("actSkills");
+        fillCharSkillsInView("socialSkills");
+        fillCharSkillsInView("knowledgeSkills");
     }
 
     function applyCharSkillsSync(charId, json) {
@@ -3990,10 +4585,23 @@
             skill.name = newSkill.name;
             skill.value = newSkill.val;
         }
+        if (!selectedCharacter || selectedCharacter.uuid != character.uuid) return;
         fillCharSkillsInView("actSkills");
         fillCharSkillsInView("socialSkills");
         fillCharSkillsInView("knowledgeSkills");
         updateRemoteCharacters();
+    }
+
+    function applySessionJoinSync(sessionId, json) {
+        for (let i = 0; i < sessions.length; i++) {
+            let session = sessions[i];
+            if (session.session == sessionId) {
+                let sessionUser = JSON.parse(json);
+                session.sessionObj.players.push(sessionUser);
+                appendSessionPlayer(i, session.sessionObj.players.length - 1);
+                break;
+            }
+        }
     }
 
     function applyCharCreationSync(json) {
@@ -4014,6 +4622,29 @@
         }
     }
 
+    function applySessionKick(sessionId) {
+        let idx = -1;
+        for (let i = 0; i < sessions.length; i++) {
+            if (sessions[i].session == sessionId) {
+                idx = i;
+                break;
+            }
+        }
+        if (idx != -1) {
+            sessions.splice(idx, 1);
+            updateSessions();
+        }
+        if (currentSession.session == sessionId) {
+            currentSession = null;
+            selectPage("dashboard");
+        }
+    }
+
+    function applyAutoSessionJoin(json) {
+        if (json.trim().length <= 0) return;
+        autoSessionJoin = JSON.parse(json);
+    }
+
     $('#refresh-characters').click(() => {
         $('#loader').show();
         bridge.refreshCharacters(loginName, charactersJson => {
@@ -4023,6 +4654,12 @@
                 updateRemoteCharacters();
             }
         });
+    });
+
+    window.addEventListener('keydown', function (e) {
+        if (e.ctrlKey && e.shiftKey && e.altKey && e.key === "P") {
+            bridge.showDevtools();
+        }
     });
 </script>
 </body>

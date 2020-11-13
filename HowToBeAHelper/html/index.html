@@ -3136,6 +3136,7 @@
 
     function selectSessionPlayer(i) {
         if (!currentSession) return;
+        deselectCurrentPage();
         let player = currentSession.sessionObj.players[i];
         selectCharacter(player.character, true, -1001);
     }
@@ -3592,7 +3593,7 @@
     }
 
     function deleteCharacter() {
-        if (!isSessionView) return;
+        if (isSessionView) return;
         Swal.fire({
             title: 'Wirklich?!',
             text: "Bist du dir absolut sicher, dass du diesen Charakter löschen willst? Es kann nicht wieder rückgängig gemacht werden!",
@@ -3843,6 +3844,9 @@
             currentCharacter.stature = stature;
             currentCharacter.job = job;
             currentCharacter.pointsLeft = freePoints;
+            normalizeSkillGroup("actSkills");
+            normalizeSkillGroup("knowledgeSkills");
+            normalizeSkillGroup("socialSkills");
             bridge.saveCharacter(JSON.stringify(currentCharacter), loginName, (success, isLocal) => {
                 if (success) {
                     if (isLocal) {
@@ -3886,6 +3890,15 @@
             return;
         }
         callback();
+    }
+
+    function normalizeSkillGroup(type) {
+        let skills = currentCharacter[type];
+        for (let i = 0; i < skills.length; i++) {
+            skills[i].value -= editorSkillBonuses[type];
+            if (skills[i].value < 0)
+                skills[i].value = 0;
+        }
     }
 
     document.getElementById('editor-points').addEventListener('focusout', function (event) {
@@ -4054,6 +4067,12 @@
         let bonus = 0;
         for (let i = 0; i < skillControls.length; i++) {
             let skillControl = skillControls[i];
+            if (currentCharacter[type][i].name.trim().length <= 0) {
+                currentCharacter[type][i].value = 0;
+                document.getElementById(skillControl.value).value = "0";
+                document.getElementById(skillControl.calc).value = "0";
+                continue;
+            }
             let val = parseInt(document.getElementById(skillControl.value).value);
             currentCharacter[type][i].value = val;
             if (!val || isNaN(val)) {
@@ -4066,6 +4085,7 @@
         editorSkillBonuses[type] = bonus;
         for (let i = 0; i < skillControls.length; i++) {
             let skillControl = skillControls[i];
+            if (currentCharacter[type][i].name.trim().length <= 0) continue;
             let val = parseInt(document.getElementById(skillControl.value).value);
             if (!val || isNaN(val)) {
                 document.getElementById(skillControl.value).value = "0";

@@ -41,7 +41,7 @@ namespace HowToBeAHelper
                 $"emitLocalCharacters(`{JsonConvert.SerializeObject(Bootstrap.CharacterManager.Characters)}`)");
             Browser.ExecuteScriptAsyncWhenPageLoaded($"applyAutoSessionJoin(`{Bootstrap.AutoJoinSession}`)");
             Browser.ExecuteScriptAsyncWhenPageLoaded($"setSettings(`{JsonConvert.SerializeObject(Bootstrap.Settings)}`)");
-            Browser.ExecuteScriptAsyncWhenPageLoaded($"applyChangelog(`{Updater.Changelog.Version}`, `{Updater.Changelog.Summary}`, `{Updater.Changelog.Content}`, `{Updater.Changelog.Author.TrimEnd()}`, `{Updater.Changelog.Date.TrimEnd()}`)");
+            Browser.ExecuteScriptAsyncWhenPageLoaded($"applyChangelog(`{Updater.Changelog?.Version ?? "1.0"}`, `{Updater.Changelog?.Summary ?? ""}`, `{Updater.Changelog?.Content ?? ""}`, `{Updater.Changelog?.Author?.TrimEnd() ?? ""}`, `{Updater.Changelog?.Date?.TrimEnd() ?? ""}`)");
             Browser.JavascriptObjectRepository.Register("bridge", Bridge = new FrontendBridge(this), false,
                 BindingOptions.DefaultBinder);
             Controls.Add(Browser);

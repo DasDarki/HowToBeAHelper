@@ -7,7 +7,7 @@ namespace HowToBeAHelper
 {
     internal class Updater
     {
-        internal const string CurrentVersion = "1.0.1";
+        internal const string CurrentVersion = "1.0.3";
 
         internal static Changelog Changelog { get; private set; }
 

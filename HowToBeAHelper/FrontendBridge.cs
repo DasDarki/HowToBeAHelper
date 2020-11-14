@@ -24,6 +24,21 @@ namespace HowToBeAHelper
             _browser = _form.Browser;
         }
 
+        public void sendMuteToggle(string username, bool flag)
+        {
+            try
+            {
+                _form.Run(async () =>
+                {
+                    await _form.Master.ToggleMute(username, flag);
+                });
+            }
+            catch
+            {
+                //Ignore: Need handling
+            }
+        }
+
         public void closeSession(string sessionId, IJavascriptCallback callback)
         {
             try

@@ -19,6 +19,11 @@ database.start(() => {
     }
 
     io.on('connection', (socket) => {
+        socket.on("user:mute", function (name, flag) {
+            multicastLogin(socket.id, name, other => {
+                other.emit("user:mute", flag);
+            });
+        });
         socket.on("user:register", function (name, password) {
             database.createUser(name, password, status => {
                 socket.emit("user:register:result", status);

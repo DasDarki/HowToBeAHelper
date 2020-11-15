@@ -1,12 +1,7 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="HowToBeAHelper.Properties" GeneratedClassName="Settings">
-  <Profiles />
-  <Settings>
-    <Setting Name="Title" Type="System.String" Scope="User">
-      <Value Profile="(Default)">How to be a Helper (c) 2020 DasDarki</Value>
-    </Setting>
-    <Setting Name="MasterUrl" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://open.eternitylife.de:14749/</Value>
-    </Setting>
-  </Settings>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
 </SettingsFile>

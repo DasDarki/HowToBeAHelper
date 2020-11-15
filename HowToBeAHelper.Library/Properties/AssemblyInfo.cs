@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
-[assembly: AssemblyTitle("HowToBeAHelper.Updater")]
+[assembly: AssemblyTitle("HowToBeAHelper.Library")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("HowToBeAHelper.Updater")]
+[assembly: AssemblyProduct("HowToBeAHelper.Library")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
-[assembly: Guid("447fa361-b8d3-4dfa-9ee2-4592846cf95d")]
+[assembly: Guid("a0e2b8c5-70d3-4602-bb00-7c8e24111426")]
 
 // Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
 //

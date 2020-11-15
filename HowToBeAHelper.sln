@@ -1,51 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.30503.244
+VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HowToBeAHelper.Library", "HowToBeAHelper.Library\HowToBeAHelper.Library.csproj", "{7694FAB7-2E00-4925-A85B-4D5E3F842089}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowToBeAHelper", "HowToBeAHelper\HowToBeAHelper.csproj", "{72913B8F-0C0A-4111-82A1-9774CD97EA95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowToBeAHelper", "HowToBeAHelper\HowToBeAHelper.csproj", "{F0760239-74E2-40FA-935D-A2D7EDFA0358}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowToBeAHelper.Updater", "HowToBeAHelper.Updater\HowToBeAHelper.Updater.csproj", "{447FA361-B8D3-4DFA-9EE2-4592846CF95D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowToBeAHelper.Library", "HowToBeAHelper.Library\HowToBeAHelper.Library.csproj", "{A0E2B8C5-70D3-4602-BB00-7C8E24111426}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
-		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7694FAB7-2E00-4925-A85B-4D5E3F842089}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7694FAB7-2E00-4925-A85B-4D5E3F842089}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7694FAB7-2E00-4925-A85B-4D5E3F842089}.Debug|x64.ActiveCfg = Debug|x64
-		{7694FAB7-2E00-4925-A85B-4D5E3F842089}.Debug|x64.Build.0 = Debug|x64
-		{7694FAB7-2E00-4925-A85B-4D5E3F842089}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7694FAB7-2E00-4925-A85B-4D5E3F842089}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7694FAB7-2E00-4925-A85B-4D5E3F842089}.Release|x64.ActiveCfg = Release|x64
-		{7694FAB7-2E00-4925-A85B-4D5E3F842089}.Release|x64.Build.0 = Release|x64
-		{F0760239-74E2-40FA-935D-A2D7EDFA0358}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F0760239-74E2-40FA-935D-A2D7EDFA0358}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F0760239-74E2-40FA-935D-A2D7EDFA0358}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F0760239-74E2-40FA-935D-A2D7EDFA0358}.Debug|x64.Build.0 = Debug|Any CPU
-		{F0760239-74E2-40FA-935D-A2D7EDFA0358}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F0760239-74E2-40FA-935D-A2D7EDFA0358}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F0760239-74E2-40FA-935D-A2D7EDFA0358}.Release|x64.ActiveCfg = Release|Any CPU
-		{F0760239-74E2-40FA-935D-A2D7EDFA0358}.Release|x64.Build.0 = Release|Any CPU
-		{447FA361-B8D3-4DFA-9EE2-4592846CF95D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{447FA361-B8D3-4DFA-9EE2-4592846CF95D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{447FA361-B8D3-4DFA-9EE2-4592846CF95D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{447FA361-B8D3-4DFA-9EE2-4592846CF95D}.Debug|x64.Build.0 = Debug|Any CPU
-		{447FA361-B8D3-4DFA-9EE2-4592846CF95D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{447FA361-B8D3-4DFA-9EE2-4592846CF95D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{447FA361-B8D3-4DFA-9EE2-4592846CF95D}.Release|x64.ActiveCfg = Release|Any CPU
-		{447FA361-B8D3-4DFA-9EE2-4592846CF95D}.Release|x64.Build.0 = Release|Any CPU
+		{72913B8F-0C0A-4111-82A1-9774CD97EA95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72913B8F-0C0A-4111-82A1-9774CD97EA95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72913B8F-0C0A-4111-82A1-9774CD97EA95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72913B8F-0C0A-4111-82A1-9774CD97EA95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0E2B8C5-70D3-4602-BB00-7C8E24111426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0E2B8C5-70D3-4602-BB00-7C8E24111426}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0E2B8C5-70D3-4602-BB00-7C8E24111426}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0E2B8C5-70D3-4602-BB00-7C8E24111426}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {954D1E12-2B36-4D21-8202-CA50516DA1A4}
+		SolutionGuid = {CBE065C1-3700-4DF6-AC14-7D8BA6757D04}
 	EndGlobalSection
 EndGlobal

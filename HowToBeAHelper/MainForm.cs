@@ -1,30 +1,20 @@
 ﻿using System;
-using System.Threading;
 using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
-using HowToBeAHelper.Net;
-using HowToBeAHelper.Properties;
-using Newtonsoft.Json;
+using HowToBeAHelper.UI;
 
-namespace HowToBeAHelper
+namespace HowToBeAHelper.Client
 {
-    internal partial class MainForm : Form
+    internal partial class MainForm : Form, IClient
     {
-        internal static MainForm Instance { get; set; }
-
         internal ChromiumWebBrowser Browser { get; }
 
-        internal FrontendBridge Bridge { get; }
+        public event Events.Keydown Keydown;
 
-        internal MasterClient Master { get; }
-
-        internal MainForm()
+        public MainForm()
         {
-            Master = new MasterClient();
             InitializeComponent();
-            Text = Properties.Settings.Default.Title;
-            Icon = Resources.icon;
             CefSettings settings = new CefSettings();
             CefSharpSettings.LegacyJavascriptBindingEnabled = true;
             CefSharpSettings.WcfEnabled = true;
@@ -37,12 +27,7 @@ namespace HowToBeAHelper
                     UniversalAccessFromFileUrls = CefState.Enabled
                 }
             };
-            Browser.ExecuteScriptAsyncWhenPageLoaded(
-                $"emitLocalCharacters(`{JsonConvert.SerializeObject(Bootstrap.CharacterManager.Characters)}`)");
-            Browser.ExecuteScriptAsyncWhenPageLoaded($"applyAutoSessionJoin(`{Bootstrap.AutoJoinSession}`)");
-            Browser.ExecuteScriptAsyncWhenPageLoaded($"setSettings(`{JsonConvert.SerializeObject(Bootstrap.Settings)}`)");
-            Browser.ExecuteScriptAsyncWhenPageLoaded($"applyChangelog(`{Updater.Changelog?.Version ?? "1.0"}`, `{Updater.Changelog?.Summary ?? ""}`, `{Updater.Changelog?.Content ?? ""}`, `{Updater.Changelog?.Author?.TrimEnd() ?? ""}`, `{Updater.Changelog?.Date?.TrimEnd() ?? ""}`)");
-            Browser.JavascriptObjectRepository.Register("bridge", Bridge = new FrontendBridge(this), false,
+            Browser.JavascriptObjectRepository.Register("bridge", new Bridge(this), false,
                 BindingOptions.DefaultBinder);
             Controls.Add(Browser);
             Browser.Dock = DockStyle.Fill;
@@ -51,65 +36,21 @@ namespace HowToBeAHelper
             {
                 if (args.Frame.IsMain)
                 {
-                    //Browser.ShowDevTools();
                     SafeInvoke(() =>
                     {
                         Visible = true;
-                        Run(async () =>
-                        {
-                            if (await Master.Connect())
-                            {
-                                NotifySuccess("Verbindung zum Master hergestellt!");
-                            }
-                            else
-                            {
-                                NotifyError("Verbindung zum Master fehlgeschlagen!");
-                                StartReconnecting();
-                            }
-                        });
                     });
                 }
             };
-            if (Bootstrap.Settings.StartMinimize)
+            Keydown += OnKeydown;
+        }
+
+        private void OnKeydown(VirtualKeys key, bool isshiftdown, bool isaltdown, bool isctrldown, bool ismetadown)
+        {
+            if (isshiftdown && isctrldown && key == VirtualKeys.D)
             {
-                WindowState = FormWindowState.Minimized;
+                Browser.ShowDevTools();
             }
-        }
-
-        internal void Run(Action callback)
-        {
-            new Thread(() =>
-            {
-                callback();
-            }){IsBackground = true}.Start();
-        }
-
-        internal void StartReconnecting()
-        {
-            Master.StartReconnecting(() => { }, () =>
-            {
-                NotifySuccess("Verbindung zum Master hergestellt!");
-            });
-        }
-
-        /// <summary>
-        /// Creates a timed notification in the view.
-        /// </summary>
-        /// <param name="text">The text of the notify</param>
-        /// <param name="duration">The duration, how long it stays</param>
-        public void NotifySuccess(string text, int duration = 3000)
-        {
-            Browser.ExecuteScriptAsync($"notifySuccess('{text}', {duration})");
-        }
-
-        /// <summary>
-        /// Creates a timed notification in the view.
-        /// </summary>
-        /// <param name="text">The text of the notify</param>
-        /// <param name="duration">The duration, how long it stays</param>
-        public void NotifyError(string text, int duration = 5000)
-        {
-            Browser.ExecuteScriptAsync($"notifyError('{text}', {duration})");
         }
 
         internal void SafeInvoke(Action action)
@@ -117,30 +58,9 @@ namespace HowToBeAHelper
             Invoke(action);
         }
 
-        #region Seals
-
-        public sealed override string Text
+        internal void TriggerKeydown(VirtualKeys key, bool isShiftDown, bool isAltDown, bool isCtrlDown, bool isMetaDown)
         {
-            get => base.Text;
-            set => base.Text = value;
-        }
-
-        #endregion
-
-        private void MainForm_Resize(object sender, EventArgs e)
-        {
-            if (WindowState == FormWindowState.Minimized && Bootstrap.Settings.MinimizeToTray)
-            {
-                Hide();
-                trayIcon.Visible = true;
-            }
-        }
-
-        private void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            Show();
-            WindowState = FormWindowState.Normal;
-            trayIcon.Visible = false;
+            Keydown?.Invoke(key, isShiftDown, isAltDown, isCtrlDown, isMetaDown);
         }
 
         internal class HiddenMenuHandler : IContextMenuHandler
@@ -148,7 +68,7 @@ namespace HowToBeAHelper
             public void OnBeforeContextMenu(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters,
                 IMenuModel model)
             {
-                
+
             }
 
             public bool OnContextMenuCommand(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, IContextMenuParams parameters,

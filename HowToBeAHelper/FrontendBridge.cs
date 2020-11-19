@@ -24,6 +24,16 @@ namespace HowToBeAHelper
             _browser = _form.Browser;
         }
 
+        public void saveSessionBattle(string session, string data)
+        {
+            LocalStorage.Write(session, data, "battle");
+        }
+
+        public void getSessionBattlers(string session, IJavascriptCallback callback)
+        {
+            callback.ExecuteAsync(LocalStorage.Read(session, "battle"));
+        }
+
         public void sendMuteToggle(string username, bool flag)
         {
             try
@@ -43,6 +53,7 @@ namespace HowToBeAHelper
         {
             try
             {
+                LocalStorage.Delete(sessionId, "battle");
                 _form.Run(async () =>
                 {
                     await _form.Master.CloseSession(sessionId, b =>

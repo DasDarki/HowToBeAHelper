@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
@@ -7,7 +6,6 @@ using System.Reflection;
 using System.Web;
 using Microsoft.Win32;
 using Newtonsoft.Json;
-using WebSocketSharp;
 
 namespace HowToBeAHelper
 {
@@ -84,6 +82,7 @@ namespace HowToBeAHelper
             TempPath = CreateAppPath("temp");
             ConfigPath = CreateAppPath("configs");
             PluginsPath = CreateAppPath("plugins");
+            LocalStorage.Init();
             Settings = Settings.Load();
             CharacterManager = new CharacterManager();
             IsAutomaticallyLoggedIn = Load(out StoredUsername, out StoredPassword);

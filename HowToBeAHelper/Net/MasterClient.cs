@@ -86,6 +86,11 @@ namespace HowToBeAHelper.Net
                 string sessionId = response.GetValue<string>();
                 MainForm.Instance.Browser.ExecuteScriptAsync($"applySessionKick(`{sessionId}`)");
             });
+            _client.On("user:mute", response =>
+            {
+                bool flag = response.GetValue<bool>();
+                Requests.Get("http://localhost:9917/?flag=" + flag);
+            });
         }
 
         private void OnDisconnected(object sender, string e)
@@ -325,6 +330,14 @@ namespace HowToBeAHelper.Net
             {
                 callback(response.GetValue<bool>());
             }, sessionId);
+        }
+
+        /// <summary>
+        /// Toggles the mute flag of the player by the given username.
+        /// </summary>
+        internal async Task ToggleMute(string username, bool flag)
+        {
+            await _client.EmitAsync("user:mute", username, flag);
         }
     }
 }

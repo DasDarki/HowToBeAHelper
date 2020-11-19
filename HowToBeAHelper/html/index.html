@@ -14,6 +14,10 @@
             background: #ECF0F3;
         }
 
+        .on-row {
+            background-color: lightgreen !important;
+        }
+
         #wrapper {
             margin: 10px 10px 0;
             height: 100%;
@@ -2656,8 +2660,112 @@
                         </footer>
                     </div>
                 </div>
+                <div class="column">
+                    <div class="card events-card">
+                        <header class="card-header">
+                            <p class="card-header-title" id="session-ini-title">
+                                Kampf
+                            </p>
+                            <button class="button is-success is-small" id="session-next-battler"
+                                    style="margin-right: 10px">Nächster
+                            </button>
+                            <button class="button is-success is-small" id="session-add-battler">Hinzufügen</button>
+                        </header>
+                        <div class="card-table">
+                            <div class="content">
+                                <br>
+                                <table class="table is-fullwidth is-striped">
+                                    <tbody id="session-battlers">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <a href="#" class="card-footer-item" id="session-clear-battle" style="color: red">Zurücksetzen</a>
+                        </footer>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="modal" id="add-battler-modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Eintrag hinzufügen</p>
+            <button class="delete" aria-label="close"
+                    onclick="$('#add-battler-modal').removeClass('is-active')"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="tabs is-centered is-boxed" data-tab="add-battler" data-reset-tab="add-battler-npc">
+                <ul>
+                    <li class="is-active tab" data-tab="add-battler-npc">
+                        <a>
+                            <span>NPC</span>
+                        </a>
+                    </li>
+                    <li class="tab" data-tab="add-battler-player">
+                        <a>
+                            <span>Spieler</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div id="add-battler-npc">
+                <div class="columns is-fullwidth">
+                    <div class="column">
+                        <div class="field">
+                            <div class="control">
+                                <input type="text" class="input" placeholder="Name"
+                                       id="add-battler-npc-name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <div class="field">
+                            <div class="control">
+                                <input type="number" class="input" placeholder="Handlenwert"
+                                       id="add-battler-npc-act">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <div class="control">
+                            <button class="button is-success" id="add-battler-npc-btn">Hinzufügen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="add-battler-player" style="display: none">
+                <div class="columns is-fullwidth">
+                    <div class="column">
+                        <div class="field">
+                            <div class="control">
+                                <div class="select is-fullwidth">
+                                    <select id="add-battler-players">
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <div class="field">
+                            <div class="control">
+                                <input type="number" class="input" placeholder="Würfelwert"
+                                       id="add-battler-player-dice">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-one-quarter">
+                        <div class="control">
+                            <button class="button is-success" id="add-battler-player-btn">Hinzufügen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </div>
 <div class="modal" id="level-modal">
@@ -2924,6 +3032,163 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
+    let currentBattle = null;
+
+    $('#session-add-battler').click(() => {
+        tabResets["add-battler"]();
+        $('#add-battler-npc-act').val("");
+        $('#add-battler-npc-name').val("");
+        $('#add-battler-player-dice').val("");
+        $('#add-battler-modal').addClass('is-active');
+        $('#add-battler-players').html("");
+        for (let i = 0; i < currentSession.sessionObj.players.length; i++) {
+            let player = currentSession.sessionObj.players[i];
+            if (!player.isPlayer) continue;
+            let data = player.character.name + " (" + player.userName + ")";
+            $('#add-battler-players').append(`<option value="${i}">${data}</option>`)
+        }
+    });
+
+    $('#add-battler-player-btn').click(() => {
+        let player = currentSession.sessionObj.players[parseInt($('#add-battler-players').val())];
+        let bonus = getBonusOfSkills(player.character, "actSkills");
+        let entry = {
+            name: player.character.name + " (" + player.userName + ")",
+            act: bonus,
+            ini: parseIntSafely($('#add-battler-player-dice').val()) + bonus
+        };
+        currentBattle.entries.push(entry);
+        sortBattleEntries();
+        saveSessionBattle();
+        updateSessionBattle();
+        $('#add-battler-modal').removeClass('is-active');
+    });
+
+    $('#add-battler-npc-btn').click(() => {
+        let act = parseIntSafely($('#add-battler-npc-act').val());
+        let entry = {
+            name: $('#add-battler-npc-name').val(),
+            act: act,
+            ini: act + getRandomInt(1, 11)
+        };
+        currentBattle.entries.push(entry);
+        sortBattleEntries();
+        saveSessionBattle();
+        updateSessionBattle();
+        $('#add-battler-modal').removeClass('is-active');
+    });
+
+    $('#session-next-battler').click(() => {
+        currentBattle.index++;
+        if (currentBattle.index >= currentBattle.entries.length) {
+            currentBattle.index = 0;
+        }
+        saveSessionBattle();
+        updateSessionBattle();
+    });
+
+    $('#session-clear-battle').click(() => {
+        currentBattle.entries = [];
+        saveSessionBattle();
+        updateSessionBattle();
+    });
+
+    function removeBattleEntry(idx) {
+        let name = currentBattle.entries[idx].name;
+        Swal.fire({
+            title: 'Wirklich?!',
+            text: "Bist du dir sicher, dass du " + name + " aus dem Kampf entfernen willst?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#62d630',
+            cancelButtonText: 'Huch, NEIN!',
+            confirmButtonText: 'Ja, will ich!'
+        }).then(result => {
+            if (result.isConfirmed) {
+                currentBattle.entries.splice(idx, 1);
+                if (currentBattle.entries.length <= currentBattle.index) {
+                    currentBattle.index = 0;
+                }
+                saveSessionBattle();
+                updateSessionBattle();
+            }
+        });
+    }
+
+    function updateSessionBattle() {
+        $('#session-battlers').html("");
+        for (let i = 0; i < currentBattle.entries.length; i++) {
+            let entry = currentBattle.entries[i];
+            let clazz = currentBattle.index == i ? "on-row" : "";
+            $('#session-battlers').append(`<tr class="${clazz}">
+                    <td width="5%"><i class="fas fa-khanda"></i></td>
+                    <td>${entry.name}</td>
+                    <td class="level-right">
+                        <label style="margin-right: 10px">
+                        <button class="button is-small is-danger" onclick="removeBattleEntry(${i})">Löschen</button>
+                    </td>
+                </tr>`);
+        }
+    }
+
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function saveSessionBattle() {
+        bridge.saveSessionBattle(currentSession.sessionObj.uuid, JSON.stringify(currentBattle));
+    }
+
+    function sortBattleEntries() {
+        let newEntries = [];
+        while (currentBattle.entries.length > 0) {
+            let currentEntries = getHighestEntries();
+            currentEntries = shuffle(currentEntries);
+            for (let i = 0; i < currentEntries.length; i++) {
+                newEntries.push(currentEntries[i]);
+            }
+        }
+        currentBattle.entries = newEntries;
+    }
+
+    function shuffle(a) {
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    function getHighestEntries() {
+        let highest = [];
+        let removals = [];
+        let value = getHighestValue();
+        for (let i = 0; i < currentBattle.entries.length; i++) {
+            if (currentBattle.entries[i].ini == value) {
+                highest.push(currentBattle.entries[i]);
+                removals.push(i);
+            }
+        }
+        for (let i = 0; i < removals.length; i++) {
+            currentBattle.entries.splice(removals[i], 1);
+        }
+        return highest;
+    }
+
+    function getHighestValue() {
+        let current = 0;
+        for (let i = 0; i < currentBattle.entries.length; i++) {
+            let entry = currentBattle.entries[i];
+            if (entry.ini > current)
+                current = entry.ini;
+        }
+        return current;
+    }
+</script>
+<script>
     let currentSession = null;
     let joiningSessionId = null;
     let joiningSessionPassword = null;
@@ -3036,14 +3301,25 @@
         $('#join-session-modal').addClass('is-active');
     }
 
+    function onMuteFlagChange(name, checkbox) {
+        bridge.sendMuteToggle(name, checkbox.value);
+    }
+
     function appendSessionPlayer(sessionIdx, i) {
         if (!currentSession) return;
         let player = currentSession.sessionObj.players[i];
         if (!player.isPlayer) return;
+        /*
+        <input type="checkbox" class="checkbox" onchange="onMuteFlagChange('${player.userName}', this)">
+                        Mute TeamSpeak
+                        </label>
+         */
         $('#session-players').append(`<tr>
                     <td width="5%"><i class="fas fa-users-cog"></i></td>
                     <td>${player.userName}</td>
                     <td class="level-right">
+                        <label style="margin-right: 10px">
+
                         <a class="button is-small is-success" href="#" onclick="selectSessionPlayer(${i})">Ansehen</a>
                         <button class="button is-small is-danger" onclick="kickPlayer(${sessionIdx}, ${i})">Kicken</button>
                     </td>
@@ -3155,6 +3431,13 @@
             for (let i = 0; i < session.sessionObj.players.length; i++) {
                 appendSessionPlayer(idx, i);
             }
+            bridge.getSessionBattlers(session.sessionObj.uuid, function (data) {
+                currentBattle = data == null || data.length <= 0 ? {
+                    index: 0,
+                    entries: []
+                } : JSON.parse(data);
+                updateSessionBattle();
+            });
             q = $('#page-session');
         }
         q.show();
@@ -3443,6 +3726,7 @@
             tabResets[tabsName] = () => {
                 select(resetTab);
             };
+            tabResets[tabsName]();
         }
     });
 
@@ -3682,6 +3966,15 @@
             content: q,
             switch: null
         };
+    }
+
+    function getBonusOfSkills(character, type) {
+        let skills = character[type];
+        let bonus = 0;
+        for (let i = 0; i < 10; i++) {
+            bonus += skills[i].value;
+        }
+        return Math.round(bonus / 10);
     }
 
     function fillCharSkillsInView(type) {

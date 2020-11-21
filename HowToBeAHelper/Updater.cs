@@ -1,43 +1,31 @@
-﻿using System.IO;
-using System.Net;
-using System.Reflection;
-using Newtonsoft.Json;
+﻿using System.Net;
+using AutoUpdaterDotNET;
 
 namespace HowToBeAHelper
 {
     internal class Updater
     {
-        internal const string CurrentVersion = "1.0.3";
-
         internal static Changelog Changelog { get; private set; }
 
-        private const string UpdateDataUrl = "https://eternitylife.de/htbah_update.json";
-
-        [JsonProperty("version")]
-        private string Version { get; set; }
-
-        [JsonProperty("file")]
-        private string FileUrl { get; set; }
-
-        [JsonProperty("changelog")]
-        private string ChangelogUrl { get; set; }
+        private const string ChangelogDataUrl = "https://eternitylife.de/htbah_changelog.txt";
 
         internal static bool Start()
         {
             try
             {
+                AutoUpdater.Synchronous = true;
+                AutoUpdater.Mandatory = true;
+                AutoUpdater.UpdateMode = Mode.Forced;
+                bool flag = false;
+                AutoUpdater.ApplicationExitEvent += () =>
+                {
+                    flag = true;
+                };
+                AutoUpdater.Start("https://eternitylife.de/htbah_update.xml");
+                if (flag) return true;
                 using (WebClient client = new WebClient())
                 {
-                    Updater data = JsonConvert.DeserializeObject<Updater>(client.DownloadString(UpdateDataUrl));
-                    if (data.Version != CurrentVersion)
-                    {
-                        client.DownloadFile(data.FileUrl,
-                            Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "",
-                                "update.zip"));
-                        return true;
-                    }
-
-                    Changelog = Changelog.Parse(client.DownloadString(data.ChangelogUrl));
+                    Changelog = Changelog.Parse(client.DownloadString(ChangelogDataUrl));
                 }
 
                 return false;

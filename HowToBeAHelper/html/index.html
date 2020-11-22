@@ -3236,6 +3236,11 @@
         currentAbilityInput = element.parentElement.querySelector('input');
         $('#abilities-select').html("");
         let arr = PREPARED_ABILITIES[skillType];
+        arr.sort(function (a, b) {
+            let textA = a.toUpperCase();
+            let textB = b.toUpperCase();
+            return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+        });
         for (let i = 0; i < arr.length; i++) {
             $('#abilities-select').append(`<option value="${arr[i]}">${arr[i]}</option>`);
         }

@@ -27,17 +27,25 @@ namespace HowToBeAHelper.BuiltIn
             if (form == null) return;
             form.GetField("Portrait_af_image");//TODO
             form.GetField("Name").SetValue(character.Name);
+            form.PartialFormFlattening("Name");
             form.GetField("Geschlecht").SetValue(character.Gender);
+            form.PartialFormFlattening("Geschlecht");
             form.GetField("Alter").SetValue(character.Age.ToString());
             form.GetField("Lebenspunkte").SetValue(character.Health.ToString());
             form.GetField("Statur").SetValue(character.Stature);
+            form.PartialFormFlattening("Statur");
             form.GetField("Religion").SetValue(character.Religion);
+            form.PartialFormFlattening("Religion");
             form.GetField("Beruf").SetValue(character.Job);
+            form.PartialFormFlattening("Beruf");
             form.GetField("Familienstand").SetValue(character.MartialStatus);
+            form.PartialFormFlattening("Familienstand");
             form.GetField("Inventar").SetValue(character.Inventory);
             form.GetField("Anmerkungen").SetValue(character.Notes);
             form.GetField("PunkteGesamt").SetValue("0");
+            form.PartialFormFlattening("PunkteGesamt");
             form.GetField("PunkteRest").SetValue("0");
+            form.PartialFormFlattening("PunkteRest");
             FillSkills(form, "Handeln", "H", "Geistesblitzpunkte_Handeln", character, character.ActSkills);
             FillSkills(form, "Wissen", "W", "Geistesblitzpunkte_Wissen", character, character.KnowledgeSkills, "G", "", "1.");
             FillSkills(form, "Interagieren", "I", "GBPI", character, character.SocialSkills, "F", "N");
@@ -55,13 +63,19 @@ namespace HowToBeAHelper.BuiltIn
                 Skill skill = skills[i];
                 if (string.IsNullOrEmpty(skill.Name)) continue;
                 form.GetField(name + extra1 + "B." + (i + 1)).SetValue(name + "HGB." + (i + 1)); //HGB.x
+                form.PartialFormFlattening(name + extra1 + "B." + (i + 1));
                 form.GetField(name + extra1 + "G" + (i + 1)).SetValue((skill.Value + bonus).ToString()); //HGGx
+                form.PartialFormFlattening(name + extra1 + "G" + (i + 1));
                 form.GetField(name + "Talent." + extra3 + (i + 1)).SetValue(skill.Name); //HTalent.x = Skillname
+                form.PartialFormFlattening(name + "Talent." + extra3 + (i + 1));
                 form.GetField(name + extra2 + extra1 + (i + 1)).SetValue(skill.Value.ToString()); //HGx = Skillvalue
+                form.PartialFormFlattening(name + extra2 + extra1 + (i + 1));
             }
 
             form.GetField(fullname).SetValue(bonus.ToString());
+            form.PartialFormFlattening(fullname);
             form.GetField(brainstormName).SetValue(brainstorm.ToString());
+            form.PartialFormFlattening(brainstormName);
         }
     }
 }

@@ -56,8 +56,8 @@ PlaySound = 0
 Allow = 0
 [Build]
 File = E:\Development\HowToBeAHelper\htbahinstall.exe
-SetupIconPath = ..\icons\ancient.ico
-UninstallIconPath = ..\icons\ancient.ico
+SetupIconPath = E:\Development\HowToBeAHelper\HowToBeAHelper\Resources\icon.ico
+UninstallIconPath = E:\Development\HowToBeAHelper\HowToBeAHelper\Resources\icon.ico
 CompressionMethod = 0
 CompressionLevel = 2
 [Updater]
@@ -75,6 +75,15 @@ Execdlls = 0
 [Languages]
 0
 [Files/Dirs]
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\AutoUpdater.NET.dll
+419 KB
+dll
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\AutoUpdater.NET.pdb
+71.5 KB
+pdb
+E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\AutoUpdater.NET.xml
+32.8 KB
+xml
 E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\BouncyCastle.Crypto.dll
 2.7 MB
 dll
@@ -99,17 +108,11 @@ pdb
 E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\Common.Logging.xml
 170.6 KB
 xml
-E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\debug.log
-2.7 KB
-log
-E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\DotNetZip.dll
-448 KB
-dll
 E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\HowToBeAHelper.exe
-139.5 KB
+159 KB
 exe
 E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\HowToBeAHelper.exe.config
-1.3 KB
+1.2 KB
 config
 E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\HowToBeAHelper.Library.dll
 9 KB
@@ -118,11 +121,8 @@ E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\HowToBeAHelper.Library.
 3.5 KB
 pdb
 E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\HowToBeAHelper.pdb
-127.5 KB
+173.5 KB
 pdb
-E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\HowToBeAHelper.Updater.exe
-6 KB
-exe
 E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\itext.barcodes.dll
 142.5 KB
 dll
@@ -216,9 +216,6 @@ xml
 E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\websocket-sharp.dll
 239.5 KB
 dll
-E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\icon.ico
-9.4 KB
-ico
 E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\html\
 N/A
 [Folder]
@@ -228,6 +225,12 @@ N/A
 E:\Development\HowToBeAHelper\HowToBeAHelper\bin\Release\x86\
 N/A
 [Folder]
+E:\Development\HowToBeAHelper\HowToBeAHelper\Resources\icon.ico
+9.4 KB
+ico
+E:\Development\HowToBeAHelper\HowToBeAHelper\Resources\icon_img.png
+410 Byte
+png
 [Licence_Begin]
 18858
 {\rtf1\ansi\ansicpg1252\deff0\deflang1031{\fonttbl{\f0\fnil\fcharset0 Arial;}}

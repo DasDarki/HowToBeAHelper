@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Forms;
+using System.Reflection;
 
 namespace HowToBeAHelper
 {
@@ -21,7 +21,7 @@ namespace HowToBeAHelper
             Content = dict["Content"];
             Author = dict["Author"];
             Date = dict["Date"];
-            Version = Updater.CurrentVersion;
+            Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         internal static Changelog Parse(string data)

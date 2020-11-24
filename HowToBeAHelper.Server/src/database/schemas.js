@@ -50,7 +50,10 @@ const Session = mongoose.model('Session', sessionSchema);
 const userSchema = new mongoose.Schema({
     uuid: String,
     name: String,
+    email: String,
     password: String,
+    isVerified: Boolean,
+    resetId: String,
     characters: [Character.schema],
     sessions: [{type: mongoose.Schema.Types.ObjectId, ref: 'SessionUser'}]
 });

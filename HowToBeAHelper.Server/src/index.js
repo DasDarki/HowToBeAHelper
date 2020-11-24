@@ -1,5 +1,4 @@
 require('dotenv').config();
-const isDev = process.env.IS_DEV === "true";
 
 const app = require('express');
 const http = require('http').createServer(app);
@@ -24,10 +23,13 @@ database.start(() => {
                 other.emit("user:mute", flag);
             });
         });
-        socket.on("user:register", function (name, password) {
-            database.createUser(name, password, status => {
+        socket.on("user:register", function (name, email, password) {
+            database.createUser(name, email, password, status => {
                 socket.emit("user:register:result", status);
             });
+        });
+        socket.on("user:set-email", function (name, email) {
+            database.saveUserMail(name, email);
         });
         socket.on("session:request", function (sessionId, fn) {
             database.requestSessionData(sessionId, fn);
@@ -101,6 +103,9 @@ database.start(() => {
         socket.on("user:char-refresh", function (username, fn) {
             database.refreshCharacters(username, fn);
         });
+        socket.on("user:forgot-pw", function (user, fn) {
+            database.forgotUserPw(user, fn);
+        });
         socket.on("character:save", function (username, character, fn) {
             database.saveCharacter(username, character, fn);
             let json = JSON.stringify(character);
@@ -133,3 +138,5 @@ database.start(() => {
         console.log("Master Server running on *:" + port);
     });
 });
+
+require("./web/index.js")(database);

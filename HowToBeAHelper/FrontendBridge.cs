@@ -424,14 +424,33 @@ namespace HowToBeAHelper
             Bootstrap.IsAutomaticallyLoggedIn = true;
         }
 
-        public void registerUser(string username, string password, IJavascriptCallback callback)
+        public void registerUser(string username, string email, string password, IJavascriptCallback callback)
         {
             _form.Run(async () =>
             {
-                await _form.Master.RegisterUser(username, HashPassword(password), status =>
+                await _form.Master.RegisterUser(username, email, HashPassword(password), status =>
                 {
                     callback.ExecuteAsync(status);
                 });
+            });
+        }
+
+        public void forgotMyPassword(string username, IJavascriptCallback callback)
+        {
+            _form.Run(async () =>
+            {
+                await _form.Master.ForgotMyPassword(username, status =>
+                {
+                    callback.ExecuteAsync(status);
+                });
+            });
+        }
+
+        public void saveEmailInput(string username, string email)
+        {
+            _form.Run(async () =>
+            {
+                await _form.Master.SaveEmail(username, email);
             });
         }
 

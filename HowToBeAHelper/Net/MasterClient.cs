@@ -124,12 +124,21 @@ namespace HowToBeAHelper.Net
         /// Request an user creation on the master server.
         /// </summary>
         /// <param name="name">The name for the user</param>
+        /// <param name="email">The email for the user</param>
         /// <param name="password">The password for the user</param>
         /// <param name="callback">A callback which gets called, when the process is finished</param>
-        internal async Task RegisterUser(string name, string password, Action<int> callback)
+        internal async Task RegisterUser(string name, string email, string password, Action<int> callback)
         {
             _registerCallback = callback;
-            await _client.EmitAsync("user:register", name, password);
+            await _client.EmitAsync("user:register", name, email, password);
+        }
+
+        internal async Task ForgotMyPassword(string email, Action<bool> callback)
+        {
+            await _client.EmitAsync("user:forgot-pw", response =>
+            {
+                callback(response.GetValue<bool>());
+            }, email);
         }
 
         /// <summary>
@@ -144,6 +153,11 @@ namespace HowToBeAHelper.Net
             {
                 callback(response.GetValue<string>());
             }, name, password);
+        }
+
+        internal async Task SaveEmail(string name, string email)
+        {
+            await _client.EmitAsync("user:set-email", name, email);
         }
 
         /// <summary>

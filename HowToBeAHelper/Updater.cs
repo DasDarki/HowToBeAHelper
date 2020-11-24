@@ -15,7 +15,7 @@ namespace HowToBeAHelper
             {
                 AutoUpdater.Synchronous = true;
                 AutoUpdater.Mandatory = true;
-                AutoUpdater.UpdateMode = Mode.Forced;
+                AutoUpdater.UpdateMode = Mode.ForcedDownload;
                 bool flag = false;
                 AutoUpdater.ApplicationExitEvent += () =>
                 {

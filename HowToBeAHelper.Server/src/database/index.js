@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const schemas = require('./schemas.js');
 const {v4: uuidv4} = require('uuid');
+const Mail = require('./../mail/index.js');
 
 function Database() {
 
@@ -130,7 +131,38 @@ function Database() {
         });
     };
 
-    this.createUser = function (name, password, callback) {
+    this.saveUserMail = function (name, email) {
+        schemas.User.find({name: {$regex: new RegExp(name, "i")}}, function (err, result) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            let user = result[0];
+            user.email = email;
+            user.isVerified = true;
+            user.save(function (err, _) {
+                if (err) {
+                    console.error(err);
+                }
+            });
+        });
+    };
+
+    this.verifyUser = function (uuid, callback) {
+        schemas.User.find({uuid: uuid}, function (err, result) {
+            if (err) {
+                callback(false);
+            } else {
+                let usr = result[0];
+                usr.isVerified = true;
+                usr.save(err1 => {
+                    callback(!err1);
+                });
+            }
+        });
+    };
+
+    this.createUser = function (name, email, password, callback) {
         schemas.User.find({name: {$regex: new RegExp(name, "i")}}, function (err, result) {
             if (err) {
                 console.error(err);
@@ -141,14 +173,35 @@ function Database() {
                 callback(1); //username existing
                 return;
             }
-            let user = new schemas.User({name: name, password: password, characters: [], uuid: uuidv4()});
-            user.save(function (err, _) {
-                let status = 0; //success
+            schemas.User.find({email: {$regex: new RegExp(email, "i")}}, function (err, result) {
                 if (err) {
-                    status = 2; //internal err
                     console.error(err);
+                    callback(2); //internal err
+                    return;
                 }
-                callback(status);
+                if (result && result.length > 0) {
+                    callback(3); //email existing
+                    return;
+                }
+                let uuid = uuidv4();
+                let user = new schemas.User({
+                    name: name,
+                    email: email,
+                    isVerified: false,
+                    password: password,
+                    characters: [],
+                    uuid: uuid
+                });
+                user.save(function (err, _) {
+                    let status = 0; //success
+                    if (err) {
+                        status = 2; //internal err
+                        console.error(err);
+                    }
+                    Mail.verify(email, name, "https://htbah.eternitylife.de/verify/?val=" + uuid).then(() => {
+                    });
+                    callback(status);
+                });
             });
         });
     };
@@ -293,6 +346,30 @@ function Database() {
                             });
                         });
                     });
+                });
+            } else {
+                fn("");
+            }
+        });
+    };
+
+    this.forgotUserPw = function (username, fn) {
+        schemas.User.find({
+            name: {$regex: new RegExp(username, "i")}
+        }, null, {limit: 1}, function (err, result) {
+            if (err) {
+                console.error(err);
+                fn(false);
+                return;
+            }
+            if (result && result.length >= 1) {
+                let user = result[0];
+                let resetId = ""; //todo generate resetId
+                user.resetId = resetId;
+                Mail.forgotPassword(user.email, username, "https://htbah.eternitylife.de/").then(() => {
+                });
+                user.save(err1 => {
+                    fn(!err1);
                 });
             } else {
                 fn("");
@@ -460,7 +537,16 @@ function Database() {
             password: password
         }, null, {limit: 1}).populate('sessions').exec();
         if (result && result.length >= 1) {
-            let sessions = result[0].sessions;
+            let usr = result[0];
+            let sessions = usr.sessions;
+            let email = usr.email;
+            let noMail = email == null || email.toString().trim().length <= 0;
+            if (!noMail && !usr.isVerified) {
+                Mail.verify(email, name, "https://htbah.eternitylife.de/verify/?val=" + usr.uuid).then(() => {
+                });
+                callback("");
+                return;
+            }
             let sessionObjs = {};
             new Promise(resolve => {
                 let waiters = 0;
@@ -499,7 +585,7 @@ function Database() {
                 }
                 finisher();
             }).then(_ => {
-                callback(JSON.stringify([result[0].characters, sessions, sessionObjs]).split('"').join('\\"'));
+                callback(JSON.stringify([result[0].characters, sessions, sessionObjs, noMail]).split('"').join('\\"'));
             });
         } else {
             callback("");

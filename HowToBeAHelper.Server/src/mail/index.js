@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
     secure: true,
     auth: {
         user: 'noreply@eternitylife.net',
-        pass: ''
+        pass: process.env.SMTP_PASSWORD
     }
 });
 

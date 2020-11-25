@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const schemas = require('./schemas.js');
 const {v4: uuidv4} = require('uuid');
 const Mail = require('./../mail/index.js');
+const ATK = require("../ATK");
 
 function Database() {
 
@@ -364,15 +365,37 @@ function Database() {
             }
             if (result && result.length >= 1) {
                 let user = result[0];
-                let resetId = ""; //todo generate resetId
+                let resetId = ATK.generate();
                 user.resetId = resetId;
-                Mail.forgotPassword(user.email, username, "https://htbah.eternitylife.de/").then(() => {
+                Mail.forgotPassword(user.email, username, "https://htbah.eternitylife.de/forgotpassword/?atk=" + resetId).then(() => {
                 });
                 user.save(err1 => {
                     fn(!err1);
                 });
             } else {
                 fn("");
+            }
+        });
+    };
+
+    this.saveUserPassword = function (atk, password, fn) {
+        schemas.User.find({
+            resetId: atk
+        }, null, {limit: 1}, function (err, result) {
+            if (err) {
+                console.error(err);
+                fn(null, false);
+                return;
+            }
+            if (result && result.length >= 1) {
+                let user = result[0];
+                user.resetId = null;
+                user.password = password;
+                user.save(err1 => {
+                    fn(user.name, !err1);
+                });
+            } else {
+                fn(null, false);
             }
         });
     };

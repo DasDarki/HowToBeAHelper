@@ -4,8 +4,11 @@ const helmet = require('helmet');
 const csp = require('express-csp');
 const http = require('http');
 const fs = require("fs");
+const ATK = require('./../ATK.js');
 
 const verifyTemplate = fs.readFileSync(__dirname + "/VerifySuccess.html").toString();
+const forgotPasswordTemplate = fs.readFileSync(__dirname + "/ForgotPassword.html").toString();
+const forgotPasswordAppliedTemplate = fs.readFileSync(__dirname + "/ForgotPasswordApplied.html").toString();
 
 const app = express();
 app.use(morgan('common'));
@@ -43,6 +46,48 @@ module.exports = (db) => {
             } else {
                 res.status(200);
                 res.send("");
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    });
+    app.get('/forgotpassword', (req, res) => {
+        try {
+            if (req.query.atk) {
+                if (ATK.verify(req.query.atk)) {
+                    res.status(200);
+                    res.send(forgotPasswordTemplate.split("%atk%").join(req.query.atk));
+                } else {
+                    res.status(200);
+                    res.send("Ungültige Anfrage");
+                }
+            } else {
+                res.status(200);
+                res.send("Ungültige Anfrage");
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    });
+    app.get('/forgotpassword/save', (req, res) => {
+        try {
+            if (req.query.atk && req.query.pw) {
+                if (ATK.verify(req.query.atk)) {
+                    db.saveUserPassword(req.query.atk, req.query.pw, (username, success) => {
+                        res.status(200);
+                        if (username) {
+                            res.send(forgotPasswordAppliedTemplate.split("%username%").join(username).split("%state%").join(success ? "erfolgreich" : "nicht"));
+                        } else {
+                            res.send("Interner Fehler");
+                        }
+                    });
+                } else {
+                    res.status(200);
+                    res.send("Ungültige Anfrage");
+                }
+            } else {
+                res.status(200);
+                res.send("Ungültige Anfrage");
             }
         } catch (e) {
             console.error(e);

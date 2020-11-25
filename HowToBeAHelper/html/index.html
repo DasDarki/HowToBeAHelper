@@ -340,6 +340,8 @@
                                 </div>
                             </div>
                             <footer class="card-footer">
+                                <a href="#" class="card-footer-item" id="login-forgot"
+                                   onclick="forgotMyPassword()">Password vergessen</a>
                                 <a href="#" class="card-footer-item" id="login-finish"
                                    onclick="finishLogin()">Einloggen</a>
                             </footer>
@@ -4982,7 +4984,21 @@
                 $('#login-name').addClass('is-danger');
                 return;
             }
-            //TODO coming later
+            bridge.forgotMyPassword(username, success => {
+                if (success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Rettung auf dem Weg...',
+                        text: 'Die Rettung ist auf dem Weg in dein E-Mail Postfach!',
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Huch!',
+                        text: 'Da ist leider was schief gelaufen. Auch wir haben schlechte Tagen :(',
+                    });
+                }
+            });
         }
 
         function finishLogin() {

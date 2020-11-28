@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HowToBeAHelper
+﻿namespace HowToBeAHelper
 {
     /// <summary>
     /// A helper class which offers loading and writing of TOML files.

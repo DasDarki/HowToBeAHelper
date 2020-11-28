@@ -118,6 +118,31 @@
             }
         }
     </style>
+    <style>
+        .plugin-loaded, .plugin-stopped {
+            cursor: not-allowed;
+            pointer-events: none;
+            color: rgba(0, 0, 0, 0.2);
+        }
+
+        .plugin-loaded:hover, .plugin-stopped:hover, .plugin-failed:hover {
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .plugin-failed {
+            cursor: not-allowed !important;
+            pointer-events: none !important;
+            color: #fc5050 !important;
+            text-decoration: line-through;
+        }
+
+        .page-switch {
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -moz-user-select: none;
+        }
+    </style>
 </head>
 <body>
 <div class="container" id="wrapper">
@@ -140,9 +165,9 @@
 
                 </ul>
                 <p class="menu-label">
-                    Plugins
+                    Plugins <a class="tag is-primary" id="open-marketplace">+</a>
                 </p>
-                <ul class="menu-list">
+                <ul class="menu-list" id="plugins-list">
 
                 </ul>
             </aside>
@@ -3345,6 +3370,14 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
+        const PLUGINS_LIST = $('#plugins-list');
+
+        function appendPluginEntry(id, display, state) {
+            id = id.split(' ').join('_');
+            PLUGINS_LIST.append(`<li id="litem-${id}"><a id="ahref-${id}" class="page-switch plugin-${state}">${display}</a></li>`);
+        }
+    </script>
+    <script>
         const PREPARED_ABILITIES = {
             "act": ["Schwimmen", "Zechen", "Klettern", "Rennen", "Schleichen", "Verstecken", "Werfen", "Treten", "Kochen", "Singen", "Tanzen", "Angeln", "Schneidern", "Taschendiebstahl", "Navigieren", "Fahrzeuge führen", "Ringen", "Waffenloser Kampf", "Schießen", "Malen/Zeichnen", "Holzschnitzen", "Origami", "Falschspiel", "Schlösser knacken", "Fesseln/Entfesseln", "Fälschen", "Klettern"],
             "knowledge": ["Gassenschläue", "Aufmerksamkeit", "Englisch", "Latein", "Chinesisch", "Medizin", "Tiermedizin", "Mechanik", "Geographie", "Mathematik", "Modedesign", "Programmieren", "Flora", "Fauna", "Auffassungsgabe", "Literatur", "Spurenlesen", "Orientierung", "Karten-zählen", "Gifte", "Astrologie", "Gassenwissen", "Hohe Kreise", "Antike Kulturen", "Werte schätzen"],
@@ -4974,6 +5007,22 @@
                         });
                     }
                 }
+            });
+        }
+
+        function alertError(text, title) {
+            Swal.fire({
+                icon: 'error',
+                title: title,
+                text: text
+            });
+        }
+
+        function alertSuccess(text, title) {
+            Swal.fire({
+                icon: 'success',
+                title: title,
+                text: text
             });
         }
 

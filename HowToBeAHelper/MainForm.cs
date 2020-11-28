@@ -76,6 +76,12 @@ namespace HowToBeAHelper
             {
                 WindowState = FormWindowState.Minimized;
             }
+
+            foreach (Plugin plugin in Bootstrap.PluginManager.LoadedPlugins)
+            {
+                Browser.ExecuteScriptAsyncWhenPageLoaded(
+                    $"appendPluginEntry(`{plugin.Meta.Id}`, `{plugin.Meta.Display}`, `{plugin.State.GetName().ToLower()}`)");
+            }
         }
 
         internal void Run(Action callback)
@@ -112,6 +118,16 @@ namespace HowToBeAHelper
         public void NotifyError(string text, int duration = 5000)
         {
             Browser.ExecuteScriptAsync($"notifyError('{text}', {duration})");
+        }
+
+        public void AlertSuccess(string text, string title = "Juhu!")
+        {
+            Browser.ExecuteScriptAsync($"alertSuccess(`{text}`, `{title}`)");
+        }
+
+        public void AlertError(string text, string title = "Juhu!")
+        {
+            Browser.ExecuteScriptAsync($"alertError(`{text}`, `{title}`)");
         }
 
         internal void SafeInvoke(Action action)

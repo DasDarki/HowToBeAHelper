@@ -16,6 +16,200 @@
             <param name="enum">The given enum</param>
             <returns>The name of the given enum</returns>
         </member>
+        <member name="M:HowToBeAHelper.Extensions.SafeForEach``1(System.Collections.Generic.IReadOnlyList{``0},System.Func{``0,System.Boolean})">
+            <summary>
+            Makes a for each safe via reverse iterating. Modifying the list won't end in an exception.
+            </summary>
+            <param name="list">The list to be iterated</param>
+            <param name="callback">The callback which gets called on iterate, returning true ends in a break</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SafeForEach``1(System.Collections.Generic.List{``0},System.Func{``0,System.Boolean})">
+            <summary>
+            Makes a for each safe via reverse iterating. Modifying the list won't end in an exception.
+            </summary>
+            <param name="list">The list to be iterated</param>
+            <param name="callback">The callback which gets called on iterate, returning true ends in a break</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SafeForEach``1(System.Collections.Generic.IReadOnlyList{``0},System.Action{``0})">
+            <summary>
+            Makes a for each safe via reverse iterating. Modifying the list won't end in an exception.
+            </summary>
+            <param name="list">The list to be iterated</param>
+            <param name="callback">The callback which gets called on iterate</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SafeForEach``1(System.Collections.Generic.List{``0},System.Action{``0})">
+            <summary>
+            Makes a for each safe via reverse iterating. Modifying the list won't end in an exception.
+            </summary>
+            <param name="list">The list to be iterated</param>
+            <param name="callback">The callback which gets called on iterate</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SafeForEach``1(System.Array,System.Action{``0})">
+            <summary>
+            Makes a for each safe via reverse iterating. Modifying the list won't end in an exception.
+            </summary>
+            <param name="list">The list to be iterated</param>
+            <param name="callback">The callback which gets called on iterate</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SafeForEach``1(System.Array,System.Func{``0,System.Boolean})">
+            <summary>
+            Makes a for each safe via reverse iterating. Modifying the list won't end in an exception.
+            </summary>
+            <param name="list">The list to be iterated</param>
+            <param name="callback">The callback which gets called on iterate, returning true ends in a break</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SelectAll``1(System.Collections.Generic.IReadOnlyList{``0},System.Predicate{``0})">
+            <summary>
+            Selects all items fitting to the given predicate.
+            </summary>
+            <param name="list">The list to be checked</param>
+            <param name="check">The predicate which filters</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+            <returns>The list containing all fitting elements</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SelectAll``1(System.Collections.Generic.List{``0},System.Predicate{``0})">
+            <summary>
+            Selects all items fitting to the given predicate.
+            </summary>
+            <param name="list">The list to be checked</param>
+            <param name="check">The predicate which filters</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+            <returns>The list containing all fitting elements</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SelectFirst``1(System.Collections.Generic.IReadOnlyList{``0},System.Predicate{``0},``0)">
+            <summary>
+            Selects the first item fitting to the given predicate.
+            </summary>
+            <param name="list">The list to be checked</param>
+            <param name="check">The predicate which filters</param>
+            <param name="default">The value which will be returned if no item is found</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+            <returns>The list containing all fitting elements</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SelectFirst``1(System.Collections.Generic.List{``0},System.Predicate{``0},``0)">
+            <summary>
+            Selects the first item fitting to the given predicate.
+            </summary>
+            <param name="list">The list to be checked</param>
+            <param name="check">The predicate which filters</param>
+            <param name="default">The value which will be returned if no item is found</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+            <returns>The list containing all fitting elements</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.Collect``2(System.Collections.Generic.List{``0},System.Func{``0,``1})">
+            <summary>
+            Selects all items fitting to the given predicate.
+            </summary>
+            <param name="list">The list to be checked</param>
+            <param name="collector">The function which converts the given type to the wanted type</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+            <typeparam name="TN">The type which gets collected</typeparam>
+            <returns>The list containing all fitting elements</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.Collect``2(System.Collections.Generic.IReadOnlyList{``0},System.Func{``0,``1})">
+            <summary>
+            Selects all items fitting to the given predicate.
+            </summary>
+            <param name="list">The list to be checked</param>
+            <param name="collector">The function which converts the given type to the wanted type</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+            <typeparam name="TN">The type which gets collected</typeparam>
+            <returns>The list containing all fitting elements</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.ContainsIgnoreCase(System.Array,System.String)">
+            <summary>
+            Checks if the given string value is in the given list without considering the case.
+            </summary>
+            <param name="list">The list to be checked</param>
+            <param name="value">The string value</param>
+            <returns>True if it is containing the string value</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.ContainsIgnoreCase(System.Collections.Generic.List{System.String},System.String)">
+            <summary>
+            Checks if the given string value is in the given list without considering the case.
+            </summary>
+            <param name="list">The list to be checked</param>
+            <param name="value">The string value</param>
+            <returns>True if it is containing the string value</returns>
+        </member>
+        <member name="T:HowToBeAHelper.IPluginManager">
+            <summary>
+            The plugin manager manages plugins, starts them, stops them and identifies them. It is also a handler
+            for specific parts of the plugin process as well as the bridge between API and plugins.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.IPluginManager.Plugins">
+            <summary>
+            A list containing every plugin which was at least once loaded while the runtime is running.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.IPluginManager.LoadPlugin(System.String)">
+            <summary>
+            Loads a plugin from an external source. 
+            </summary>
+            <param name="name">The filename or directory name starting at the plugins main folder</param>
+            <returns>The loaded plugin instance</returns>
+        </member>
+        <member name="M:HowToBeAHelper.IPluginManager.StartPlugin(HowToBeAHelper.Plugin)">
+            <summary>
+            Tries to start the given plugin and returns the success level.
+            </summary>
+            <param name="plugin">The plugin which should be started</param>
+            <returns>True, if the starting process was successful</returns>
+        </member>
+        <member name="M:HowToBeAHelper.IPluginManager.StopPlugin(HowToBeAHelper.Plugin,System.Boolean)">
+            <summary>
+            Stops the given plugin.
+            </summary>
+            <param name="plugin">The plugin which should be started</param>
+            <param name="clean">If true, the plugin will be deleted from the plugins list</param>
+        </member>
+        <member name="M:HowToBeAHelper.IPluginManager.GetPlugin(System.String)">
+            <summary>
+            Gets the plugin by the given id and returns it.
+            </summary>
+            <param name="id">The id of the plugin</param>
+            <returns>The plugin which is associated with the given id, or null if nothing was found</returns>
+        </member>
+        <member name="T:HowToBeAHelper.IUI">
+            <summary>
+            The interface for accessing the UI API of HTBAH.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.IUI.NotifySuccess(System.String,System.Int32)">
+            <summary>
+            Prints a green success notify to the top-right corner of the UI.
+            </summary>
+            <param name="message">The message to be printed</param>
+            <param name="duration">The duration in milliseconds, how long the notify is shown</param>
+        </member>
+        <member name="M:HowToBeAHelper.IUI.NotifyError(System.String,System.Int32)">
+            <summary>
+            Prints a red error notify to the top-right corner of the UI.
+            </summary>
+            <param name="message">The message to be printed</param>
+            <param name="duration">The duration in milliseconds, how long the notify is shown</param>
+        </member>
+        <member name="M:HowToBeAHelper.IUI.AlertSuccess(System.String,System.String)">
+            <summary>
+            Shows a success alert box onto the screen.
+            </summary>
+            <param name="text">The text of the alert</param>
+            <param name="title">The title of the alert</param>
+        </member>
+        <member name="M:HowToBeAHelper.IUI.AlertError(System.String,System.String)">
+            <summary>
+            Shows a error alert box onto the screen.
+            </summary>
+            <param name="text">The text of the alert</param>
+            <param name="title">The title of the alert</param>
+        </member>
         <member name="T:HowToBeAHelper.Model.Characters.Character">
             <summary>
             The data model for the character.
@@ -172,6 +366,31 @@
             From here every process is getting managed. This class is the only class with direct access to the API.
             </summary>
         </member>
+        <member name="F:HowToBeAHelper.Plugin._logPath">
+            <summary>
+            The internal log path of this plugin.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Plugin.Meta">
+            <summary>
+            The meta of this plugin. Do not manually set.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Plugin.State">
+            <summary>
+            The state of this plugin. Do not manually set.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Plugin.PluginManager">
+            <summary>
+            The current instance of the running plugin manager. Do not manually set.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Plugin.UI">
+            <summary>
+            The current UI API instance. Do not manually set.
+            </summary>
+        </member>
         <member name="M:HowToBeAHelper.Plugin.OnStart">
             <summary>
             Gets called when the plugin is getting started.
@@ -182,9 +401,113 @@
             Gets called when the plugin is getting stopped.
             </summary>
         </member>
-        <member name="M:HowToBeAHelper.Plugin.OnInit">
+        <member name="M:HowToBeAHelper.Plugin.Log(System.String,System.Object[])">
             <summary>
-            Gets called when the plugin is initialized. The init step is shortly before any plugin is getting started.
+            Logs a message to the plugins log file in the root directory of HTBAH.
+            Arguments can be entered via the placeholder format of the <see cref="M:System.String.Format(System.String,System.Object)"/>
+            method.
+            </summary>
+            <param name="message">The message which should be appended</param>
+            <param name="args">The arguments which will be filled into the message</param>
+        </member>
+        <member name="T:HowToBeAHelper.PluginMeta">
+            <summary>
+            The meta defines needed information in order for the plugin manager to work.
+            The meta gets loaded by a meta xml file. Both C# and LUA plugins need the meta file.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.PluginMeta.Id">
+            <summary>
+            The id of the plugin. The id is required and identifies the plugin.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.PluginMeta.Display">
+            <summary>
+            The display name of the plugin. If name is entered, its the name otherwise the id.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.PluginMeta.Type">
+            <summary>
+            The type of the plugin. Its required and the loading process will fail, if its not entered.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.PluginMeta.Name">
+            <summary>
+            The name is optional and is the display for the plugin. If the name is not set, the id will take over.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.PluginMeta.Author">
+            <summary>
+            The author of the plugin. The author property is optional and has not any functionality but
+            displaying who the plugin wrote.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.PluginMeta.Description">
+            <summary>
+            The description of the plugin what it is doing.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.PluginMeta.Version">
+            <summary>
+            The version of the plugin. The version is required and will be used for differentiating the plugins
+            as well as updating them.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.PluginMeta.Dependencies">
+            <summary>
+            The dependencies are semi-required. If no dependencies are entered, the list is empty. The content
+            of the dependencies are other plugin ids.
+            The loader tries to load the dependencies first in order to prevent errors.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.PluginMeta.#ctor(HowToBeAHelper.PluginType,System.String,System.String,System.String,System.Version,System.Collections.Generic.IReadOnlyList{System.String},System.String)">
+            <summary>
+            The default constructor for the plugin meta. It is being used by the main plugin handler. Don't call it yourself.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.PluginState">
+            <summary>
+            This enum defines the state of a loaded plugin.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.PluginState.Unknown">
+            <summary>
+            Mostly the first state. If none state is set, this will be the state.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.PluginState.Loaded">
+            <summary>
+            The plugin is loaded and ready for the starting process.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.PluginState.Started">
+            <summary>
+            The plugin is started and runs normally.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.PluginState.Stopped">
+            <summary>
+            The plugin was stopped.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.PluginState.Failed">
+            <summary>
+            The plugin failed at some point.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.PluginType">
+            <summary>
+            The type defines the needed plugin loader for a specific plugin.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.PluginType.CSharp">
+            <summary>
+            The plugin is a C# plugin.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.PluginType.LUA">
+            <summary>
+            The plugin is a LUA plugin.
             </summary>
         </member>
         <member name="T:HowToBeAHelper.Toml">

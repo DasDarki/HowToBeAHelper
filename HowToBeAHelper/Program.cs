@@ -18,10 +18,12 @@ namespace HowToBeAHelper
             string appPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "";
             if (!File.Exists(Path.Combine(appPath, "disableupdate")))
             {
+#if !DEBUG
                 if (Updater.Start())
                 {
                     return;
-                }
+                } 
+#endif
             }
 
             if (Bootstrap.Init(args))

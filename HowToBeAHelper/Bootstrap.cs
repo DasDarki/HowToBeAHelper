@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
+using HowToBeAHelper.Plugins;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 
@@ -66,6 +67,8 @@ namespace HowToBeAHelper
         /// </summary>
         internal static string AutoJoinSession { get; set; } = "";
 
+        internal static PluginManager PluginManager { get; } = new PluginManager();
+
         private const string UriScheme = "htbah";
         private const string FriendlyName = "HowToBeAHelper";
 
@@ -86,6 +89,7 @@ namespace HowToBeAHelper
             Settings = Settings.Load();
             CharacterManager = new CharacterManager();
             IsAutomaticallyLoggedIn = Load(out StoredUsername, out StoredPassword);
+            PluginManager.LoadPlugins();
             return true;
         }
 

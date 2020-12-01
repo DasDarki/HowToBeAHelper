@@ -22,6 +22,7 @@ namespace HowToBeAHelper
 
         internal MainForm()
         {
+            Instance = this;
             Master = new MasterClient();
             InitializeComponent();
             Text = Properties.Settings.Default.Title;
@@ -53,7 +54,7 @@ namespace HowToBeAHelper
             {
                 if (args.Frame.IsMain)
                 {
-                    //Browser.ShowDevTools();
+                    Browser.ShowDevTools();
                     SafeInvoke(() =>
                     {
                         Visible = true;
@@ -81,6 +82,8 @@ namespace HowToBeAHelper
             {
                 Browser.ExecuteScriptAsyncWhenPageLoaded(
                     $"appendPluginEntry(`{plugin.Meta.Id}`, `{plugin.Meta.Display}`, `{plugin.State.GetName().ToLower()}`)");
+                Browser.ExecuteScriptAsyncWhenPageLoaded($"ui_CreatePluginPage('{plugin.Page.ID}')");
+                plugin.OnPageLoad();
             }
         }
 

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using HowToBeAHelper.Scripting;
+using HowToBeAHelper.UI;
+using HowToBeAHelper.UI.Layout;
 
 namespace HowToBeAHelper.Plugins
 {
@@ -14,7 +15,6 @@ namespace HowToBeAHelper.Plugins
 
         private readonly IInterpreter _csharpInterpreter = new CSharpInterpreter();
         private readonly IInterpreter _luaInterpreter = new LuaInterpreter();
-        private readonly UI _ui = new UI();
 
         internal PluginManager()
         {
@@ -114,9 +114,11 @@ namespace HowToBeAHelper.Plugins
             }
 
             if (plugin == null) return null;
+            plugin.Meta = meta;
             plugin.PluginManager = this;
-            plugin.UI = _ui;
+            plugin.UI = CefUI.UI;
             plugin.State = PluginState.Loaded;
+            plugin.Page = new Parent(null, "_plugin_" + meta.Id + "_", SetupSettings.Default()){DenyDestroy = true};
             return plugin;
         }
 

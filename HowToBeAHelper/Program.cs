@@ -30,7 +30,7 @@ namespace HowToBeAHelper
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(MainForm.Instance = new MainForm());
+                Application.Run(new MainForm());
             }
         }
 

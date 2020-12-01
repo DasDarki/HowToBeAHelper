@@ -177,39 +177,6 @@
             <param name="id">The id of the plugin</param>
             <returns>The plugin which is associated with the given id, or null if nothing was found</returns>
         </member>
-        <member name="T:HowToBeAHelper.IUI">
-            <summary>
-            The interface for accessing the UI API of HTBAH.
-            </summary>
-        </member>
-        <member name="M:HowToBeAHelper.IUI.NotifySuccess(System.String,System.Int32)">
-            <summary>
-            Prints a green success notify to the top-right corner of the UI.
-            </summary>
-            <param name="message">The message to be printed</param>
-            <param name="duration">The duration in milliseconds, how long the notify is shown</param>
-        </member>
-        <member name="M:HowToBeAHelper.IUI.NotifyError(System.String,System.Int32)">
-            <summary>
-            Prints a red error notify to the top-right corner of the UI.
-            </summary>
-            <param name="message">The message to be printed</param>
-            <param name="duration">The duration in milliseconds, how long the notify is shown</param>
-        </member>
-        <member name="M:HowToBeAHelper.IUI.AlertSuccess(System.String,System.String)">
-            <summary>
-            Shows a success alert box onto the screen.
-            </summary>
-            <param name="text">The text of the alert</param>
-            <param name="title">The title of the alert</param>
-        </member>
-        <member name="M:HowToBeAHelper.IUI.AlertError(System.String,System.String)">
-            <summary>
-            Shows a error alert box onto the screen.
-            </summary>
-            <param name="text">The text of the alert</param>
-            <param name="title">The title of the alert</param>
-        </member>
         <member name="T:HowToBeAHelper.Model.Characters.Character">
             <summary>
             The data model for the character.
@@ -373,22 +340,27 @@
         </member>
         <member name="P:HowToBeAHelper.Plugin.Meta">
             <summary>
-            The meta of this plugin. Do not manually set.
+            The meta of this plugin.
             </summary>
         </member>
         <member name="P:HowToBeAHelper.Plugin.State">
             <summary>
-            The state of this plugin. Do not manually set.
+            The state of this plugin.
             </summary>
         </member>
         <member name="P:HowToBeAHelper.Plugin.PluginManager">
             <summary>
-            The current instance of the running plugin manager. Do not manually set.
+            The current instance of the running plugin manager.
             </summary>
         </member>
         <member name="P:HowToBeAHelper.Plugin.UI">
             <summary>
-            The current UI API instance. Do not manually set.
+            The current UI API instance.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Plugin.Page">
+            <summary>
+            The page owned by this plugin.
             </summary>
         </member>
         <member name="M:HowToBeAHelper.Plugin.OnStart">
@@ -401,6 +373,11 @@
             Gets called when the plugin is getting stopped.
             </summary>
         </member>
+        <member name="M:HowToBeAHelper.Plugin.OnPageLoad">
+            <summary>
+            Gets called when the UI is loaded and the own page can be initialized.
+            </summary>
+        </member>
         <member name="M:HowToBeAHelper.Plugin.Log(System.String,System.Object[])">
             <summary>
             Logs a message to the plugins log file in the root directory of HTBAH.
@@ -409,6 +386,12 @@
             </summary>
             <param name="message">The message which should be appended</param>
             <param name="args">The arguments which will be filled into the message</param>
+        </member>
+        <member name="M:HowToBeAHelper.Plugin.AssertCaller">
+            <summary>
+            Checks the calling assembly if it is allowed to call this method.
+            </summary>
+            <returns>True, if the assembly is allowed to set</returns>
         </member>
         <member name="T:HowToBeAHelper.PluginMeta">
             <summary>
@@ -528,6 +511,407 @@
             </summary>
             <typeparam name="T">The output type</typeparam>
             <param name="path">The TOML file</param>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Controls.IButton">
+            <summary>
+            The button is a control which takes click actions and does something with it.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.IButton.Text">
+            <summary>
+            The text of the button.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.IButton.Color">
+            <summary>
+            The background color of the button.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.UI.Controls.IButton.Click">
+            <summary>
+            Gets called when someone clicks on the element.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.UI.Controls.IButton.DoubleClick">
+            <summary>
+            Gets called when someone doubleclicks on the element.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Controls.ICheckbox">
+            <summary>
+            The checkbox is a true or false control which can be checked.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.ICheckbox.Checked">
+            <summary>
+            Whether the checkbox is checked (true) or not (false).
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.ICheckbox.Default">
+            <summary>
+            The default value of this checkbox.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.ICheckbox.Text">
+            <summary>
+            The text of the checkbox which is beside the checkbox.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.UI.Controls.ICheckbox.Change">
+            <summary>
+            Gets called when the checkbox states changed.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Controls.IInput`1">
+            <summary>
+            The base element for every input. The base input can't be created but offers the basic
+            functionality. From here other inputs are derived.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.IInput`1.Placeholder">
+            <summary>
+            The placeholder of the input.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.IInput`1.Value">
+            <summary>
+            The value of the input.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.UI.Controls.IInput`1.Change">
+            <summary>
+            Gets called when the input changes.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.UI.Controls.IInput`1.FocusOut">
+            <summary>
+            Gets called when the input looses focus.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Controls.INumberInput">
+            <summary>
+            The number input is a kind of input which only takes numbers.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.INumberInput.Step">
+            <summary>
+            In which steps the number input is increasing and decreasing.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.INumberInput.Min">
+            <summary>
+            The minimum value of the input.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.INumberInput.Max">
+            <summary>
+            The maximum value of the input.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Controls.ITextInput">
+            <summary>
+            The text input is a kind of input which takes every kind of input.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.ICard">
+            <summary>
+            The card is a group element which displays the group in a card format with header, body and footer.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.ICard.Header">
+            <summary>
+            The header title of the card.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.ICard.AddFooterButton(System.String,System.Action)">
+            <summary>
+            Adds a button to the footer of this card.
+            </summary>
+            <param name="text">The text of the button</param>
+            <param name="click">The action which gets called when clicking the button</param>
+            <returns>This card instance</returns>
+        </member>
+        <member name="M:HowToBeAHelper.UI.ICard.AddFooterDangerButton(System.String,System.Action)">
+            <summary>
+            Adds a danger button to the footer of this card.
+            </summary>
+            <param name="text">The text of the button</param>
+            <param name="click">The action which gets called when clicking the button</param>
+            <returns>This card instance</returns>
+        </member>
+        <member name="T:HowToBeAHelper.UI.IControl">
+            <summary>
+            The control is a specific element which controls the UI.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.IControl.Label">
+            <summary>
+            The label of the control. If null, the control has no label.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IControl.Reset">
+            <summary>
+            Resets the control to its default state.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.IElement">
+            <summary>
+            The base element offering base functionality.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.IElement.ID">
+            <summary>
+            The id of the element.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.IElement.Parent">
+            <summary>
+            The parent of this element.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.IElement.Visible">
+            <summary>
+            Whether the element is visible or not.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IElement.Destroy">
+            <summary>
+            Destroys the element and removes it from the UI.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IElement.RemoveClass(System.String)">
+            <summary>
+            Removes the class from the CSS class list of this element.
+            </summary>
+            <param name="clazz">The CSS class to remove</param>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IElement.AddClass(System.String)">
+            <summary>
+            Adds the class to the CSS class list of this element.
+            </summary>
+            <param name="clazz">The CSS class to add</param>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IElement.HasClass(System.String)">
+            <summary>
+            Checks if the given class is a CSS class of this element.
+            </summary>
+            <param name="clazz">The CSS class to check</param>
+            <returns>True, if the CSS class list of this element is containing the given class</returns>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IElement.Style(System.String,System.Object)">
+            <summary>
+            Sets a CSS key to given value. Look at jquery wiki for more information:<br/>
+            https://api.jquery.com/css/
+            </summary>
+            <param name="key">The property key name</param>
+            <param name="value">The value to be set to</param>
+        </member>
+        <member name="T:HowToBeAHelper.UI.IModal">
+            <summary>
+            The modal is some kind of alert box which also can take input forms.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.IModal.Title">
+            <summary>
+            The title of the modal.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IModal.Open">
+            <summary>
+            Opens the modal.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IModal.Close">
+            <summary>
+            Closes the modal.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.IUI">
+            <summary>
+            The interface for accessing the UI API of HTBAH.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IUI.NotifySuccess(System.String,System.Int32)">
+            <summary>
+            Prints a green success notify to the top-right corner of the UI.
+            </summary>
+            <param name="message">The message to be printed</param>
+            <param name="duration">The duration in milliseconds, how long the notify is shown</param>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IUI.NotifyError(System.String,System.Int32)">
+            <summary>
+            Prints a red error notify to the top-right corner of the UI.
+            </summary>
+            <param name="message">The message to be printed</param>
+            <param name="duration">The duration in milliseconds, how long the notify is shown</param>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IUI.AlertSuccess(System.String,System.String)">
+            <summary>
+            Shows a success alert box onto the screen.
+            </summary>
+            <param name="text">The text of the alert</param>
+            <param name="title">The title of the alert</param>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IUI.AlertError(System.String,System.String)">
+            <summary>
+            Shows an error alert box onto the screen.
+            </summary>
+            <param name="text">The text of the alert</param>
+            <param name="title">The title of the alert</param>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IUI.AlertConfirm(System.String,System.Action{System.Boolean},System.String,System.String,System.String)">
+            <summary>
+            Shows a confirmation alert box onto the screen. I
+            </summary>
+            <param name="text">The text of the alert</param>
+            <param name="callback">The callback which gets called back after confirmation</param>
+            <param name="title">The title of the alert</param>
+            <param name="yes">The text of the "yes"-button</param>
+            <param name="no">The text of the "no"-button</param>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IUI.ShowLoader">
+            <summary>
+            Shows the loader on the screen.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IUI.HideLoader">
+            <summary>
+            Hides the loader from the screen.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IUI.RegisterModal(System.String)">
+            <summary>
+            Registers a new modal in the system.
+            </summary>
+            <param name="title">The title of the modal</param>
+            <returns>The newly created modal</returns>
+        </member>
+        <member name="E:HowToBeAHelper.UI.IUI.ContainerLoad">
+            <summary>
+            Gets called when a specific container of the main UI gets loaded. Can be used for modifying the container.
+            Removals cannot be done for native UI elements.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Layout.IColumn">
+            <summary>
+            The column is a layout element which aligns other elements.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Layout.IField">
+            <summary>
+            The field is some group of specific elements in a whole UI.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Layout.IFieldBody">
+            <summary>
+            The field body is mostly a direct child of a field. It is used to group multiple fields into one field.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Layout.IParent">
+            <summary>
+            Represents a parent element. If an element is a parent it can hold other elements
+            as their children
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Layout.IParent.Children">
+            <summary>
+            A list containing every children of this parent.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.Layout.IParent.Create``1(System.String,HowToBeAHelper.UI.SetupSettings)">
+            <summary>
+            Creates an element in this parent and adds it to the children.
+            </summary>
+            <typeparam name="T">The type of the element</typeparam>
+            <param name="id">The id of the element. Must be unique over all elements. If null, the id is auto generated</param>
+            <param name="settings">The settings of the newly create element</param>
+            <returns>The created element</returns>
+        </member>
+        <member name="M:HowToBeAHelper.UI.Layout.IParent.Reset">
+            <summary>
+            Resets and clears every element underlying of this parent.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Layout.IRow">
+            <summary>
+            The row is a layout element to align columns and other elements.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Layout.IRow.IsGapless">
+            <summary>
+            Whether the columns in this row have no gaps.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Layout.IRow.IsCentered">
+            <summary>
+            Whether the columns are centered in this row.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Layout.IRow.IsFullwidth">
+            <summary>
+            Whether the row takes the fullwidth or not.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.SetupSettings">
+            <summary>
+            The class represents needed settings to setup specific elements.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.SetupSettings.Classes">
+            <summary>
+            All CSS classes which will be appended to the element.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.SetupSettings.Label">
+            <summary>
+            The label of this settings instance.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.SetupSettings.Text">
+            <summary>
+            The text of this settings instance.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.SetupSettings.Color">
+            <summary>
+            The color of this settings instance.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.SetupSettings.AddClasses(System.String[])">
+            <summary>
+            Sets the CSS classes array for the new element.
+            </summary>
+            <param name="classes">The CSS classes to be set</param>
+            <returns>This instance of setup settings</returns>
+        </member>
+        <member name="M:HowToBeAHelper.UI.SetupSettings.SetLabel(System.String)">
+            <summary>
+            Sets the label of a valid <see cref="T:HowToBeAHelper.UI.IControl"/>.
+            </summary>
+            <param name="label">The label text to be set</param>
+            <returns>This instance of setup settings</returns>
+        </member>
+        <member name="M:HowToBeAHelper.UI.SetupSettings.SetColor(HowToBeAHelper.UI.Color)">
+            <summary>
+            Sets the color of a valid <see cref="T:HowToBeAHelper.UI.Controls.IButton"/>.
+            </summary>
+            <param name="color">The color to be set</param>
+            <returns>This instance of setup settings</returns>
+        </member>
+        <member name="M:HowToBeAHelper.UI.SetupSettings.SetText(System.String)">
+            <summary>
+            Sets the text of a valid <see cref="T:HowToBeAHelper.UI.Controls.IButton"/> or <see cref="T:HowToBeAHelper.UI.ICard"/> as header
+            or <see cref="T:HowToBeAHelper.UI.Controls.IInput`1"/> as placeholder or <see cref="T:HowToBeAHelper.UI.Controls.ICheckbox"/>.
+            </summary>
+            <param name="text">The text to be set</param>
+            <returns>This instance of setup settings</returns>
+        </member>
+        <member name="M:HowToBeAHelper.UI.SetupSettings.Default(System.String[])">
+            <summary>
+            Creates a default instance of setup settings with just CSS classes.
+            </summary>
+            <param name="classes">The wanted CSS classes</param>
+            <returns>The newly created settings</returns>
         </member>
     </members>
 </doc>

@@ -142,6 +142,26 @@
             -ms-user-select: none;
             -moz-user-select: none;
         }
+
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+
+        .separator::before, .separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #000;
+        }
+
+        .separator::before {
+            margin-right: .25em;
+        }
+
+        .separator::after {
+            margin-left: .25em;
+        }
     </style>
 </head>
 <body>
@@ -359,7 +379,8 @@
                                 <div class="field">
                                     <div class="control">
                                         <label class="checkbox">
-                                            <input type="checkbox" id="login-save"> Daten merken
+                                            <input type="checkbox" id="login-save">
+                                            <span>Daten merken</span>
                                         </label>
                                     </div>
                                 </div>
@@ -1723,6 +1744,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="char-editor-modules">
+                                    </div>
                                 </div>
                             </div>
                             <footer class="card-footer">
@@ -2993,6 +3016,9 @@
                     </div>
                 </div>
             </div>
+            <div id="plugin-pages">
+
+            </div>
         </div>
     </div>
     <div class="modal" id="add-battler-modal">
@@ -3079,7 +3105,8 @@
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">Fertigkeiten leveln (<b id="level-xp"></b> EXP)</p>
-                <button class="delete" aria-label="close" onclick="$('#level-modal').removeClass('is-active')"></button>
+                <button class="delete" aria-label="close"
+                        onclick="$('#level-modal').removeClass('is-active')"></button>
             </header>
             <section class="modal-card-body">
                 <div id="level-simple">
@@ -3117,7 +3144,8 @@
                             </div>
                             <div class="column is-one-quarter">
                                 <div class="control">
-                                    <button class="button is-success" id="level-simple-up-talent">Erhöhen (1)</button>
+                                    <button class="button is-success" id="level-simple-up-talent">Erhöhen (1)
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -3185,7 +3213,8 @@
                     </div>
                 </div>
                 <div id="level-complex" style="display: none">
-                    <div class="tabs is-centered is-boxed" data-tab="level-complex" data-reset-tab="level-complex-up">
+                    <div class="tabs is-centered is-boxed" data-tab="level-complex"
+                         data-reset-tab="level-complex-up">
                         <ul>
                             <li class="is-active tab" data-tab="level-complex-up">
                                 <a>
@@ -3219,7 +3248,8 @@
                             </div>
                             <div class="column is-one-quarter">
                                 <div class="control">
-                                    <button class="button is-success" id="level-complex-up-talent">Erhöhen (?)</button>
+                                    <button class="button is-success" id="level-complex-up-talent">Erhöhen (?)
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -3250,7 +3280,8 @@
                             </div>
                             <div class="column is-one-quarter">
                                 <div class="control">
-                                    <button class="button is-success" id="level-complex-reskill-talent">Umskillen (?)
+                                    <button class="button is-success" id="level-complex-reskill-talent">Umskillen
+                                        (?)
                                     </button>
                                 </div>
                             </div>
@@ -3357,6 +3388,7 @@
             </section>
         </div>
     </div>
+    <div id="modal-plugins"></div>
     <div id="loader" style="display: none">
         <div id="ld-holder">
             <div class="lds-ellipsis">
@@ -3370,11 +3402,98 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script>
+        function ui_OnChange(id) {
+            bridge.ui_OnChange(id, $('#' + id).val());
+        }
+
+        function ui_SetSelectValue(id, value) {
+            $('#' + id).val(value);
+        }
+
+        function ui_OnFocusOut(id) {
+            bridge.ui_OnFocusOut(id);
+        }
+
+        function ui_OnCheckboxChange(id) {
+            bridge.ui_OnCheckboxChange(id, document.getElementById(id + '_val').checked);
+        }
+
+        function ui_AddCardFooterButton(id, callbackId, text, danger) {
+            $('#' + id).append(`<a href="#" class="card-footer-item" onclick="bridge.ui_FooterClick('${id}', '${callbackId}')"
+                                   style="${danger ? "" : "color: red"}">${text}</a>`);
+        }
+
+        function ui_SetElementStyle(id, key, val) {
+            $('#' + id).css(key, JSON.parse(val));
+        }
+
+        function ui_SetElementAttribute(id, key, val) {
+            $('#' + id).attr(key, val);
+        }
+
+        function ui_SetElementDisplay(id, visible) {
+            if (visible) {
+                $('#' + id).show();
+            } else {
+                $('#' + id).hide();
+            }
+        }
+
+        function ui_CreatePluginPage(id) {
+            $('#plugin-pages').append(`<div id="${id}" style="display: none"></div>`);
+        }
+
+        function ui_CreateElement(parentId, html) {
+            $('#' + parentId).append(html);
+        }
+
+        function ui_SetInnerHTML(id, html) {
+            $('#' + id).html(html);
+        }
+
+        function ui_DestroyElement(id) {
+            $('#' + id).remove();
+        }
+
+        function ui_AddClass(id, clazz) {
+            $('#' + id).addClass(clazz);
+        }
+
+        function ui_RemoveClass(id, clazz) {
+            $('#' + id).removeClass(clazz);
+        }
+
+        function alertConfirm(id, text, title, yes, no) {
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#62d630',
+                cancelButtonText: no,
+                confirmButtonText: yes
+            }).then(result => {
+                bridge.ui_TriggerConfirm(id, !!result.isConfirmed);
+            });
+        }
+    </script>
+    <script>
         const PLUGINS_LIST = $('#plugins-list');
 
         function appendPluginEntry(id, display, state) {
             id = id.split(' ').join('_');
-            PLUGINS_LIST.append(`<li id="litem-${id}"><a id="ahref-${id}" class="page-switch plugin-${state}">${display}</a></li>`);
+            let pageId = "_plugin_" + id + "_";
+            PLUGINS_LIST.append(`<li id="litem-${id}"><a id="ahref-${id}" onclick="pluginEntryClick('${pageId}')" class="page-switch plugin-${state}">${display}</a></li>`);
+            pages[pageId] = {
+                content: '#' + pageId,
+                switch: $('#ahref-' + id)
+            };
+        }
+
+        function pluginEntryClick(pageId) {
+            if (interactionLocked) return;
+            selectPage(pageId);
         }
     </script>
     <script>
@@ -5214,7 +5333,7 @@
             let pageName = q.data("page");
             if (pageName) {
                 pages[pageName] = {
-                    content: $('#page-' + pageName),
+                    content: '#page-' + pageName,
                     switch: q
                 };
                 q.click(function () {
@@ -5228,14 +5347,14 @@
             deselectCurrentPage();
             currentPage = pages[pageName];
             currentPage.switch.addClass('is-active');
-            currentPage.content.show();
+            $(currentPage.content).show();
         }
 
         function deselectCurrentPage() {
             if (currentPage) {
                 if (currentPage.switch)
                     currentPage.switch.removeClass('is-active');
-                currentPage.content.hide();
+                $(currentPage.content).hide();
             }
         }
 

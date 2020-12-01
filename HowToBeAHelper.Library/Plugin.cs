@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using HowToBeAHelper.UI;
+using HowToBeAHelper.UI.Layout;
 
 namespace HowToBeAHelper
 {
@@ -16,24 +18,89 @@ namespace HowToBeAHelper
         private string _logPath;
 
         /// <summary>
-        /// The meta of this plugin. Do not manually set.
+        /// The meta of this plugin.
         /// </summary>
-        public PluginMeta Meta { get; set; }
+        public PluginMeta Meta
+        {
+            get => _meta;
+            set
+            {
+                if (AssertCaller())
+                {
+                    _meta = value;
+                }
+            }
+        }
+
+        private PluginMeta _meta;
 
         /// <summary>
-        /// The state of this plugin. Do not manually set.
+        /// The state of this plugin.
         /// </summary>
-        public PluginState State { get; set; } = PluginState.Unknown;
+        public PluginState State
+        {
+            get => _state;
+            set
+            {
+                if (AssertCaller())
+                {
+                    _state = value;
+                }
+            }
+        }
+
+        private PluginState _state = PluginState.Unknown;
 
         /// <summary>
-        /// The current instance of the running plugin manager. Do not manually set.
+        /// The current instance of the running plugin manager.
         /// </summary>
-        public IPluginManager PluginManager { get; set; }
+        public IPluginManager PluginManager
+        {
+            get => _pluginManager;
+            set
+            {
+                if (AssertCaller())
+                {
+                    _pluginManager = value;
+                }
+            }
+        }
+
+        private IPluginManager _pluginManager;
 
         /// <summary>
-        /// The current UI API instance. Do not manually set.
+        /// The current UI API instance.
         /// </summary>
-        public IUI UI { get; set; }
+        public IUI UI
+        {
+            get => _ui;
+            set
+            {
+                if (AssertCaller())
+                {
+                    _ui = value;
+                }
+            }
+        }
+
+        private IUI _ui;
+
+        /// <summary>
+        /// The page owned by this plugin.
+        /// </summary>
+        public IParent Page
+        {
+            get => _page;
+            set
+            {
+                if (AssertCaller())
+                {
+                    _page = value;
+                }
+            }
+        }
+
+        private IParent _page;
 
         /// <summary>
         /// Gets called when the plugin is getting started.
@@ -44,6 +111,11 @@ namespace HowToBeAHelper
         /// Gets called when the plugin is getting stopped.
         /// </summary>
         public virtual void OnStop() {}
+
+        /// <summary>
+        /// Gets called when the UI is loaded and the own page can be initialized.
+        /// </summary>
+        public virtual void OnPageLoad() {}
 
         /// <summary>
         /// Logs a message to the plugins log file in the root directory of HTBAH.
@@ -71,6 +143,16 @@ namespace HowToBeAHelper
                 "logs");
             Directory.CreateDirectory(_logPath);
             return _logPath = Path.Combine(_logPath, Meta.Display + ".txt");
+        }
+
+        /// <summary>
+        /// Checks the calling assembly if it is allowed to call this method.
+        /// </summary>
+        /// <returns>True, if the assembly is allowed to set</returns>
+        internal static bool AssertCaller()
+        {
+            string location = Assembly.GetCallingAssembly().Location;
+            return Path.GetFileNameWithoutExtension(location) == "HowToBeAHelper.Library";
         }
     }
 }

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<plugin type="csharp" id="test-plugin">
+  <name>Test Plugin</name>
+  <author>DasDarki</author>
+  <version>1.0.0.0</version>
+  <description>The description of the plugin</description>
+  <entryPoint>TestPlugin.dll</entryPoint>
+  <dependencies>
+  </dependencies>
+</plugin>

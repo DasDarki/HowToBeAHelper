@@ -608,6 +608,41 @@
             The maximum value of the input.
             </summary>
         </member>
+        <member name="T:HowToBeAHelper.UI.Controls.ISelect">
+            <summary>
+            The select offers a combo box where the user can choose from specific options.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.ISelect.CurrentIndex">
+            <summary>
+            The current index of the select.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.ISelect.DefaultIndex">
+            <summary>
+            The default index of the select.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.ISelect.Items">
+            <summary>
+            A list containing every item in the select.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.ISelect.IsFullwidth">
+            <summary>
+            Whether the row takes the fullwidth or not.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.UI.Controls.ISelect.Change">
+            <summary>
+            Gets called when the select value changed.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.Controls.ISelect.UpdateItems">
+            <summary>
+            Updates all items in the select.
+            </summary>
+        </member>
         <member name="T:HowToBeAHelper.UI.Controls.ITextInput">
             <summary>
             The text input is a kind of input which takes every kind of input.
@@ -877,11 +912,23 @@
             The color of this settings instance.
             </summary>
         </member>
+        <member name="P:HowToBeAHelper.UI.SetupSettings.Items">
+            <summary>
+            The items of this settings instance.
+            </summary>
+        </member>
         <member name="M:HowToBeAHelper.UI.SetupSettings.AddClasses(System.String[])">
             <summary>
             Sets the CSS classes array for the new element.
             </summary>
             <param name="classes">The CSS classes to be set</param>
+            <returns>This instance of setup settings</returns>
+        </member>
+        <member name="M:HowToBeAHelper.UI.SetupSettings.SetItems(System.Collections.Generic.List{System.String})">
+            <summary>
+            Sets the items of a valid <see cref="T:HowToBeAHelper.UI.Controls.ISelect"/>.
+            </summary>
+            <param name="items">The items to be set</param>
             <returns>This instance of setup settings</returns>
         </member>
         <member name="M:HowToBeAHelper.UI.SetupSettings.SetLabel(System.String)">

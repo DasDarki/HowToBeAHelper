@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using HowToBeAHelper.Plugins;
+using HowToBeAHelper.Scripting;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 
@@ -58,6 +59,11 @@ namespace HowToBeAHelper
         internal static CharacterManager CharacterManager { get; set; }
 
         /// <summary>
+        /// The system implementiation for the plugins system.
+        /// </summary>
+        internal static ScriptingSystem System { get; private set; }
+
+        /// <summary>
         /// The settings of the runtime.
         /// </summary>
         internal static Settings Settings { get; set; }
@@ -89,6 +95,7 @@ namespace HowToBeAHelper
             Settings = Settings.Load();
             CharacterManager = new CharacterManager();
             IsAutomaticallyLoggedIn = Load(out StoredUsername, out StoredPassword);
+            System = new ScriptingSystem();
             PluginManager.LoadPlugins();
             return true;
         }

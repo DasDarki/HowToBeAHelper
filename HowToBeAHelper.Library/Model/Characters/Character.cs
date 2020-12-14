@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using HowToBeAHelper.Model.Skills;
 using Newtonsoft.Json;
 
@@ -100,12 +101,6 @@ namespace HowToBeAHelper.Model.Characters
         public Skill[] SocialSkills { get; set; } = GenerateSkills(SkillCategory.Soziales);
 
         /// <summary>
-        /// The points the character has left for skills.
-        /// </summary>
-        [JsonProperty("pointsLeft")] 
-        public int PointsLeft { get; set; } = 400;
-
-        /// <summary>
         /// The year the character was created.
         /// </summary>
         [JsonProperty("createdAt")]
@@ -125,6 +120,24 @@ namespace HowToBeAHelper.Model.Characters
             }
 
             return (int) Math.Round(bonus / 10d);
+        }
+
+        /// <summary>
+        /// Exports this character to a byte array containing PDF data.
+        /// </summary>
+        /// <returns>The PDF data or null</returns>
+        public byte[] Export()
+        {
+            return CharacterGenerator.GeneratePdf(this);
+        }
+
+        /// <summary>
+        /// Exports this character to a PDF file.
+        /// </summary>
+        /// <param name="filename">The path to the output PDF file</param>
+        public void Export(string filename)
+        {
+            File.WriteAllBytes(filename, Export());
         }
 
         /// <summary>

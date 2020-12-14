@@ -119,6 +119,7 @@ namespace HowToBeAHelper.Plugins
             plugin.UI = CefUI.UI;
             plugin.State = PluginState.Loaded;
             plugin.Page = new Parent(null, "_plugin_" + meta.Id + "_", SetupSettings.Default()){DenyDestroy = true};
+            plugin.System = Bootstrap.System;
             return plugin;
         }
 

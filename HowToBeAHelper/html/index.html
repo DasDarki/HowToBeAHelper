@@ -5089,6 +5089,7 @@
                         sessions[i].sessionObj = sessionObjs[i];
                     }
                     loginName = username;
+                    bridge.sendBackSuccessLogin(username, JSON.stringify(characters));
                     $('#login-message').hide();
                     updateRemoteCharacters();
                     updateLocalCharacters();

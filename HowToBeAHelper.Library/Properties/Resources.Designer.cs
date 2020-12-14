@@ -61,22 +61,12 @@ namespace HowToBeAHelper.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Icon ähnlich wie (Symbol).
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-        internal static System.Drawing.Icon icon {
+        internal static byte[] CharacterTemplate {
             get {
-                object obj = ResourceManager.GetObject("icon", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap icon_img {
-            get {
-                object obj = ResourceManager.GetObject("icon_img", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                object obj = ResourceManager.GetObject("CharacterTemplate", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

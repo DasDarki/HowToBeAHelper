@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
-using HowToBeAHelper.BuiltIn;
 using HowToBeAHelper.Model.Characters;
 using HowToBeAHelper.UI;
 using HowToBeAHelper.UI.Controls;
@@ -25,6 +25,13 @@ namespace HowToBeAHelper
         {
             _form = form;
             _browser = _form.Browser;
+        }
+
+        public void sendBackSuccessLogin(string username, string charactersJson)
+        {
+            Bootstrap.System.User = username;
+            Bootstrap.System.Characters = JsonConvert.DeserializeObject<List<Character>>(charactersJson);
+            Bootstrap.System.TriggerLoggedIn();
         }
 
         public void ui_OnCheckboxChange(string id, bool val)
@@ -316,10 +323,13 @@ namespace HowToBeAHelper
                 {
                     await _form.Master.Logout();
                 });
+                Bootstrap.System.User = null;
+                Bootstrap.System.Characters.Clear();
                 Bootstrap.IsAutomaticallyLoggedIn = false;
                 Bootstrap.StoredPassword = null;
                 Bootstrap.StoredUsername = null;
                 Bootstrap.DeleteLogin();
+                Bootstrap.System.TriggerLoggedOut();
             }
             catch
             {
@@ -338,6 +348,7 @@ namespace HowToBeAHelper
 
                 _form.Run(async () =>
                 {
+                    Bootstrap.System.SetCharSkills(charId, json);
                     await _form.Master.SyncSkills(username, charId, json);
                 });
             }
@@ -355,7 +366,7 @@ namespace HowToBeAHelper
                 Bootstrap.CharacterManager.Characters.RemoveAll(o => o.ID == character.ID);
                 Bootstrap.CharacterManager.Characters.Add(character);
                 Bootstrap.CharacterManager.Save();
-
+                Bootstrap.System.TriggerCharacterUpdate(character);
             }
             catch
             {
@@ -374,6 +385,7 @@ namespace HowToBeAHelper
 
                 _form.Run(async () =>
                 {
+                    Bootstrap.System.SetCharData(charId, key, val);
                     await _form.Master.SyncCharData(username, charId, key, val);
                 });
             }
@@ -389,8 +401,11 @@ namespace HowToBeAHelper
             {
                 if (isLocal)
                 {
-                    Bootstrap.CharacterManager.Characters.RemoveAll(o => o.ID == charId);
+                    Character character = Bootstrap.CharacterManager.Characters.SelectFirst(o => o.ID == charId);
+                    if(character == null) return;
+                    Bootstrap.CharacterManager.Characters.Remove(character);
                     Bootstrap.CharacterManager.Save();
+                    Bootstrap.System.TriggerCharacterDelete(character);
                     callback.ExecuteAsync(true);
                 }
                 else
@@ -403,6 +418,7 @@ namespace HowToBeAHelper
 
                     _form.Run(async () =>
                     {
+                        Bootstrap.System.OnDeleteChar(charId);
                         await _form.Master.DeleteCharacter(username, charId, success =>
                         {
                             callback.ExecuteAsync(success);
@@ -428,7 +444,7 @@ namespace HowToBeAHelper
                         dialog.Filter = "PDF | *.pdf";
                         if (dialog.ShowDialog() == DialogResult.OK)
                         {
-                            CharacterGenerator.GeneratePdf(character, dialog.FileName);
+                            character.Export(dialog.FileName);
                             callback.ExecuteAsync(true);
                         }
                     }
@@ -456,6 +472,8 @@ namespace HowToBeAHelper
                     {
                         Bootstrap.CharacterManager.Characters.RemoveAll(o => o.ID == lastId);
                         Bootstrap.CharacterManager.Save();
+                        Bootstrap.System.Characters.Add(character);
+                        Bootstrap.System.TriggerCharacterCreate(character);
                     }
 
                     callback.ExecuteAsync(status);
@@ -486,6 +504,11 @@ namespace HowToBeAHelper
                             Bootstrap.CharacterManager.Characters.Add(character);
                             Bootstrap.CharacterManager.Save();
                             local = true;
+                        }
+                        else
+                        {
+                            Bootstrap.System.Characters.Add(character);
+                            Bootstrap.System.TriggerCharacterCreate(character);
                         }
 
                         callback.ExecuteAsync(status, local);

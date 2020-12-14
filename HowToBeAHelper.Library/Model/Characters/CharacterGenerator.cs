@@ -1,12 +1,11 @@
 ﻿using System;
 using System.IO;
-using HowToBeAHelper.Model.Characters;
 using HowToBeAHelper.Model.Skills;
 using HowToBeAHelper.Properties;
 using iText.Forms;
 using iText.Kernel.Pdf;
 
-namespace HowToBeAHelper.BuiltIn
+namespace HowToBeAHelper.Model.Characters
 {
     /// <summary>
     /// This is the helper class for the built in character generation.
@@ -18,13 +17,13 @@ namespace HowToBeAHelper.BuiltIn
         /// of "How to be a Hero".
         /// </summary>
         /// <param name="character">The wanted character object</param>
-        /// <param name="outputPath">The output path of the pdf file</param>
-        internal static void GeneratePdf(Character character, string outputPath)
+        internal static byte[] GeneratePdf(Character character)
         {
+            using MemoryStream stream = new MemoryStream();
             PdfDocument document = new PdfDocument(new PdfReader(new MemoryStream(Resources.CharacterTemplate)),
-                new PdfWriter(outputPath));
+                new PdfWriter(stream));
             PdfAcroForm form = PdfAcroForm.GetAcroForm(document, false);
-            if (form == null) return;
+            if (form == null) return null;
             form.GetField("Portrait_af_image");//TODO
             form.GetField("Name").SetValue(character.Name);
             form.PartialFormFlattening("Name");
@@ -51,6 +50,7 @@ namespace HowToBeAHelper.BuiltIn
             FillSkills(form, "Interagieren", "I", "GBPI", character, character.SocialSkills, "F", "N");
             form.FlattenFields();
             document.Close();
+            return stream.ToArray();
         }
 
         private static void FillSkills(PdfAcroForm form, string fullname, string name, string brainstormName, Character character, Skill[] skills, string extra1 = "G", 

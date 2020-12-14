@@ -103,6 +103,23 @@ namespace HowToBeAHelper
         private IParent _page;
 
         /// <summary>
+        /// The currently running system instance.
+        /// </summary>
+        public ISystem System
+        {
+            get => _system;
+            set
+            {
+                if (AssertCaller())
+                {
+                    _system = value;
+                }
+            }
+        }
+
+        private ISystem _system;
+
+        /// <summary>
         /// Gets called when the plugin is getting started.
         /// </summary>
         public abstract void OnStart();

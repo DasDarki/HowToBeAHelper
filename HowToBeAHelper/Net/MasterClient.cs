@@ -37,6 +37,7 @@ namespace HowToBeAHelper.Net
                 string charId = response.GetValue<string>();
                 string key = response.GetValue<string>(1);
                 string json = response.GetValue<string>(2);
+                Bootstrap.System.SetCharData(charId, key, json);
                 MainForm.Instance.Browser.ExecuteScriptAsync($"applyCharDataSync(`{charId}`, `{key}`, `{json}`)");
             }); 
             _client.On("session:sync-data", response =>
@@ -63,6 +64,7 @@ namespace HowToBeAHelper.Net
             _client.On("character:sync-delete", response =>
             {
                 string charId = response.GetValue<string>();
+                Bootstrap.System.OnDeleteChar(charId);
                 MainForm.Instance.Browser.ExecuteScriptAsync($"applyCharDeletionSync(`{charId}`)");
             });
             _client.On("character:sync-creation", response =>
@@ -74,6 +76,7 @@ namespace HowToBeAHelper.Net
             {
                 string sessionId = response.GetValue<string>();
                 string json = response.GetValue<string>(1);
+                Bootstrap.System.OnCharCreate(json);
                 MainForm.Instance.Browser.ExecuteScriptAsync($"applySessionJoinSync(`{sessionId}`, `{json}`)");
             });
             _client.On("session:kicked", response =>
@@ -89,7 +92,7 @@ namespace HowToBeAHelper.Net
             _client.On("user:mute", response =>
             {
                 bool flag = response.GetValue<bool>();
-                Requests.Get("http://localhost:9917/?flag=" + flag);
+                //Requests.Get("http://localhost:9917/?flag=" + flag);
             });
         }
 

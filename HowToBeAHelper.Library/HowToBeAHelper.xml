@@ -177,6 +177,64 @@
             <param name="id">The id of the plugin</param>
             <returns>The plugin which is associated with the given id, or null if nothing was found</returns>
         </member>
+        <member name="T:HowToBeAHelper.ISystem">
+            <summary>
+            The system is the main management component. It offers conntect to the direct underlying layer
+            which cares about model management (e.g. characters or sessions) as well as communication
+            possiblities to the outer layers like the master server or MongoDB.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.ISystem.User">
+            <summary>
+            The name of the currently logged in user.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.ISystem.IsLoggedIn">
+            <summary>
+            Whether a user is logged into the system or not.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.ISystem.LocalCharacters">
+            <summary>
+            A list containing every character in the local storage of the system.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.ISystem.RemoteCharacters">
+            <summary>
+            A list containing every remotely saved character belonging to the currently logged in user.
+            If not logged in, the list is empty.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.ISystem.SaveLocalCharacters">
+            <summary>
+            Saves the local cached characters to the disk.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.ISystem.LoggedIn">
+            <summary>
+            Gets called when the user successfully logged in.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.ISystem.LoggedOut">
+            <summary>
+            Gets called when the user logged out.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.ISystem.CharacterUpdate">
+            <summary>
+            Gets called when a character has been updated.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.ISystem.CharacterCreate">
+            <summary>
+            Gets called when a character has been created.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.ISystem.CharacterDelete">
+            <summary>
+            Gets called when a character has been deleted.
+            </summary>
+        </member>
         <member name="T:HowToBeAHelper.Model.Characters.Character">
             <summary>
             The data model for the character.
@@ -257,11 +315,6 @@
             An 10-length array containing skills for the category <see cref="F:HowToBeAHelper.Model.Skills.SkillCategory.Soziales"/>.
             </summary>
         </member>
-        <member name="P:HowToBeAHelper.Model.Characters.Character.PointsLeft">
-            <summary>
-            The points the character has left for skills.
-            </summary>
-        </member>
         <member name="P:HowToBeAHelper.Model.Characters.Character.CreateYear">
             <summary>
             The year the character was created.
@@ -274,10 +327,34 @@
             <param name="skills">The skills group</param>
             <returns>The bonus for the given skills</returns>
         </member>
+        <member name="M:HowToBeAHelper.Model.Characters.Character.Export">
+            <summary>
+            Exports this character to a byte array containing PDF data.
+            </summary>
+            <returns>The PDF data or null</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Model.Characters.Character.Export(System.String)">
+            <summary>
+            Exports this character to a PDF file.
+            </summary>
+            <param name="filename">The path to the output PDF file</param>
+        </member>
         <member name="M:HowToBeAHelper.Model.Characters.Character.GenerateSkills(HowToBeAHelper.Model.Skills.SkillCategory)">
             <summary>
             Generates a default skills array with no entered skills. The skill names are empty so that the skills will be ignored.
             </summary>
+        </member>
+        <member name="T:HowToBeAHelper.Model.Characters.CharacterGenerator">
+            <summary>
+            This is the helper class for the built in character generation.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.Model.Characters.CharacterGenerator.GeneratePdf(HowToBeAHelper.Model.Characters.Character)">
+            <summary>
+            Generates a pdf file from the given character. The character data is automatically getting filled into the default character sheet
+            of "How to be a Hero".
+            </summary>
+            <param name="character">The wanted character object</param>
         </member>
         <member name="T:HowToBeAHelper.Model.Skills.Skill">
             <summary>
@@ -361,6 +438,11 @@
         <member name="P:HowToBeAHelper.Plugin.Page">
             <summary>
             The page owned by this plugin.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Plugin.System">
+            <summary>
+            The currently running system instance.
             </summary>
         </member>
         <member name="M:HowToBeAHelper.Plugin.OnStart">
@@ -491,6 +573,27 @@
         <member name="F:HowToBeAHelper.PluginType.LUA">
             <summary>
             The plugin is a LUA plugin.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.Properties.Resources">
+            <summary>
+              Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Properties.Resources.ResourceManager">
+            <summary>
+              Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Properties.Resources.Culture">
+            <summary>
+              Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
+              Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Properties.Resources.CharacterTemplate">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Byte[].
             </summary>
         </member>
         <member name="T:HowToBeAHelper.Toml">

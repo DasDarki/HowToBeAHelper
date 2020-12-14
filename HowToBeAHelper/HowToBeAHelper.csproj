@@ -128,7 +128,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap.cs" />
-    <Compile Include="BuiltIn\CharacterGenerator.cs" />
     <Compile Include="Changelog.cs" />
     <Compile Include="CharacterManager.cs" />
     <Compile Include="FrontendBridge.cs" />
@@ -151,6 +150,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripting\ScriptingRuntime.cs" />
+    <Compile Include="Scripting\ScriptingSystem.cs" />
     <Compile Include="Scripting\ScriptUI.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="UI\Card.cs" />
@@ -195,7 +195,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\CharacterTemplate.pdf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

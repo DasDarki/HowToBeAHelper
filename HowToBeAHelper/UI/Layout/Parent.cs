@@ -4,11 +4,13 @@ namespace HowToBeAHelper.UI.Layout
 {
     internal class Parent : Element, IParent
     {
-        public List<IElement> Children { get; }
+        public IReadOnlyList<IElement> Children => InternalChildren.AsReadOnly();
+
+        internal List<IElement> InternalChildren { get; }
 
         internal Parent(IElement parent, string id, SetupSettings settings) : base(parent, id, settings)
         {
-            Children = new List<IElement>();
+            InternalChildren = new List<IElement>();
         }
 
         public T Create<T>(string id = null, SetupSettings settings = null) where T : IElement
@@ -18,7 +20,7 @@ namespace HowToBeAHelper.UI.Layout
 
         public void Reset()
         {
-            Children.SafeForEach(element =>
+            InternalChildren.SafeForEach(element =>
             {
                 switch (element)
                 {

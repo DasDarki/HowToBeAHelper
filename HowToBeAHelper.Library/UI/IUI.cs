@@ -67,6 +67,6 @@ namespace HowToBeAHelper.UI
         /// Gets called when a specific container of the main UI gets loaded. Can be used for modifying the container.
         /// Removals cannot be done for native UI elements.
         /// </summary>
-        event Action<IParent> ContainerLoad;
+        event Action<ContainerType, IParent> ContainerLoad;
     }
 }

@@ -6,6 +6,7 @@ using CefSharp;
 using CefSharp.WinForms;
 using HowToBeAHelper.Net;
 using HowToBeAHelper.Properties;
+using HowToBeAHelper.UI;
 using Newtonsoft.Json;
 
 namespace HowToBeAHelper
@@ -54,6 +55,8 @@ namespace HowToBeAHelper
             {
                 if (args.Frame.IsMain)
                 {
+                    CefUI.UI.TriggerContainerLoad("_char-editor-modules", ContainerType.CharEditor);
+                    CefUI.UI.TriggerContainerLoad("_char-viewer-modules", ContainerType.CharViewer);
                     Browser.ShowDevTools();
                     SafeInvoke(() =>
                     {

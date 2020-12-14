@@ -11,7 +11,7 @@ namespace HowToBeAHelper.UI.Layout
         /// <summary>
         /// A list containing every children of this parent.
         /// </summary>
-        List<IElement> Children { get; }
+        IReadOnlyList<IElement> Children { get; }
 
         /// <summary>
         /// Creates an element in this parent and adds it to the children.

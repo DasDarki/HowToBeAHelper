@@ -90,6 +90,11 @@ namespace HowToBeAHelper.Scripting
             _confirmCallbacks.Remove(id);
         }
 
-        public event Action<IParent> ContainerLoad;
+        internal void TriggerContainerLoad(string id, ContainerType type)
+        {
+            ContainerLoad?.Invoke(type, new Parent(null, id, SetupSettings.Default()));
+        }
+
+        public event Action<ContainerType, IParent> ContainerLoad;
     }
 }

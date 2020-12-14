@@ -71,7 +71,7 @@ namespace HowToBeAHelper.UI
             }
 
             CreatedElements.Add(element);
-            parent.Children.Add(element);
+            ((Parent) parent).InternalChildren.Add(element);
             MainForm.Instance.Browser.ExecuteScriptAsyncWhenPageLoaded(
                 $"ui_CreateElement('{parent.ID}', `{element.GetHTML(string.Join(" ", element.Classes))}`)");
             return element;

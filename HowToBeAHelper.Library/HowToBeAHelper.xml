@@ -512,6 +512,21 @@
             <typeparam name="T">The output type</typeparam>
             <param name="path">The TOML file</param>
         </member>
+        <member name="T:HowToBeAHelper.UI.ContainerType">
+            <summary>
+            The container type defines the container which gets loaded by the UI.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.UI.ContainerType.CharEditor">
+            <summary>
+            The char editor is the form which allows character creation.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.UI.ContainerType.CharViewer">
+            <summary>
+            The char viewer is the form which allows character reviewing.
+            </summary>
+        </member>
         <member name="T:HowToBeAHelper.UI.Controls.IButton">
             <summary>
             The button is a control which takes click actions and does something with it.

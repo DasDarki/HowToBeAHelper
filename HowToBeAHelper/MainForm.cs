@@ -25,6 +25,7 @@ namespace HowToBeAHelper
         {
             Instance = this;
             Master = new MasterClient();
+            Bootstrap.System.Network = Master;
             InitializeComponent();
             Text = Properties.Settings.Default.Title;
             Icon = Resources.icon;
@@ -55,9 +56,12 @@ namespace HowToBeAHelper
             {
                 if (args.Frame.IsMain)
                 {
+                    Bootstrap.ModuleManager.Reload();
                     CefUI.UI.TriggerContainerLoad("_char-editor-modules", ContainerType.CharEditor);
                     CefUI.UI.TriggerContainerLoad("_char-viewer-modules", ContainerType.CharViewer);
+#if DEBUG
                     Browser.ShowDevTools();
+#endif
                     SafeInvoke(() =>
                     {
                         Visible = true;
@@ -88,6 +92,14 @@ namespace HowToBeAHelper
                 Browser.ExecuteScriptAsyncWhenPageLoaded($"ui_CreatePluginPage('{plugin.Page.ID}')");
                 plugin.OnPageLoad();
             }
+        }
+
+        internal void AfterSessionJoin(string invite)
+        {
+            SafeInvoke(() =>
+            {
+                Browser.ExecuteScriptAsync($"afterSessionJoin(`{invite}`)");
+            });
         }
 
         internal void Run(Action callback)

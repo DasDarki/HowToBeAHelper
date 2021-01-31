@@ -24,7 +24,8 @@ const characterSchema = new mongoose.Schema({
     createdAt: String,
     actSkills: [Skill.schema],
     knowledgeSkills: [Skill.schema],
-    socialSkills: [Skill.schema]
+    socialSkills: [Skill.schema],
+    modulesData: Map
 });
 const Character = mongoose.model('Character', characterSchema);
 

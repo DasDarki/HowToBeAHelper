@@ -194,6 +194,21 @@
             Whether a user is logged into the system or not.
             </summary>
         </member>
+        <member name="P:HowToBeAHelper.ISystem.IsSessionSelected">
+            <summary>
+            Whether a session is selected or not.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.ISystem.CurrentSession">
+            <summary>
+            The current selected session.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.ISystem.IsSessionView">
+            <summary>
+            Whether the session is view is active.
+            </summary>
+        </member>
         <member name="P:HowToBeAHelper.ISystem.LocalCharacters">
             <summary>
             A list containing every character in the local storage of the system.
@@ -203,6 +218,11 @@
             <summary>
             A list containing every remotely saved character belonging to the currently logged in user.
             If not logged in, the list is empty.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.ISystem.Network">
+            <summary>
+            The instance of the API layer for the network access.
             </summary>
         </member>
         <member name="M:HowToBeAHelper.ISystem.SaveLocalCharacters">
@@ -233,6 +253,11 @@
         <member name="E:HowToBeAHelper.ISystem.CharacterDelete">
             <summary>
             Gets called when a character has been deleted.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.ISystem.CharacterLoad">
+            <summary>
+            Gets called when a character is loaded into the character viewer.
             </summary>
         </member>
         <member name="T:HowToBeAHelper.Model.Characters.Character">
@@ -320,6 +345,11 @@
             The year the character was created.
             </summary>
         </member>
+        <member name="P:HowToBeAHelper.Model.Characters.Character.ModulesData">
+            <summary>
+            The storage where modules can place their data into.
+            </summary>
+        </member>
         <member name="M:HowToBeAHelper.Model.Characters.Character.GetSkillsBonus(HowToBeAHelper.Model.Skills.Skill[])">
             <summary>
             Calculates the bonus for the given skills.
@@ -402,6 +432,88 @@
         <member name="F:HowToBeAHelper.Model.Skills.SkillCategory.Soziales">
             <summary>
             Every interaction of a character with the skill, counts as "Soziales"
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.Modules.ModulePack">
+            <summary>
+            The module pack is for packing modules and offering a simple sharing of them.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Modules.ModulePack.Content">
+            <summary>
+            The content of the pack.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Modules.ModulePack.Ruleset">
+            <summary>
+            The optional ruleset of the pack.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.Modules.ModulePack.Serialize(HowToBeAHelper.Modules.ModulePack)">
+            <summary>
+            Serializes the pack into a byte array.
+            </summary>
+            <param name="pack">The pack to be compiled</param>
+            <returns>The byte array</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Modules.ModulePack.Deserialize(System.Byte[])">
+            <summary>
+            Deserializes the given byte array into a pack object.
+            </summary>
+            <param name="bytes">The input bytes</param>
+            <returns>The module pack or null</returns>
+        </member>
+        <member name="T:HowToBeAHelper.Net.INetwork">
+            <summary>
+            The network layer allows interaction with the master network behind the HTBAH system.
+            The network interaction of this API only works, if the user is logged in.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.Net.INetwork.Self(System.String)">
+            <summary>
+            Prepares a remote event to all connected devices of the currently logged in user in the network.
+            </summary>
+            <param name="eventName">The event name of the trigger</param>
+            <returns>The prepared event or null if not connected or logged in</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Net.INetwork.Unicast(System.String,System.String)">
+            <summary>
+            Prepares a remote event to all connected devices of a specific user in the network.
+            </summary>
+            <param name="eventName">The event name of the trigger</param>
+            <param name="username">The name of the wanted user</param>
+            <returns>The prepared event or null if not connected or logged in</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Net.INetwork.Multicast(System.String,System.String[])">
+            <summary>
+            Prepares a remote event to all connected devices of all specified users in the network.
+            </summary>
+            <param name="eventName">The event name of the trigger</param>
+            <param name="usernames">All names of the wanted users</param>
+            <returns>The prepared event or null if not connected or logged in</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Net.INetwork.On(System.String,System.Action{Newtonsoft.Json.Linq.JArray})">
+            <summary>
+            Adds an event handler which listens to the specified event in the network.
+            </summary>
+            <param name="eventName">The event to listen to</param>
+            <param name="callback">The callback which gets called when the event is received</param>
+        </member>
+        <member name="T:HowToBeAHelper.Net.IRemoteEvent">
+            <summary>
+            The remote event allows managing of specific areas when networking with the master server.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.Net.IRemoteEvent.Params(System.Object[])">
+            <summary>
+            Sets the parameter of this remote event.
+            </summary>
+            <param name="args">The arguments for the event</param>
+            <returns>This instance of the remote event</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Net.IRemoteEvent.Send">
+            <summary>
+            Sends the remote event to the master for the processing.
             </summary>
         </member>
         <member name="T:HowToBeAHelper.Plugin">
@@ -704,6 +816,11 @@
         <member name="E:HowToBeAHelper.UI.Controls.IInput`1.FocusOut">
             <summary>
             Gets called when the input looses focus.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.UI.Controls.IInput`1.Timeout">
+            <summary>
+            Gets called when the input timeout expired. The timeout is set to 3 seconds of doing nothing or focus out (instantly).
             </summary>
         </member>
         <member name="T:HowToBeAHelper.UI.Controls.INumberInput">

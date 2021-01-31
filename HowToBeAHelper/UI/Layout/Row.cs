@@ -50,7 +50,7 @@
             }
         }
 
-        internal Row(IElement parent, string id, SetupSettings settings) : base(parent, id, settings)
+        public Row(IElement parent, string id, SetupSettings settings) : base(parent, id, settings)
         {
         }
 

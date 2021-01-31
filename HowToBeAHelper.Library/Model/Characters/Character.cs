@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using HowToBeAHelper.Model.Skills;
 using Newtonsoft.Json;
@@ -105,6 +106,12 @@ namespace HowToBeAHelper.Model.Characters
         /// </summary>
         [JsonProperty("createdAt")]
         public string CreateYear { get; set; } = DateTime.Now.Year.ToString();
+
+        /// <summary>
+        /// The storage where modules can place their data into.
+        /// </summary>
+        [JsonProperty("modulesData")]
+        public Dictionary<string, object> ModulesData { get; set; } = new Dictionary<string, object>();
 
         /// <summary>
         /// Calculates the bonus for the given skills.

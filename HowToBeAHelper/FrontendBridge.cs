@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
+using HowToBeAHelper.Model;
 using HowToBeAHelper.Model.Characters;
 using HowToBeAHelper.UI;
 using HowToBeAHelper.UI.Controls;
@@ -27,6 +28,53 @@ namespace HowToBeAHelper
             _browser = _form.Browser;
         }
 
+        public void setCurrentSession(string json)
+        {
+            if (string.IsNullOrEmpty(json))
+            {
+                Bootstrap.System.CurrentSession = null;
+                return;
+            }
+
+            try
+            {
+                Bootstrap.System.CurrentSession = JsonConvert.DeserializeObject<Session>(json);
+            }
+            catch
+            {
+                // Ignore
+            }
+        }
+
+        public void changeSessionView(bool isSessionView)
+        {
+            Bootstrap.System.IsSessionView = isSessionView;
+        }
+
+        public void triggerCharLoad(string charId, bool isLocal)
+        {
+            Bootstrap.System.IsLocalCharacter = isLocal;
+            Character character = Bootstrap.System.GetCharacter(charId, isLocal);
+            if (character != null)
+                Bootstrap.System.TriggerCharacterLoad(character);
+        }
+
+        public void openFolder(string pathType)
+        {
+            MainForm.Instance.SafeInvoke(() =>
+            {
+                switch (pathType.ToUpper())
+                {
+                    case "PLUGINS":
+                        //Process.Start(Bootstrap.PluginsPath);
+                        break;
+                    case "MODULES":
+                        Process.Start(Bootstrap.ModulesPath);
+                        break;
+                }
+            });
+        }
+
         public void sendBackSuccessLogin(string username, string charactersJson)
         {
             Bootstrap.System.User = username;
@@ -37,9 +85,26 @@ namespace HowToBeAHelper
         public void ui_OnCheckboxChange(string id, bool val)
         {
             IElement element = CefUI.CreatedElements.SelectFirst(o => o.ID == id);
-            if (element != null && element is ICheckbox checkbox)
+            if (element is ICheckbox checkbox)
             {
                 ((Checkbox) checkbox).TriggerChange(val);
+            }
+        }
+
+        public void ui_OnTimeout(string id, string raw)
+        {
+            IElement element = CefUI.CreatedElements.SelectFirst(o => o.ID == id);
+            if (element != null)
+            {
+                switch (element)
+                {
+                    case ITextInput textInput:
+                        ((TextInput) textInput).TriggerTimeout(raw);
+                        break;
+                    case INumberInput numberInput:
+                        ((NumberInput) numberInput).TriggerTimeout(raw);
+                        break;
+                }
             }
         }
 
@@ -588,6 +653,13 @@ namespace HowToBeAHelper
 
                 return builder.ToString();
             }
+        }
+
+        internal static string EncodeBase64(string toEncode)
+        {
+            byte[] bytes = Encoding.GetEncoding(28591).GetBytes(toEncode);
+            string toReturn = Convert.ToBase64String(bytes);
+            return toReturn;
         }
     }
 }

@@ -451,6 +451,64 @@ function Database() {
         });
     };
 
+    this.updateSessionCharacterMod = function (sessionId, username, charId, key, val, hostSync) {
+        schemas.Session.findOne({uuid: sessionId}).populate("players").exec(function (err, session) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            let sessionUser = null;
+            for (let i = 0; i < session.players.length; i++) {
+                let player = session.players[i];
+                if (!player.character) continue;
+                if (player.character.uuid == charId) {
+                    sessionUser = player;
+                    break;
+                }
+            }
+            if (sessionUser == null) return;
+            if (!sessionUser.character["modulesData"])
+                sessionUser.character["modulesData"] = {};
+            sessionUser.character["modulesData"].set(key, val);
+            sessionUser.save(function (err, _) {
+                if (err) {
+                    console.error(err);
+                }
+            });
+            hostSync(session.hostName, sessionUser.userName);
+        });
+    };
+
+    this.updateCharacterMod = function (username, charId, key, val) {
+        schemas.User.find({
+            name: {$regex: new RegExp(username, "i")}
+        }, null, {limit: 1}, function (err, result) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            if (result && result.length >= 1) {
+                let user = result[0];
+                let character = null;
+                for (let i = 0; i < user.characters.length; i++) {
+                    let o = user.characters[i];
+                    if (o.uuid == charId) {
+                        character = o;
+                        break;
+                    }
+                }
+                if (!character["modulesData"])
+                    character["modulesData"] = {};
+                character["modulesData"].set(key, val);
+                user.save(function (err, _) {
+                    if (err) {
+                        console.error(err);
+                    }
+                });
+            }
+        });
+    };
+
     this.updateCharacter = function (username, charId, key, val) {
         schemas.User.find({
             name: {$regex: new RegExp(username, "i")}

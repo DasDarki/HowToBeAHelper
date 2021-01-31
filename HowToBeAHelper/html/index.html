@@ -162,6 +162,53 @@
         .separator::after {
             margin-left: .25em;
         }
+
+        .module-descriptor {
+            min-height: 150px;
+        }
+
+        .module-descriptor img {
+            float: left;
+            vertical-align: top;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            width: 150px;
+            height: 150px;
+        }
+
+        h1:not(.title):not(.subtitle) {
+            font-size: 2em !important;
+        }
+
+        h2:not(.title):not(.subtitle) {
+            font-size: 1.5em !important;
+        }
+
+        h3:not(.title):not(.subtitle) {
+            font-size: 1.17em !important;
+        }
+
+        h4:not(.title):not(.subtitle) {
+            font-size: 1.12em !important;
+        }
+
+        h5:not(.title):not(.subtitle) {
+            font-size: .83em !important;
+        }
+
+        h6:not(.title):not(.subtitle) {
+            font-size: .75em !important;
+        }
+
+        h1:not(.title):not(.subtitle),
+        h2:not(.title):not(.subtitle),
+        h3:not(.title):not(.subtitle),
+        h4:not(.title):not(.subtitle),
+        h5:not(.title):not(.subtitle),
+        h6:not(.title):not(.subtitle) {
+            margin-bottom: 0.57em;
+            font-weight: bolder;
+        }
     </style>
 </head>
 <body>
@@ -184,11 +231,16 @@
                 <ul class="menu-list" id="sessions-list">
 
                 </ul>
-                <p class="menu-label">
+                <!--<p class="menu-label">
                     Plugins <a class="tag is-primary" id="open-marketplace">+</a>
                 </p>
                 <ul class="menu-list" id="plugins-list">
 
+                </ul>-->
+                <p class="menu-label">
+                    Module <a class="tag is-primary" id="open-modules">+</a>
+                </p>
+                <ul class="menu-list" id="modules-list">
                 </ul>
             </aside>
         </div>
@@ -1744,7 +1796,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="_char-editor-modules">
+                                    <div class="field">
+                                        <div id="_char-editor-modules">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -2889,7 +2943,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="_char-viewer-modules">
+                                    <div class="field">
+                                        <div id="_char-viewer-modules">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -3020,6 +3076,8 @@
             </div>
             <div id="plugin-pages">
 
+            </div>
+            <div id="module-pages">
             </div>
         </div>
     </div>
@@ -3403,9 +3461,20 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="showdown.js"></script>
+    <script src="dompurify.js"></script>
     <script>
+        let timeoutControls = {};
+
         function ui_OnChange(id) {
-            bridge.ui_OnChange(id, $('#' + id).val());
+            let val = $('#' + id).val().toString();
+            bridge.ui_OnChange(id, val);
+            if (timeoutControls[id]) {
+                clearTimeout(timeoutControls[id]);
+                timeoutControls[id] = setTimeout(() => {
+                    bridge.ui_OnTimeout(id, val);
+                }, 3000);
+            }
         }
 
         function ui_SetSelectValue(id, value) {
@@ -3414,6 +3483,12 @@
 
         function ui_OnFocusOut(id) {
             bridge.ui_OnFocusOut(id);
+            if (timeoutControls[id]) {
+                clearTimeout(timeoutControls[id]);
+                timeoutControls[id] = null;
+                let val = $('#' + id).val().toString();
+                bridge.ui_OnTimeout(id, val);
+            }
         }
 
         function ui_OnCheckboxChange(id) {
@@ -3505,6 +3580,29 @@
             "social": ["Menschenkenntniss", "Lügen", "Betören", "Bezirzen", "Manipulieren", "Überreden", "Beeindrucken", "Einschüchtern", "Begeistern", "Feilschen", "Unterhalten", "Beruhigen", "Verwirren", "Sich untermischen/", "untertauchen", "Zwietracht säen", "Vom Thema ablenken", "Charme/Charisma", "Widerstehen", "Trösten", "Aufheitern"]
         }
         let currentAbilityInput = null;
+
+        function removeCustomAbilities(key, arrS) {
+            let arr = JSON.parse(arrS);
+            if (arr) {
+                for (let i = 0; i < arr.length; i++) {
+                    let item = arr[i];
+                    let index = arr.indexOf(item);
+                    if (index > -1) {
+                        PREPARED_ABILITIES[key].splice(index, 1);
+                    }
+                }
+            }
+        }
+
+        function addCustomAbilities(key, arrS) {
+            let arr = JSON.parse(arrS);
+            if (arr) {
+                for (let i = 0; i < arr.length; i++) {
+                    let item = arr[i];
+                    PREPARED_ABILITIES[key].push(item);
+                }
+            }
+        }
 
         function showAbilityHelp(element, skillType) {
             currentAbilityInput = element.parentElement.querySelector('input');
@@ -3649,6 +3747,12 @@
             }
         }
 
+        function sortBattleEntries() {
+            currentBattle.entries.sort(function (a, b) {
+                return b.ini - a.ini;
+            });
+        }
+
         function getRandomInt(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
@@ -3659,7 +3763,7 @@
             bridge.saveSessionBattle(currentSession.sessionObj.uuid, JSON.stringify(currentBattle));
         }
 
-        function sortBattleEntries() {
+        /*function sortBattleEntries() {
             let newEntries = [];
             while (currentBattle.entries.length > 0) {
                 let currentEntries = getHighestEntries();
@@ -3703,9 +3807,73 @@
                     current = entry.ini;
             }
             return current;
+        }*/
+    </script>
+    <script>
+        const MD_CONVERTER = new showdown.Converter();
+        const MODULE_PAGES = $('#module-pages');
+        const MODULES_LIST = $('#modules-list');
+        let currentModules = [];
+
+        function updateModules(json) {
+            MODULE_PAGES.html("");
+            MODULES_LIST.html("");
+            let modules = JSON.parse(atob(json));
+            if (modules) {
+                currentModules = modules;
+                for (let i = 0; i < modules.length; i++) {
+                    let module = modules[i];
+                    let pageName = "module-" + i;
+                    let ruleset = "";
+                    if (module.ruleset && module.ruleset.toString().trim().length > 0) {
+                        ruleset = `<hr style="border-top: 1px solid rgba(0, 0, 0, 0.3);">
+                                                <div>
+                                                    ` + DOMPurify.sanitize(MD_CONVERTER.makeHtml(module.ruleset)) + `
+                                                </div>`;
+                    }
+                    MODULE_PAGES.append(`<div id="page-module-` + i + `" style="display: none">
+                                            <div class="container">
+                                                <div class="module-descriptor">
+                                                    <img src="` + module.meta.icon + `">
+                                                    <div>
+                                                        <h1 class="title">` + module.meta.name + ` <small>v` + module.meta.version + `</small></h1>
+                                                        <h2 class="subtitle is-5"><i>von ` + module.meta.author + `</i></h2>
+                                                    </div>
+                                                    ` + module.meta.description + `
+                                                </div>
+                                                ` + ruleset + `
+                                            </div>
+                                        </div>`);
+                    MODULES_LIST.append(`<li><a id="` + pageName + `" onclick="selectModule(` + i + `)"">` + module.meta.name + `</a></li>`);
+                }
+            }
+        }
+
+        function selectModule(idx) {
+            deselectCurrentPage();
+            let q = $('#page-module-' + idx);
+            q.show();
+            let s = $('#module-' + idx);
+            s.addClass('is-active');
+            currentPage = {
+                content: q,
+                switch: s
+            };
         }
     </script>
     <script>
+        $('#open-marketplace').click(() => {
+            openFolder("PLUGINS");
+        });
+
+        $('#open-modules').click(() => {
+            openFolder("MODULES");
+        });
+
+        function openFolder(pathType) {
+            bridge.openFolder(pathType);
+        }
+
         let currentSession = null;
         let joiningSessionId = null;
         let joiningSessionPassword = null;
@@ -3732,6 +3900,8 @@
                 return;
             }
             $('#loader').show();
+            console.log("id: \"" + joiningSessionId + "\"");
+            console.log("pw: \"" + joiningSessionPassword + "\"");
             bridge.joinSession(joiningSessionId, joiningSessionPassword, characters[charIdx].uuid, (newSession) => {
                 joiningSessionCallback(newSession);
                 joiningSessionCallback = null;
@@ -3938,6 +4108,7 @@
             deselectCurrentPage();
             let session = sessions[idx];
             currentSession = session;
+            bridge.setCurrentSession(JSON.stringify(session));
             let q;
             if (session.isPlayer) {
                 q = $('#page-char-viewer');
@@ -4455,6 +4626,7 @@
 
         function selectCharacter(character, isLocal, idx) {
             isSessionView = idx == -1001;
+            bridge.changeSessionView(isSessionView);
             if (isSessionView) {
                 $('#viewer-delete-char').hide();
             } else {
@@ -4463,6 +4635,11 @@
             selectedCharacter = character;
             localSelected = isLocal;
             selectedCharIdx = idx;
+            $('.viewer-modinput').each(function () {
+                let q = $(this);
+                q.val("");
+            });
+            bridge.triggerCharLoad(character.uuid, isLocal);
             $('#viewer-xp').val(character.xp);
             $('#viewer-health').val(character.health);
             $('#viewer-name').val(character.name);
@@ -4682,6 +4859,18 @@
                 currentCharacter.stature = stature;
                 currentCharacter.job = job;
                 currentCharacter.pointsLeft = freePoints;
+                let modulesData = {};
+                $('.editor-modinput').each(function () {
+                    let q = $(this);
+                    let type = q.data("type");
+                    let key = q.data("key");
+                    let val = q.val();
+                    if (type == "number") {
+                        val = parseIntSafely(val);
+                    }
+                    modulesData[key] = val;
+                });
+                currentCharacter.modulesData = modulesData;
                 normalizeSkillGroup("actSkills");
                 normalizeSkillGroup("knowledgeSkills");
                 normalizeSkillGroup("socialSkills");
@@ -4782,6 +4971,10 @@
         }
 
         function resetCharacterEditor() {
+            $('.editor-modinput').each(function () {
+                let q = $(this);
+                q.val("");
+            });
             editorSkillBonuses = {
                 actSkills: 0,
                 knowledgeSkills: 0,
@@ -5065,6 +5258,14 @@
                 content: q,
                 switch: null
             };
+        }
+
+        function afterSessionJoin(inviteJson) {
+            let invite = JSON.parse(inviteJson);
+            if (invite) {
+                console.log(invite);
+                joinSpecificSession(invite.id.trim(), invite.pw.trim());
+            }
         }
 
         function autoLogin(username, password) {
@@ -5474,6 +5675,30 @@
     <script>
         let autoSessionJoin = null;
 
+        function applySessionCharModDataSync(sessionId, key, json, charId) {
+            let character = null;
+            for (let i = 0; i < sessions.length; i++) {
+                let session = sessions[i]
+                if (session.session == sessionId) {
+                    if (session.sessionObj) {
+                        for (let j = 0; j < session.sessionObj.players.length; j++) {
+                            let player = session.sessionObj.players[j];
+                            if (!player.character) continue;
+                            if (player.character.uuid == charId) {
+                                character = player.character;
+                                break;
+                            }
+                        }
+                    } else {
+                        character = session.character;
+                    }
+                    break;
+                }
+            }
+            if (character == null) return;
+            character["modulesData"][key] = JSON.parse(json);
+        }
+
         function applySessionCharDataSync(sessionId, key, json, charId) {
             let character = null;
             for (let i = 0; i < sessions.length; i++) {
@@ -5499,6 +5724,15 @@
             character[key] = val;
             if (!selectedCharacter || selectedCharacter.uuid != character.uuid) return;
             $('#viewer-' + key).val(val);
+        }
+
+        function applyCharModDataSync(charId, key, json) {
+            let character = findCharacterById(charId);
+            let val = JSON.parse(json);
+            if (!character["modulesData"])
+                character["modulesData"] = {};
+            character["modulesData"][key] = val;
+            updateRemoteCharacters();
         }
 
         function applyCharDataSync(charId, key, json) {
@@ -5602,6 +5836,7 @@
             }
             if (currentSession.session == sessionId) {
                 currentSession = null;
+                bridge.setCurrentSession(null);
                 selectPage("dashboard");
             }
         }

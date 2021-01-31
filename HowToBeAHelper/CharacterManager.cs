@@ -20,6 +20,11 @@ namespace HowToBeAHelper
                 try
                 {
                     Characters = JsonConvert.DeserializeObject<List<Character>>(File.ReadAllText(FilePath));
+                    foreach (Character character in Characters)
+                    {
+                        if (character.ModulesData == null)
+                            character.ModulesData = new Dictionary<string, object>();
+                    }
                 }
                 catch
                 {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using HowToBeAHelper.Model;
 using HowToBeAHelper.Model.Characters;
+using HowToBeAHelper.Net;
 
 namespace HowToBeAHelper
 {
@@ -22,6 +24,21 @@ namespace HowToBeAHelper
         bool IsLoggedIn { get; }
 
         /// <summary>
+        /// Whether a session is selected or not.
+        /// </summary>
+        bool IsSessionSelected { get; }
+
+        /// <summary>
+        /// The current selected session.
+        /// </summary>
+        Session CurrentSession { get; }
+
+        /// <summary>
+        /// Whether the session is view is active.
+        /// </summary>
+        bool IsSessionView { get; }
+
+        /// <summary>
         /// A list containing every character in the local storage of the system.
         /// </summary>
         List<Character> LocalCharacters { get; }
@@ -31,6 +48,11 @@ namespace HowToBeAHelper
         /// If not logged in, the list is empty.
         /// </summary>
         IReadOnlyList<Character> RemoteCharacters { get; }
+
+        /// <summary>
+        /// The instance of the API layer for the network access.
+        /// </summary>
+        INetwork Network { get; }
 
         /// <summary>
         /// Saves the local cached characters to the disk.
@@ -57,5 +79,9 @@ namespace HowToBeAHelper
         /// Gets called when a character has been deleted.
         /// </summary>
         event Action<Character> CharacterDelete;
+        /// <summary>
+        /// Gets called when a character is loaded into the character viewer.
+        /// </summary>
+        event Action<Character> CharacterLoad;
     }
 }

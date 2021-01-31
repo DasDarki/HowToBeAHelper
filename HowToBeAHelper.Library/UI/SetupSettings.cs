@@ -33,6 +33,9 @@ namespace HowToBeAHelper.UI
         /// </summary>
         public List<string> Items => _items;
 
+        public string Data => _data;
+
+        private string _data;
         private List<string> _items = new List<string>();
         private string _label, _text;
         private Color _color = Color.Primary;
@@ -45,6 +48,12 @@ namespace HowToBeAHelper.UI
         public SetupSettings AddClasses(params string[] classes)
         {
             Classes.AddRange(classes);
+            return this;
+        }
+
+        public SetupSettings SetData(string data)
+        {
+            _data = data;
             return this;
         }
 

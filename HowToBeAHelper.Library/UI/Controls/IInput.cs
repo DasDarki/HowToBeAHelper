@@ -13,6 +13,8 @@ namespace HowToBeAHelper.UI.Controls
         /// </summary>
         string Placeholder { get; set; }
 
+        string Data { get; set; }
+
         /// <summary>
         /// The value of the input.
         /// </summary>
@@ -27,5 +29,10 @@ namespace HowToBeAHelper.UI.Controls
         /// Gets called when the input looses focus.
         /// </summary>
         event Action FocusOut;
+
+        /// <summary>
+        /// Gets called when the input timeout expired. The timeout is set to 3 seconds of doing nothing or focus out (instantly).
+        /// </summary>
+        event Action<T> Timeout;
     }
 }

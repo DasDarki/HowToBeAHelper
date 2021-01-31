@@ -110,6 +110,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
@@ -131,6 +132,8 @@
     <Compile Include="Changelog.cs" />
     <Compile Include="CharacterManager.cs" />
     <Compile Include="FrontendBridge.cs" />
+    <Compile Include="Invite\InviteHandler.cs" />
+    <Compile Include="Invite\SessionJoinHandler.cs" />
     <Compile Include="LocalStorage.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="MainForm.cs">
@@ -139,7 +142,9 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModuleManager.cs" />
     <Compile Include="Net\MasterClient.cs" />
+    <Compile Include="Net\RemoteEvent.cs" />
     <Compile Include="Net\Requests.cs" />
     <Compile Include="Plugins\CSharpInterpreter.cs" />
     <Compile Include="Plugins\IInterpreter.cs" />
@@ -216,10 +221,16 @@
     <Content Include="html\bulma.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="html\dompurify.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="html\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="html\jquery.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="html\showdown.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

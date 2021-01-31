@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using HowToBeAHelper.Model;
 using HowToBeAHelper.Model.Characters;
 using HowToBeAHelper.Model.Skills;
+using HowToBeAHelper.Net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -11,11 +13,21 @@ namespace HowToBeAHelper.Scripting
     {
         public string User { get; internal set; }
 
+        public bool IsLocalCharacter { get; set; } = false;
+
         public bool IsLoggedIn => !string.IsNullOrEmpty(User);
+
+        public bool IsSessionView { get; set; } = false;
+
+        public Session CurrentSession { get; set; } = null;
+
+        public bool IsSessionSelected => CurrentSession != null;
 
         public List<Character> LocalCharacters => Bootstrap.CharacterManager.Characters;
 
         public IReadOnlyList<Character> RemoteCharacters => Characters.AsReadOnly();
+
+        public INetwork Network { get; set; }
 
         internal List<Character> Characters { get; set; } = new List<Character>();
 
@@ -24,11 +36,22 @@ namespace HowToBeAHelper.Scripting
             Bootstrap.CharacterManager.Save();
         }
 
+        public Character GetCharacter(string charId, bool isLocal)
+        {
+            return (isLocal ? LocalCharacters : Characters).SelectFirst(character => character.ID == charId);
+        }
+
         public event Action LoggedIn;
         public event Action LoggedOut;
         public event Action<Character> CharacterUpdate;
         public event Action<Character> CharacterCreate;
         public event Action<Character> CharacterDelete;
+        public event Action<Character> CharacterLoad;
+
+        internal void TriggerCharacterLoad(Character character)
+        {
+            CharacterLoad?.Invoke(character);
+        }
 
         internal void TriggerCharacterCreate(Character character)
         {
@@ -95,7 +118,7 @@ namespace HowToBeAHelper.Scripting
                         string name = data["name"]?.ToObject<string>();
                         int idx = data["idx"]?.ToObject<int>() ?? -1;
                         int val = data["val"]?.ToObject<int>() ?? -1;
-                        if(type == null || name == null || idx == -1 || val == -1) continue;
+                        if (type == null || name == null || idx == -1 || val == -1) continue;
                         Skill[] skills = GetSkillArrayForUpdate(character, type);
                         Skill skill = skills[idx];
                         skill.Name = name;
@@ -123,6 +146,25 @@ namespace HowToBeAHelper.Scripting
                     return character.SocialSkills;
                 default:
                     return new Skill[0];
+            }
+        }
+
+        internal void SetCharModData(string charId, string key, object val)
+        {
+            try
+            {
+                Character character = Characters.SelectFirst(o => o.ID == charId);
+                if (character == null) return;
+                if (character.ModulesData == null)
+                    character.ModulesData = new Dictionary<string, object>();
+                if (character.ModulesData.ContainsKey(key))
+                    character.ModulesData.Remove(key);
+                character.ModulesData.Add(key, val);
+                TriggerCharacterUpdate(character);
+            }
+            catch
+            {
+                // Ignore; needs handling
             }
         }
 

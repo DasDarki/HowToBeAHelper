@@ -25,15 +25,15 @@
 
         internal override string GetHTML(string classes)
         {
-            return $"<div id=\"{ID + "_control"}\" class=\"control\"><label id=\"{ID + "_label"}\">{_label}</label>{GetInnerHTML(classes)}</div>";
+            return $"<label id=\"{ID + "_label"}\" class=\"label\">{_label}</label><div id=\"{ID + "_control"}\" class=\"control\">{GetInnerHTML(classes)}</div>";
         }
 
         public override void Destroy()
         {
             CefUI.CreatedElements.Remove(this);
-            CefUI.DestroyElement(ID);
             CefUI.DestroyElement(ID + "_label");
             CefUI.DestroyElement(ID + "_control");
+            CefUI.DestroyElement(ID);
         }
     }
 }

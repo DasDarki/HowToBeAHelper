@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Security.Principal;
 using System.Windows.Forms;
+using HowToBeAHelper.Invite;
 
 namespace HowToBeAHelper
 {
@@ -26,10 +27,23 @@ namespace HowToBeAHelper
 #endif
             }
 
-            if (Bootstrap.Init(args))
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            object invite = null;
+            if (args.Length > 0)
             {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
+                invite = Bootstrap.GenerateInvite(args[0]);
+            }
+
+            if (SessionJoinHandler.Handle(invite))
+                StartApp();
+        }
+
+        private static void StartApp()
+        {
+            if (Bootstrap.Init())
+            {
                 Application.Run(new MainForm());
             }
         }

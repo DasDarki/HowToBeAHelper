@@ -15,6 +15,8 @@ namespace HowToBeAHelper.UI.Controls
             }
         }
 
+        public string Data { get; set; } = null;
+
         private string _placeholder;
 
         public T Value
@@ -32,10 +34,14 @@ namespace HowToBeAHelper.UI.Controls
 
         public event Action<T> Change;
         public event Action FocusOut;
+        public event Action<T> Timeout;
+
+        private readonly string _data;
 
         protected Input(IElement parent, string id, SetupSettings settings) : base(parent, id, settings)
         {
             _placeholder = settings.Text;
+            _data = settings.Data ?? "";
         }
 
         protected abstract T ToValue(string raw);
@@ -46,12 +52,22 @@ namespace HowToBeAHelper.UI.Controls
 
         protected override string GetInnerHTML(string classes)
         {
-            return $"<input class=\"input {classes}\" id=\"{ID}\" onpaste=\"ui_OnChange('{ID}')\" onkeyup=\"ui_OnChange('{ID}')\" onchange=\"ui_OnChange('{ID}')\" oninput=\"ui_OnChange('{ID}')\" placeholder=\"{Placeholder}\" onfocusout=\"ui_OnFocusOut('{ID}')\" {GetInnerTypes()}>";
+            return $"<input {_data} class=\"input {classes}\" id=\"{ID}\" onpaste=\"ui_OnChange('{ID}')\" onkeyup=\"ui_OnChange('{ID}')\" onchange=\"ui_OnChange('{ID}')\" oninput=\"ui_OnChange('{ID}')\" placeholder=\"{Placeholder}\" onfocusout=\"ui_OnFocusOut('{ID}')\" {GetInnerTypes()}>";
+        }
+
+        internal void AddFocusOut(Action action)
+        {
+            FocusOut += action;
         }
 
         internal void TriggerFocusOut()
         {
             FocusOut?.Invoke();
+        }
+
+        internal void TriggerTimeout(string raw)
+        {
+            Timeout?.Invoke(ToValue(raw));
         }
 
         internal void TriggerChange(string raw)

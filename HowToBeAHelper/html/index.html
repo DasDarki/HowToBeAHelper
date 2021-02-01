@@ -118,6 +118,98 @@
             }
         }
     </style>
+    <style>
+        .plugin-loaded, .plugin-stopped {
+            cursor: not-allowed;
+            pointer-events: none;
+            color: rgba(0, 0, 0, 0.2);
+        }
+
+        .plugin-loaded:hover, .plugin-stopped:hover, .plugin-failed:hover {
+            color: rgba(0, 0, 0, 0);
+        }
+
+        .plugin-failed {
+            cursor: not-allowed !important;
+            pointer-events: none !important;
+            color: #fc5050 !important;
+            text-decoration: line-through;
+        }
+
+        .page-switch {
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            -moz-user-select: none;
+        }
+
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+
+        .separator::before, .separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #000;
+        }
+
+        .separator::before {
+            margin-right: .25em;
+        }
+
+        .separator::after {
+            margin-left: .25em;
+        }
+
+        .module-descriptor {
+            min-height: 150px;
+        }
+
+        .module-descriptor img {
+            float: left;
+            vertical-align: top;
+            margin-right: 20px;
+            margin-bottom: 10px;
+            width: 150px;
+            height: 150px;
+        }
+
+        h1:not(.title):not(.subtitle) {
+            font-size: 2em !important;
+        }
+
+        h2:not(.title):not(.subtitle) {
+            font-size: 1.5em !important;
+        }
+
+        h3:not(.title):not(.subtitle) {
+            font-size: 1.17em !important;
+        }
+
+        h4:not(.title):not(.subtitle) {
+            font-size: 1.12em !important;
+        }
+
+        h5:not(.title):not(.subtitle) {
+            font-size: .83em !important;
+        }
+
+        h6:not(.title):not(.subtitle) {
+            font-size: .75em !important;
+        }
+
+        h1:not(.title):not(.subtitle),
+        h2:not(.title):not(.subtitle),
+        h3:not(.title):not(.subtitle),
+        h4:not(.title):not(.subtitle),
+        h5:not(.title):not(.subtitle),
+        h6:not(.title):not(.subtitle) {
+            margin-bottom: 0.57em;
+            font-weight: bolder;
+        }
+    </style>
 </head>
 <body>
 <div class="container" id="wrapper">
@@ -139,11 +231,16 @@
                 <ul class="menu-list" id="sessions-list">
 
                 </ul>
-                <p class="menu-label">
-                    Plugins
+                <!--<p class="menu-label">
+                    Plugins <a class="tag is-primary" id="open-marketplace">+</a>
                 </p>
-                <ul class="menu-list">
+                <ul class="menu-list" id="plugins-list">
 
+                </ul>-->
+                <p class="menu-label">
+                    Module <a class="tag is-primary" id="open-modules">+</a>
+                </p>
+                <ul class="menu-list" id="modules-list">
                 </ul>
             </aside>
         </div>
@@ -334,7 +431,8 @@
                                 <div class="field">
                                     <div class="control">
                                         <label class="checkbox">
-                                            <input type="checkbox" id="login-save"> Daten merken
+                                            <input type="checkbox" id="login-save">
+                                            <span>Daten merken</span>
                                         </label>
                                     </div>
                                 </div>
@@ -563,7 +661,7 @@
                                     </div>
                                     <div class="field">
                                         <div class="field-body">
-                                            <div class="field" style="max-width: 280px">
+                                            <div class="field" style="min-width: 280px">
                                                 <label class="label">Handeln: <i id="editor-actSkills-bonus">0</i> (<i
                                                         id="editor-actSkills-brainstorm">0</i>)</label>
                                                 <div class="control">
@@ -941,7 +1039,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="field" style="max-width: 280px">
+                                            <div class="field" style="min-width: 280px">
                                                 <label class="label">Wissen: <i
                                                         id="editor-knowledgeSkills-bonus">0</i>
                                                     (<i id="editor-knowledgeSkills-brainstorm">0</i>)</label>
@@ -1310,7 +1408,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="field" style="max-width: 280px">
+                                            <div class="field" style="min-width: 280px">
                                                 <label class="label">Soziales: <i
                                                         id="editor-socialSkills-bonus">0</i> (<i
                                                         id="editor-socialSkills-brainstorm">0</i>)</label>
@@ -1698,6 +1796,10 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="field">
+                                        <div id="_char-editor-modules">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <footer class="card-footer">
@@ -1868,7 +1970,7 @@
                                     </div>
                                     <div class="field">
                                         <div class="field-body">
-                                            <div class="field" style="max-width: 280px">
+                                            <div class="field" style="min-width: 280px">
                                                 <label class="label">Handeln: <i id="viewer-actSkills-bonus">0</i> (<i
                                                         id="viewer-actSkills-brainstorm">0</i>)</label>
                                                 <div class="control">
@@ -2178,7 +2280,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="field" style="max-width: 280px">
+                                            <div class="field" style="min-width: 280px">
                                                 <label class="label">Wissen: <i
                                                         id="viewer-knowledgeSkills-bonus">0</i>
                                                     (<i
@@ -2499,7 +2601,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="field" style="max-width: 280px">
+                                            <div class="field" style="min-width: 280px">
                                                 <label class="label">Soziales: <i
                                                         id="viewer-socialSkills-bonus">0</i>
                                                     (<i
@@ -2841,6 +2943,10 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="field">
+                                        <div id="_char-viewer-modules">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <footer class="card-footer">
@@ -2968,6 +3074,11 @@
                     </div>
                 </div>
             </div>
+            <div id="plugin-pages">
+
+            </div>
+            <div id="module-pages">
+            </div>
         </div>
     </div>
     <div class="modal" id="add-battler-modal">
@@ -3054,7 +3165,8 @@
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">Fertigkeiten leveln (<b id="level-xp"></b> EXP)</p>
-                <button class="delete" aria-label="close" onclick="$('#level-modal').removeClass('is-active')"></button>
+                <button class="delete" aria-label="close"
+                        onclick="$('#level-modal').removeClass('is-active')"></button>
             </header>
             <section class="modal-card-body">
                 <div id="level-simple">
@@ -3092,7 +3204,8 @@
                             </div>
                             <div class="column is-one-quarter">
                                 <div class="control">
-                                    <button class="button is-success" id="level-simple-up-talent">Erhöhen (1)</button>
+                                    <button class="button is-success" id="level-simple-up-talent">Erhöhen (1)
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -3160,7 +3273,8 @@
                     </div>
                 </div>
                 <div id="level-complex" style="display: none">
-                    <div class="tabs is-centered is-boxed" data-tab="level-complex" data-reset-tab="level-complex-up">
+                    <div class="tabs is-centered is-boxed" data-tab="level-complex"
+                         data-reset-tab="level-complex-up">
                         <ul>
                             <li class="is-active tab" data-tab="level-complex-up">
                                 <a>
@@ -3194,7 +3308,8 @@
                             </div>
                             <div class="column is-one-quarter">
                                 <div class="control">
-                                    <button class="button is-success" id="level-complex-up-talent">Erhöhen (?)</button>
+                                    <button class="button is-success" id="level-complex-up-talent">Erhöhen (?)
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -3225,7 +3340,8 @@
                             </div>
                             <div class="column is-one-quarter">
                                 <div class="control">
-                                    <button class="button is-success" id="level-complex-reskill-talent">Umskillen (?)
+                                    <button class="button is-success" id="level-complex-reskill-talent">Umskillen
+                                        (?)
                                     </button>
                                 </div>
                             </div>
@@ -3332,6 +3448,7 @@
             </section>
         </div>
     </div>
+    <div id="modal-plugins"></div>
     <div id="loader" style="display: none">
         <div id="ld-holder">
             <div class="lds-ellipsis">
@@ -3344,6 +3461,118 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="showdown.js"></script>
+    <script src="dompurify.js"></script>
+    <script>
+        let timeoutControls = {};
+
+        function ui_OnChange(id) {
+            let val = $('#' + id).val().toString();
+            bridge.ui_OnChange(id, val);
+            if (timeoutControls[id]) {
+                clearTimeout(timeoutControls[id]);
+                timeoutControls[id] = setTimeout(() => {
+                    bridge.ui_OnTimeout(id, val);
+                }, 3000);
+            }
+        }
+
+        function ui_SetSelectValue(id, value) {
+            $('#' + id).val(value);
+        }
+
+        function ui_OnFocusOut(id) {
+            bridge.ui_OnFocusOut(id);
+            if (timeoutControls[id]) {
+                clearTimeout(timeoutControls[id]);
+                timeoutControls[id] = null;
+                let val = $('#' + id).val().toString();
+                bridge.ui_OnTimeout(id, val);
+            }
+        }
+
+        function ui_OnCheckboxChange(id) {
+            bridge.ui_OnCheckboxChange(id, document.getElementById(id + '_val').checked);
+        }
+
+        function ui_AddCardFooterButton(id, callbackId, text, danger) {
+            $('#' + id).append(`<a href="#" class="card-footer-item" onclick="bridge.ui_FooterClick('${id}', '${callbackId}')"
+                                   style="${danger ? "" : "color: red"}">${text}</a>`);
+        }
+
+        function ui_SetElementStyle(id, key, val) {
+            $('#' + id).css(key, JSON.parse(val));
+        }
+
+        function ui_SetElementAttribute(id, key, val) {
+            $('#' + id).attr(key, val);
+        }
+
+        function ui_SetElementDisplay(id, visible) {
+            if (visible) {
+                $('#' + id).show();
+            } else {
+                $('#' + id).hide();
+            }
+        }
+
+        function ui_CreatePluginPage(id) {
+            $('#plugin-pages').append(`<div id="${id}" style="display: none"></div>`);
+        }
+
+        function ui_CreateElement(parentId, html) {
+            $('#' + parentId).append(html);
+        }
+
+        function ui_SetInnerHTML(id, html) {
+            $('#' + id).html(html);
+        }
+
+        function ui_DestroyElement(id) {
+            $('#' + id).remove();
+        }
+
+        function ui_AddClass(id, clazz) {
+            $('#' + id).addClass(clazz);
+        }
+
+        function ui_RemoveClass(id, clazz) {
+            $('#' + id).removeClass(clazz);
+        }
+
+        function alertConfirm(id, text, title, yes, no) {
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#62d630',
+                cancelButtonText: no,
+                confirmButtonText: yes
+            }).then(result => {
+                bridge.ui_TriggerConfirm(id, !!result.isConfirmed);
+            });
+        }
+    </script>
+    <script>
+        const PLUGINS_LIST = $('#plugins-list');
+
+        function appendPluginEntry(id, display, state) {
+            id = id.split(' ').join('_');
+            let pageId = "_plugin_" + id + "_";
+            PLUGINS_LIST.append(`<li id="litem-${id}"><a id="ahref-${id}" onclick="pluginEntryClick('${pageId}')" class="page-switch plugin-${state}">${display}</a></li>`);
+            pages[pageId] = {
+                content: '#' + pageId,
+                switch: $('#ahref-' + id)
+            };
+        }
+
+        function pluginEntryClick(pageId) {
+            if (interactionLocked) return;
+            selectPage(pageId);
+        }
+    </script>
     <script>
         const PREPARED_ABILITIES = {
             "act": ["Schwimmen", "Zechen", "Klettern", "Rennen", "Schleichen", "Verstecken", "Werfen", "Treten", "Kochen", "Singen", "Tanzen", "Angeln", "Schneidern", "Taschendiebstahl", "Navigieren", "Fahrzeuge führen", "Ringen", "Waffenloser Kampf", "Schießen", "Malen/Zeichnen", "Holzschnitzen", "Origami", "Falschspiel", "Schlösser knacken", "Fesseln/Entfesseln", "Fälschen", "Klettern"],
@@ -3351,6 +3580,29 @@
             "social": ["Menschenkenntniss", "Lügen", "Betören", "Bezirzen", "Manipulieren", "Überreden", "Beeindrucken", "Einschüchtern", "Begeistern", "Feilschen", "Unterhalten", "Beruhigen", "Verwirren", "Sich untermischen/", "untertauchen", "Zwietracht säen", "Vom Thema ablenken", "Charme/Charisma", "Widerstehen", "Trösten", "Aufheitern"]
         }
         let currentAbilityInput = null;
+
+        function removeCustomAbilities(key, arrS) {
+            let arr = JSON.parse(arrS);
+            if (arr) {
+                for (let i = 0; i < arr.length; i++) {
+                    let item = arr[i];
+                    let index = arr.indexOf(item);
+                    if (index > -1) {
+                        PREPARED_ABILITIES[key].splice(index, 1);
+                    }
+                }
+            }
+        }
+
+        function addCustomAbilities(key, arrS) {
+            let arr = JSON.parse(arrS);
+            if (arr) {
+                for (let i = 0; i < arr.length; i++) {
+                    let item = arr[i];
+                    PREPARED_ABILITIES[key].push(item);
+                }
+            }
+        }
 
         function showAbilityHelp(element, skillType) {
             currentAbilityInput = element.parentElement.querySelector('input');
@@ -3495,6 +3747,12 @@
             }
         }
 
+        function sortBattleEntries() {
+            currentBattle.entries.sort(function (a, b) {
+                return b.ini - a.ini;
+            });
+        }
+
         function getRandomInt(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
@@ -3505,7 +3763,7 @@
             bridge.saveSessionBattle(currentSession.sessionObj.uuid, JSON.stringify(currentBattle));
         }
 
-        function sortBattleEntries() {
+        /*function sortBattleEntries() {
             let newEntries = [];
             while (currentBattle.entries.length > 0) {
                 let currentEntries = getHighestEntries();
@@ -3549,9 +3807,73 @@
                     current = entry.ini;
             }
             return current;
+        }*/
+    </script>
+    <script>
+        const MD_CONVERTER = new showdown.Converter();
+        const MODULE_PAGES = $('#module-pages');
+        const MODULES_LIST = $('#modules-list');
+        let currentModules = [];
+
+        function updateModules(json) {
+            MODULE_PAGES.html("");
+            MODULES_LIST.html("");
+            let modules = JSON.parse(atob(json));
+            if (modules) {
+                currentModules = modules;
+                for (let i = 0; i < modules.length; i++) {
+                    let module = modules[i];
+                    let pageName = "module-" + i;
+                    let ruleset = "";
+                    if (module.ruleset && module.ruleset.toString().trim().length > 0) {
+                        ruleset = `<hr style="border-top: 1px solid rgba(0, 0, 0, 0.3);">
+                                                <div>
+                                                    ` + DOMPurify.sanitize(MD_CONVERTER.makeHtml(module.ruleset)) + `
+                                                </div>`;
+                    }
+                    MODULE_PAGES.append(`<div id="page-module-` + i + `" style="display: none">
+                                            <div class="container">
+                                                <div class="module-descriptor">
+                                                    <img src="` + module.meta.icon + `">
+                                                    <div>
+                                                        <h1 class="title">` + module.meta.name + ` <small>v` + module.meta.version + `</small></h1>
+                                                        <h2 class="subtitle is-5"><i>von ` + module.meta.author + `</i></h2>
+                                                    </div>
+                                                    ` + module.meta.description + `
+                                                </div>
+                                                ` + ruleset + `
+                                            </div>
+                                        </div>`);
+                    MODULES_LIST.append(`<li><a id="` + pageName + `" onclick="selectModule(` + i + `)"">` + module.meta.name + `</a></li>`);
+                }
+            }
+        }
+
+        function selectModule(idx) {
+            deselectCurrentPage();
+            let q = $('#page-module-' + idx);
+            q.show();
+            let s = $('#module-' + idx);
+            s.addClass('is-active');
+            currentPage = {
+                content: q,
+                switch: s
+            };
         }
     </script>
     <script>
+        $('#open-marketplace').click(() => {
+            openFolder("PLUGINS");
+        });
+
+        $('#open-modules').click(() => {
+            openFolder("MODULES");
+        });
+
+        function openFolder(pathType) {
+            bridge.openFolder(pathType);
+        }
+
         let currentSession = null;
         let joiningSessionId = null;
         let joiningSessionPassword = null;
@@ -3578,6 +3900,8 @@
                 return;
             }
             $('#loader').show();
+            console.log("id: \"" + joiningSessionId + "\"");
+            console.log("pw: \"" + joiningSessionPassword + "\"");
             bridge.joinSession(joiningSessionId, joiningSessionPassword, characters[charIdx].uuid, (newSession) => {
                 joiningSessionCallback(newSession);
                 joiningSessionCallback = null;
@@ -3784,6 +4108,7 @@
             deselectCurrentPage();
             let session = sessions[idx];
             currentSession = session;
+            bridge.setCurrentSession(JSON.stringify(session));
             let q;
             if (session.isPlayer) {
                 q = $('#page-char-viewer');
@@ -4301,6 +4626,7 @@
 
         function selectCharacter(character, isLocal, idx) {
             isSessionView = idx == -1001;
+            bridge.changeSessionView(isSessionView);
             if (isSessionView) {
                 $('#viewer-delete-char').hide();
             } else {
@@ -4309,6 +4635,11 @@
             selectedCharacter = character;
             localSelected = isLocal;
             selectedCharIdx = idx;
+            $('.viewer-modinput').each(function () {
+                let q = $(this);
+                q.val("");
+            });
+            bridge.triggerCharLoad(character.uuid, isLocal);
             $('#viewer-xp').val(character.xp);
             $('#viewer-health').val(character.health);
             $('#viewer-name').val(character.name);
@@ -4528,6 +4859,18 @@
                 currentCharacter.stature = stature;
                 currentCharacter.job = job;
                 currentCharacter.pointsLeft = freePoints;
+                let modulesData = {};
+                $('.editor-modinput').each(function () {
+                    let q = $(this);
+                    let type = q.data("type");
+                    let key = q.data("key");
+                    let val = q.val();
+                    if (type == "number") {
+                        val = parseIntSafely(val);
+                    }
+                    modulesData[key] = val;
+                });
+                currentCharacter.modulesData = modulesData;
                 normalizeSkillGroup("actSkills");
                 normalizeSkillGroup("knowledgeSkills");
                 normalizeSkillGroup("socialSkills");
@@ -4628,6 +4971,10 @@
         }
 
         function resetCharacterEditor() {
+            $('.editor-modinput').each(function () {
+                let q = $(this);
+                q.val("");
+            });
             editorSkillBonuses = {
                 actSkills: 0,
                 knowledgeSkills: 0,
@@ -4913,6 +5260,14 @@
             };
         }
 
+        function afterSessionJoin(inviteJson) {
+            let invite = JSON.parse(inviteJson);
+            if (invite) {
+                console.log(invite);
+                joinSpecificSession(invite.id.trim(), invite.pw.trim());
+            }
+        }
+
         function autoLogin(username, password) {
             interactionLocked = true;
             $('#login-finish').prop("disabled", true);
@@ -4935,6 +5290,7 @@
                         sessions[i].sessionObj = sessionObjs[i];
                     }
                     loginName = username;
+                    bridge.sendBackSuccessLogin(username, JSON.stringify(characters));
                     $('#login-message').hide();
                     updateRemoteCharacters();
                     updateLocalCharacters();
@@ -4974,6 +5330,22 @@
                         });
                     }
                 }
+            });
+        }
+
+        function alertError(text, title) {
+            Swal.fire({
+                icon: 'error',
+                title: title,
+                text: text
+            });
+        }
+
+        function alertSuccess(text, title) {
+            Swal.fire({
+                icon: 'success',
+                title: title,
+                text: text
             });
         }
 
@@ -5165,7 +5537,7 @@
             let pageName = q.data("page");
             if (pageName) {
                 pages[pageName] = {
-                    content: $('#page-' + pageName),
+                    content: '#page-' + pageName,
                     switch: q
                 };
                 q.click(function () {
@@ -5179,14 +5551,14 @@
             deselectCurrentPage();
             currentPage = pages[pageName];
             currentPage.switch.addClass('is-active');
-            currentPage.content.show();
+            $(currentPage.content).show();
         }
 
         function deselectCurrentPage() {
             if (currentPage) {
                 if (currentPage.switch)
                     currentPage.switch.removeClass('is-active');
-                currentPage.content.hide();
+                $(currentPage.content).hide();
             }
         }
 
@@ -5303,6 +5675,30 @@
     <script>
         let autoSessionJoin = null;
 
+        function applySessionCharModDataSync(sessionId, key, json, charId) {
+            let character = null;
+            for (let i = 0; i < sessions.length; i++) {
+                let session = sessions[i]
+                if (session.session == sessionId) {
+                    if (session.sessionObj) {
+                        for (let j = 0; j < session.sessionObj.players.length; j++) {
+                            let player = session.sessionObj.players[j];
+                            if (!player.character) continue;
+                            if (player.character.uuid == charId) {
+                                character = player.character;
+                                break;
+                            }
+                        }
+                    } else {
+                        character = session.character;
+                    }
+                    break;
+                }
+            }
+            if (character == null) return;
+            character["modulesData"][key] = JSON.parse(json);
+        }
+
         function applySessionCharDataSync(sessionId, key, json, charId) {
             let character = null;
             for (let i = 0; i < sessions.length; i++) {
@@ -5328,6 +5724,15 @@
             character[key] = val;
             if (!selectedCharacter || selectedCharacter.uuid != character.uuid) return;
             $('#viewer-' + key).val(val);
+        }
+
+        function applyCharModDataSync(charId, key, json) {
+            let character = findCharacterById(charId);
+            let val = JSON.parse(json);
+            if (!character["modulesData"])
+                character["modulesData"] = {};
+            character["modulesData"][key] = val;
+            updateRemoteCharacters();
         }
 
         function applyCharDataSync(charId, key, json) {
@@ -5431,6 +5836,7 @@
             }
             if (currentSession.session == sessionId) {
                 currentSession = null;
+                bridge.setCurrentSession(null);
                 selectPage("dashboard");
             }
         }

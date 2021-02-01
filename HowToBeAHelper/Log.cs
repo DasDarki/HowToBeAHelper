@@ -9,11 +9,11 @@ namespace HowToBeAHelper
         private static readonly string FilePath =
             Path.Combine(Path.GetDirectoryName(Application.ExecutablePath) ?? string.Empty, "log.txt");
 
-        public static void Append(string message)
+        public static void Append(string message, params object[] args)
         {
             try
             {
-                File.AppendAllLines(FilePath, new[] { $"[{DateTime.Now:G}] " + message });
+                File.AppendAllLines(FilePath, new[] { $"[{DateTime.Now:G}] " + string.Format(message, args) });
             }
             catch
             {

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<plugin type="csharp|lua" id="this-is-an-id">
+  <name>The optional name</name>
+  <author>The author</author>
+  <version>1.0.0.0</version>
+  <description>The description of the plugin</description>
+  <dependencies>
+    <plugin>id of another plugin</plugin>
+    <plugin>another id of another plugin</plugin>
+  </dependencies>
+  <entryPoint>main.lua || main.dll</entryPoint>
+</plugin>

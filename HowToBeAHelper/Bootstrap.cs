@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
+using HowToBeAHelper.Modules;
+using HowToBeAHelper.Plugins;
+using HowToBeAHelper.Scripting;
 using Microsoft.Win32;
-using Newtonsoft.Json;
 
 namespace HowToBeAHelper
 {
@@ -20,6 +22,11 @@ namespace HowToBeAHelper
         /// The path to the data directory of the app.
         /// </summary>
         internal static string DataPath { get; private set; }
+
+        /// <summary>
+        /// The path to the modules folder of the app.
+        /// </summary>
+        internal static string ModulesPath { get; private set; }
 
         /// <summary>
         /// The path to the temp directory of the app.
@@ -57,6 +64,16 @@ namespace HowToBeAHelper
         internal static CharacterManager CharacterManager { get; set; }
 
         /// <summary>
+        /// The module manager of this instance.
+        /// </summary>
+        internal static ModuleManager ModuleManager { get; } = new ModuleManager();
+
+        /// <summary>
+        /// The system implementiation for the plugins system.
+        /// </summary>
+        internal static ScriptingSystem System { get; private set; }
+
+        /// <summary>
         /// The settings of the runtime.
         /// </summary>
         internal static Settings Settings { get; set; }
@@ -66,6 +83,8 @@ namespace HowToBeAHelper
         /// </summary>
         internal static string AutoJoinSession { get; set; } = "";
 
+        internal static PluginManager PluginManager { get; } = new PluginManager();
+
         private const string UriScheme = "htbah";
         private const string FriendlyName = "HowToBeAHelper";
 
@@ -73,44 +92,47 @@ namespace HowToBeAHelper
         /// Initializes the app, creates the structure, checks for updates and connects with the network.
         /// </summary>
         /// <returns>True if the app could be initialized successfully</returns>
-        internal static bool Init(string[] args)
+        internal static bool Init()
         {
             RegisterUriScheme();
-            UpdateAutoSessionJoin(args);
             AppPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ?? "";
             DataPath = CreateAppPath("data");
             TempPath = CreateAppPath("temp");
             ConfigPath = CreateAppPath("configs");
             PluginsPath = CreateAppPath("plugins");
+            ModulesPath = CreateAppPath("modules");
             LocalStorage.Init();
             Settings = Settings.Load();
             CharacterManager = new CharacterManager();
             IsAutomaticallyLoggedIn = Load(out StoredUsername, out StoredPassword);
+            System = new ScriptingSystem();
+            //PluginManager.LoadPlugins();
+            ModuleManager.Hook();
             return true;
         }
 
-        private static void UpdateAutoSessionJoin(string[] args)
+        internal static object GenerateInvite(string uri)
         {
-            if (args.Length <= 0) return;
-            string arg = args[0];
-            if (string.IsNullOrEmpty(arg)) return;
+            if (string.IsNullOrEmpty(uri)) return null;
             try
             {
-                string[] parts = arg.Split('?');
+                string[] parts = uri.Split('?');
                 string url = parts[0].Replace("htbah://", "");
                 if (url.ToLower().StartsWith("session"))
                 {
                     NameValueCollection queries = HttpUtility.ParseQueryString(parts[1]);
-                    if (!queries.AllKeys.Contains("id")) return;
+                    if (!queries.AllKeys.Contains("id")) return null;
                     string id = queries["id"];
                     string pw = queries.AllKeys.Contains("pw") ? queries["pw"] : "";
-                    AutoJoinSession = JsonConvert.SerializeObject(new {id, pw});
+                    return new {id, pw};
                 }
             }
             catch
             {
                 //Needs: Error handling
             }
+
+            return null;
         }
 
         private static void RegisterUriScheme()

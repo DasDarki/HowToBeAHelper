@@ -16,6 +16,250 @@
             <param name="enum">The given enum</param>
             <returns>The name of the given enum</returns>
         </member>
+        <member name="M:HowToBeAHelper.Extensions.SafeForEach``1(System.Collections.Generic.IReadOnlyList{``0},System.Func{``0,System.Boolean})">
+            <summary>
+            Makes a for each safe via reverse iterating. Modifying the list won't end in an exception.
+            </summary>
+            <param name="list">The list to be iterated</param>
+            <param name="callback">The callback which gets called on iterate, returning true ends in a break</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SafeForEach``1(System.Collections.Generic.List{``0},System.Func{``0,System.Boolean})">
+            <summary>
+            Makes a for each safe via reverse iterating. Modifying the list won't end in an exception.
+            </summary>
+            <param name="list">The list to be iterated</param>
+            <param name="callback">The callback which gets called on iterate, returning true ends in a break</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SafeForEach``1(System.Collections.Generic.IReadOnlyList{``0},System.Action{``0})">
+            <summary>
+            Makes a for each safe via reverse iterating. Modifying the list won't end in an exception.
+            </summary>
+            <param name="list">The list to be iterated</param>
+            <param name="callback">The callback which gets called on iterate</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SafeForEach``1(System.Collections.Generic.List{``0},System.Action{``0})">
+            <summary>
+            Makes a for each safe via reverse iterating. Modifying the list won't end in an exception.
+            </summary>
+            <param name="list">The list to be iterated</param>
+            <param name="callback">The callback which gets called on iterate</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SafeForEach``1(System.Array,System.Action{``0})">
+            <summary>
+            Makes a for each safe via reverse iterating. Modifying the list won't end in an exception.
+            </summary>
+            <param name="list">The list to be iterated</param>
+            <param name="callback">The callback which gets called on iterate</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SafeForEach``1(System.Array,System.Func{``0,System.Boolean})">
+            <summary>
+            Makes a for each safe via reverse iterating. Modifying the list won't end in an exception.
+            </summary>
+            <param name="list">The list to be iterated</param>
+            <param name="callback">The callback which gets called on iterate, returning true ends in a break</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SelectAll``1(System.Collections.Generic.IReadOnlyList{``0},System.Predicate{``0})">
+            <summary>
+            Selects all items fitting to the given predicate.
+            </summary>
+            <param name="list">The list to be checked</param>
+            <param name="check">The predicate which filters</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+            <returns>The list containing all fitting elements</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SelectAll``1(System.Collections.Generic.List{``0},System.Predicate{``0})">
+            <summary>
+            Selects all items fitting to the given predicate.
+            </summary>
+            <param name="list">The list to be checked</param>
+            <param name="check">The predicate which filters</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+            <returns>The list containing all fitting elements</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SelectFirst``1(System.Collections.Generic.IReadOnlyList{``0},System.Predicate{``0},``0)">
+            <summary>
+            Selects the first item fitting to the given predicate.
+            </summary>
+            <param name="list">The list to be checked</param>
+            <param name="check">The predicate which filters</param>
+            <param name="default">The value which will be returned if no item is found</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+            <returns>The list containing all fitting elements</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.SelectFirst``1(System.Collections.Generic.List{``0},System.Predicate{``0},``0)">
+            <summary>
+            Selects the first item fitting to the given predicate.
+            </summary>
+            <param name="list">The list to be checked</param>
+            <param name="check">The predicate which filters</param>
+            <param name="default">The value which will be returned if no item is found</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+            <returns>The list containing all fitting elements</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.Collect``2(System.Collections.Generic.List{``0},System.Func{``0,``1})">
+            <summary>
+            Selects all items fitting to the given predicate.
+            </summary>
+            <param name="list">The list to be checked</param>
+            <param name="collector">The function which converts the given type to the wanted type</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+            <typeparam name="TN">The type which gets collected</typeparam>
+            <returns>The list containing all fitting elements</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.Collect``2(System.Collections.Generic.IReadOnlyList{``0},System.Func{``0,``1})">
+            <summary>
+            Selects all items fitting to the given predicate.
+            </summary>
+            <param name="list">The list to be checked</param>
+            <param name="collector">The function which converts the given type to the wanted type</param>
+            <typeparam name="T">The type of the list elements</typeparam>
+            <typeparam name="TN">The type which gets collected</typeparam>
+            <returns>The list containing all fitting elements</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.ContainsIgnoreCase(System.Array,System.String)">
+            <summary>
+            Checks if the given string value is in the given list without considering the case.
+            </summary>
+            <param name="list">The list to be checked</param>
+            <param name="value">The string value</param>
+            <returns>True if it is containing the string value</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Extensions.ContainsIgnoreCase(System.Collections.Generic.List{System.String},System.String)">
+            <summary>
+            Checks if the given string value is in the given list without considering the case.
+            </summary>
+            <param name="list">The list to be checked</param>
+            <param name="value">The string value</param>
+            <returns>True if it is containing the string value</returns>
+        </member>
+        <member name="T:HowToBeAHelper.IPluginManager">
+            <summary>
+            The plugin manager manages plugins, starts them, stops them and identifies them. It is also a handler
+            for specific parts of the plugin process as well as the bridge between API and plugins.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.IPluginManager.Plugins">
+            <summary>
+            A list containing every plugin which was at least once loaded while the runtime is running.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.IPluginManager.LoadPlugin(System.String)">
+            <summary>
+            Loads a plugin from an external source. 
+            </summary>
+            <param name="name">The filename or directory name starting at the plugins main folder</param>
+            <returns>The loaded plugin instance</returns>
+        </member>
+        <member name="M:HowToBeAHelper.IPluginManager.StartPlugin(HowToBeAHelper.Plugin)">
+            <summary>
+            Tries to start the given plugin and returns the success level.
+            </summary>
+            <param name="plugin">The plugin which should be started</param>
+            <returns>True, if the starting process was successful</returns>
+        </member>
+        <member name="M:HowToBeAHelper.IPluginManager.StopPlugin(HowToBeAHelper.Plugin,System.Boolean)">
+            <summary>
+            Stops the given plugin.
+            </summary>
+            <param name="plugin">The plugin which should be started</param>
+            <param name="clean">If true, the plugin will be deleted from the plugins list</param>
+        </member>
+        <member name="M:HowToBeAHelper.IPluginManager.GetPlugin(System.String)">
+            <summary>
+            Gets the plugin by the given id and returns it.
+            </summary>
+            <param name="id">The id of the plugin</param>
+            <returns>The plugin which is associated with the given id, or null if nothing was found</returns>
+        </member>
+        <member name="T:HowToBeAHelper.ISystem">
+            <summary>
+            The system is the main management component. It offers conntect to the direct underlying layer
+            which cares about model management (e.g. characters or sessions) as well as communication
+            possiblities to the outer layers like the master server or MongoDB.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.ISystem.User">
+            <summary>
+            The name of the currently logged in user.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.ISystem.IsLoggedIn">
+            <summary>
+            Whether a user is logged into the system or not.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.ISystem.IsSessionSelected">
+            <summary>
+            Whether a session is selected or not.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.ISystem.CurrentSession">
+            <summary>
+            The current selected session.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.ISystem.IsSessionView">
+            <summary>
+            Whether the session is view is active.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.ISystem.LocalCharacters">
+            <summary>
+            A list containing every character in the local storage of the system.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.ISystem.RemoteCharacters">
+            <summary>
+            A list containing every remotely saved character belonging to the currently logged in user.
+            If not logged in, the list is empty.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.ISystem.Network">
+            <summary>
+            The instance of the API layer for the network access.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.ISystem.SaveLocalCharacters">
+            <summary>
+            Saves the local cached characters to the disk.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.ISystem.LoggedIn">
+            <summary>
+            Gets called when the user successfully logged in.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.ISystem.LoggedOut">
+            <summary>
+            Gets called when the user logged out.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.ISystem.CharacterUpdate">
+            <summary>
+            Gets called when a character has been updated.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.ISystem.CharacterCreate">
+            <summary>
+            Gets called when a character has been created.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.ISystem.CharacterDelete">
+            <summary>
+            Gets called when a character has been deleted.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.ISystem.CharacterLoad">
+            <summary>
+            Gets called when a character is loaded into the character viewer.
+            </summary>
+        </member>
         <member name="T:HowToBeAHelper.Model.Characters.Character">
             <summary>
             The data model for the character.
@@ -96,14 +340,14 @@
             An 10-length array containing skills for the category <see cref="F:HowToBeAHelper.Model.Skills.SkillCategory.Soziales"/>.
             </summary>
         </member>
-        <member name="P:HowToBeAHelper.Model.Characters.Character.PointsLeft">
-            <summary>
-            The points the character has left for skills.
-            </summary>
-        </member>
         <member name="P:HowToBeAHelper.Model.Characters.Character.CreateYear">
             <summary>
             The year the character was created.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Model.Characters.Character.ModulesData">
+            <summary>
+            The storage where modules can place their data into.
             </summary>
         </member>
         <member name="M:HowToBeAHelper.Model.Characters.Character.GetSkillsBonus(HowToBeAHelper.Model.Skills.Skill[])">
@@ -113,10 +357,34 @@
             <param name="skills">The skills group</param>
             <returns>The bonus for the given skills</returns>
         </member>
+        <member name="M:HowToBeAHelper.Model.Characters.Character.Export">
+            <summary>
+            Exports this character to a byte array containing PDF data.
+            </summary>
+            <returns>The PDF data or null</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Model.Characters.Character.Export(System.String)">
+            <summary>
+            Exports this character to a PDF file.
+            </summary>
+            <param name="filename">The path to the output PDF file</param>
+        </member>
         <member name="M:HowToBeAHelper.Model.Characters.Character.GenerateSkills(HowToBeAHelper.Model.Skills.SkillCategory)">
             <summary>
             Generates a default skills array with no entered skills. The skill names are empty so that the skills will be ignored.
             </summary>
+        </member>
+        <member name="T:HowToBeAHelper.Model.Characters.CharacterGenerator">
+            <summary>
+            This is the helper class for the built in character generation.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.Model.Characters.CharacterGenerator.GeneratePdf(HowToBeAHelper.Model.Characters.Character)">
+            <summary>
+            Generates a pdf file from the given character. The character data is automatically getting filled into the default character sheet
+            of "How to be a Hero".
+            </summary>
+            <param name="character">The wanted character object</param>
         </member>
         <member name="T:HowToBeAHelper.Model.Skills.Skill">
             <summary>
@@ -166,10 +434,127 @@
             Every interaction of a character with the skill, counts as "Soziales"
             </summary>
         </member>
+        <member name="T:HowToBeAHelper.Modules.ModulePack">
+            <summary>
+            The module pack is for packing modules and offering a simple sharing of them.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Modules.ModulePack.Content">
+            <summary>
+            The content of the pack.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Modules.ModulePack.Ruleset">
+            <summary>
+            The optional ruleset of the pack.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.Modules.ModulePack.Serialize(HowToBeAHelper.Modules.ModulePack)">
+            <summary>
+            Serializes the pack into a byte array.
+            </summary>
+            <param name="pack">The pack to be compiled</param>
+            <returns>The byte array</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Modules.ModulePack.Deserialize(System.Byte[])">
+            <summary>
+            Deserializes the given byte array into a pack object.
+            </summary>
+            <param name="bytes">The input bytes</param>
+            <returns>The module pack or null</returns>
+        </member>
+        <member name="T:HowToBeAHelper.Net.INetwork">
+            <summary>
+            The network layer allows interaction with the master network behind the HTBAH system.
+            The network interaction of this API only works, if the user is logged in.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.Net.INetwork.Self(System.String)">
+            <summary>
+            Prepares a remote event to all connected devices of the currently logged in user in the network.
+            </summary>
+            <param name="eventName">The event name of the trigger</param>
+            <returns>The prepared event or null if not connected or logged in</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Net.INetwork.Unicast(System.String,System.String)">
+            <summary>
+            Prepares a remote event to all connected devices of a specific user in the network.
+            </summary>
+            <param name="eventName">The event name of the trigger</param>
+            <param name="username">The name of the wanted user</param>
+            <returns>The prepared event or null if not connected or logged in</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Net.INetwork.Multicast(System.String,System.String[])">
+            <summary>
+            Prepares a remote event to all connected devices of all specified users in the network.
+            </summary>
+            <param name="eventName">The event name of the trigger</param>
+            <param name="usernames">All names of the wanted users</param>
+            <returns>The prepared event or null if not connected or logged in</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Net.INetwork.On(System.String,System.Action{Newtonsoft.Json.Linq.JArray})">
+            <summary>
+            Adds an event handler which listens to the specified event in the network.
+            </summary>
+            <param name="eventName">The event to listen to</param>
+            <param name="callback">The callback which gets called when the event is received</param>
+        </member>
+        <member name="T:HowToBeAHelper.Net.IRemoteEvent">
+            <summary>
+            The remote event allows managing of specific areas when networking with the master server.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.Net.IRemoteEvent.Params(System.Object[])">
+            <summary>
+            Sets the parameter of this remote event.
+            </summary>
+            <param name="args">The arguments for the event</param>
+            <returns>This instance of the remote event</returns>
+        </member>
+        <member name="M:HowToBeAHelper.Net.IRemoteEvent.Send">
+            <summary>
+            Sends the remote event to the master for the processing.
+            </summary>
+        </member>
         <member name="T:HowToBeAHelper.Plugin">
             <summary>
             The main class for every plugin for HowToBeAHelper. This class is the initializer and entry point for the API.
             From here every process is getting managed. This class is the only class with direct access to the API.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.Plugin._logPath">
+            <summary>
+            The internal log path of this plugin.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Plugin.Meta">
+            <summary>
+            The meta of this plugin.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Plugin.State">
+            <summary>
+            The state of this plugin.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Plugin.PluginManager">
+            <summary>
+            The current instance of the running plugin manager.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Plugin.UI">
+            <summary>
+            The current UI API instance.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Plugin.Page">
+            <summary>
+            The page owned by this plugin.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Plugin.System">
+            <summary>
+            The currently running system instance.
             </summary>
         </member>
         <member name="M:HowToBeAHelper.Plugin.OnStart">
@@ -182,9 +567,145 @@
             Gets called when the plugin is getting stopped.
             </summary>
         </member>
-        <member name="M:HowToBeAHelper.Plugin.OnInit">
+        <member name="M:HowToBeAHelper.Plugin.OnPageLoad">
             <summary>
-            Gets called when the plugin is initialized. The init step is shortly before any plugin is getting started.
+            Gets called when the UI is loaded and the own page can be initialized.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.Plugin.Log(System.String,System.Object[])">
+            <summary>
+            Logs a message to the plugins log file in the root directory of HTBAH.
+            Arguments can be entered via the placeholder format of the <see cref="M:System.String.Format(System.String,System.Object)"/>
+            method.
+            </summary>
+            <param name="message">The message which should be appended</param>
+            <param name="args">The arguments which will be filled into the message</param>
+        </member>
+        <member name="M:HowToBeAHelper.Plugin.AssertCaller">
+            <summary>
+            Checks the calling assembly if it is allowed to call this method.
+            </summary>
+            <returns>True, if the assembly is allowed to set</returns>
+        </member>
+        <member name="T:HowToBeAHelper.PluginMeta">
+            <summary>
+            The meta defines needed information in order for the plugin manager to work.
+            The meta gets loaded by a meta xml file. Both C# and LUA plugins need the meta file.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.PluginMeta.Id">
+            <summary>
+            The id of the plugin. The id is required and identifies the plugin.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.PluginMeta.Display">
+            <summary>
+            The display name of the plugin. If name is entered, its the name otherwise the id.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.PluginMeta.Type">
+            <summary>
+            The type of the plugin. Its required and the loading process will fail, if its not entered.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.PluginMeta.Name">
+            <summary>
+            The name is optional and is the display for the plugin. If the name is not set, the id will take over.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.PluginMeta.Author">
+            <summary>
+            The author of the plugin. The author property is optional and has not any functionality but
+            displaying who the plugin wrote.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.PluginMeta.Description">
+            <summary>
+            The description of the plugin what it is doing.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.PluginMeta.Version">
+            <summary>
+            The version of the plugin. The version is required and will be used for differentiating the plugins
+            as well as updating them.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.PluginMeta.Dependencies">
+            <summary>
+            The dependencies are semi-required. If no dependencies are entered, the list is empty. The content
+            of the dependencies are other plugin ids.
+            The loader tries to load the dependencies first in order to prevent errors.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.PluginMeta.#ctor(HowToBeAHelper.PluginType,System.String,System.String,System.String,System.Version,System.Collections.Generic.IReadOnlyList{System.String},System.String)">
+            <summary>
+            The default constructor for the plugin meta. It is being used by the main plugin handler. Don't call it yourself.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.PluginState">
+            <summary>
+            This enum defines the state of a loaded plugin.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.PluginState.Unknown">
+            <summary>
+            Mostly the first state. If none state is set, this will be the state.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.PluginState.Loaded">
+            <summary>
+            The plugin is loaded and ready for the starting process.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.PluginState.Started">
+            <summary>
+            The plugin is started and runs normally.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.PluginState.Stopped">
+            <summary>
+            The plugin was stopped.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.PluginState.Failed">
+            <summary>
+            The plugin failed at some point.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.PluginType">
+            <summary>
+            The type defines the needed plugin loader for a specific plugin.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.PluginType.CSharp">
+            <summary>
+            The plugin is a C# plugin.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.PluginType.LUA">
+            <summary>
+            The plugin is a LUA plugin.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.Properties.Resources">
+            <summary>
+              Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Properties.Resources.ResourceManager">
+            <summary>
+              Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Properties.Resources.Culture">
+            <summary>
+              Überschreibt die CurrentUICulture-Eigenschaft des aktuellen Threads für alle
+              Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.Properties.Resources.CharacterTemplate">
+            <summary>
+              Sucht eine lokalisierte Ressource vom Typ System.Byte[].
             </summary>
         </member>
         <member name="T:HowToBeAHelper.Toml">
@@ -205,6 +726,474 @@
             </summary>
             <typeparam name="T">The output type</typeparam>
             <param name="path">The TOML file</param>
+        </member>
+        <member name="T:HowToBeAHelper.UI.ContainerType">
+            <summary>
+            The container type defines the container which gets loaded by the UI.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.UI.ContainerType.CharEditor">
+            <summary>
+            The char editor is the form which allows character creation.
+            </summary>
+        </member>
+        <member name="F:HowToBeAHelper.UI.ContainerType.CharViewer">
+            <summary>
+            The char viewer is the form which allows character reviewing.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Controls.IButton">
+            <summary>
+            The button is a control which takes click actions and does something with it.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.IButton.Text">
+            <summary>
+            The text of the button.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.IButton.Color">
+            <summary>
+            The background color of the button.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.UI.Controls.IButton.Click">
+            <summary>
+            Gets called when someone clicks on the element.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.UI.Controls.IButton.DoubleClick">
+            <summary>
+            Gets called when someone doubleclicks on the element.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Controls.ICheckbox">
+            <summary>
+            The checkbox is a true or false control which can be checked.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.ICheckbox.Checked">
+            <summary>
+            Whether the checkbox is checked (true) or not (false).
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.ICheckbox.Default">
+            <summary>
+            The default value of this checkbox.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.ICheckbox.Text">
+            <summary>
+            The text of the checkbox which is beside the checkbox.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.UI.Controls.ICheckbox.Change">
+            <summary>
+            Gets called when the checkbox states changed.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Controls.IInput`1">
+            <summary>
+            The base element for every input. The base input can't be created but offers the basic
+            functionality. From here other inputs are derived.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.IInput`1.Placeholder">
+            <summary>
+            The placeholder of the input.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.IInput`1.Value">
+            <summary>
+            The value of the input.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.UI.Controls.IInput`1.Change">
+            <summary>
+            Gets called when the input changes.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.UI.Controls.IInput`1.FocusOut">
+            <summary>
+            Gets called when the input looses focus.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.UI.Controls.IInput`1.Timeout">
+            <summary>
+            Gets called when the input timeout expired. The timeout is set to 3 seconds of doing nothing or focus out (instantly).
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Controls.INumberInput">
+            <summary>
+            The number input is a kind of input which only takes numbers.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.INumberInput.Step">
+            <summary>
+            In which steps the number input is increasing and decreasing.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.INumberInput.Min">
+            <summary>
+            The minimum value of the input.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.INumberInput.Max">
+            <summary>
+            The maximum value of the input.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Controls.ISelect">
+            <summary>
+            The select offers a combo box where the user can choose from specific options.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.ISelect.CurrentIndex">
+            <summary>
+            The current index of the select.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.ISelect.DefaultIndex">
+            <summary>
+            The default index of the select.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.ISelect.Items">
+            <summary>
+            A list containing every item in the select.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Controls.ISelect.IsFullwidth">
+            <summary>
+            Whether the row takes the fullwidth or not.
+            </summary>
+        </member>
+        <member name="E:HowToBeAHelper.UI.Controls.ISelect.Change">
+            <summary>
+            Gets called when the select value changed.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.Controls.ISelect.UpdateItems">
+            <summary>
+            Updates all items in the select.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Controls.ITextInput">
+            <summary>
+            The text input is a kind of input which takes every kind of input.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.ICard">
+            <summary>
+            The card is a group element which displays the group in a card format with header, body and footer.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.ICard.Header">
+            <summary>
+            The header title of the card.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.ICard.AddFooterButton(System.String,System.Action)">
+            <summary>
+            Adds a button to the footer of this card.
+            </summary>
+            <param name="text">The text of the button</param>
+            <param name="click">The action which gets called when clicking the button</param>
+            <returns>This card instance</returns>
+        </member>
+        <member name="M:HowToBeAHelper.UI.ICard.AddFooterDangerButton(System.String,System.Action)">
+            <summary>
+            Adds a danger button to the footer of this card.
+            </summary>
+            <param name="text">The text of the button</param>
+            <param name="click">The action which gets called when clicking the button</param>
+            <returns>This card instance</returns>
+        </member>
+        <member name="T:HowToBeAHelper.UI.IControl">
+            <summary>
+            The control is a specific element which controls the UI.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.IControl.Label">
+            <summary>
+            The label of the control. If null, the control has no label.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IControl.Reset">
+            <summary>
+            Resets the control to its default state.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.IElement">
+            <summary>
+            The base element offering base functionality.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.IElement.ID">
+            <summary>
+            The id of the element.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.IElement.Parent">
+            <summary>
+            The parent of this element.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.IElement.Visible">
+            <summary>
+            Whether the element is visible or not.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IElement.Destroy">
+            <summary>
+            Destroys the element and removes it from the UI.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IElement.RemoveClass(System.String)">
+            <summary>
+            Removes the class from the CSS class list of this element.
+            </summary>
+            <param name="clazz">The CSS class to remove</param>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IElement.AddClass(System.String)">
+            <summary>
+            Adds the class to the CSS class list of this element.
+            </summary>
+            <param name="clazz">The CSS class to add</param>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IElement.HasClass(System.String)">
+            <summary>
+            Checks if the given class is a CSS class of this element.
+            </summary>
+            <param name="clazz">The CSS class to check</param>
+            <returns>True, if the CSS class list of this element is containing the given class</returns>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IElement.Style(System.String,System.Object)">
+            <summary>
+            Sets a CSS key to given value. Look at jquery wiki for more information:<br/>
+            https://api.jquery.com/css/
+            </summary>
+            <param name="key">The property key name</param>
+            <param name="value">The value to be set to</param>
+        </member>
+        <member name="T:HowToBeAHelper.UI.IModal">
+            <summary>
+            The modal is some kind of alert box which also can take input forms.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.IModal.Title">
+            <summary>
+            The title of the modal.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IModal.Open">
+            <summary>
+            Opens the modal.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IModal.Close">
+            <summary>
+            Closes the modal.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.IUI">
+            <summary>
+            The interface for accessing the UI API of HTBAH.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IUI.NotifySuccess(System.String,System.Int32)">
+            <summary>
+            Prints a green success notify to the top-right corner of the UI.
+            </summary>
+            <param name="message">The message to be printed</param>
+            <param name="duration">The duration in milliseconds, how long the notify is shown</param>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IUI.NotifyError(System.String,System.Int32)">
+            <summary>
+            Prints a red error notify to the top-right corner of the UI.
+            </summary>
+            <param name="message">The message to be printed</param>
+            <param name="duration">The duration in milliseconds, how long the notify is shown</param>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IUI.AlertSuccess(System.String,System.String)">
+            <summary>
+            Shows a success alert box onto the screen.
+            </summary>
+            <param name="text">The text of the alert</param>
+            <param name="title">The title of the alert</param>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IUI.AlertError(System.String,System.String)">
+            <summary>
+            Shows an error alert box onto the screen.
+            </summary>
+            <param name="text">The text of the alert</param>
+            <param name="title">The title of the alert</param>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IUI.AlertConfirm(System.String,System.Action{System.Boolean},System.String,System.String,System.String)">
+            <summary>
+            Shows a confirmation alert box onto the screen. I
+            </summary>
+            <param name="text">The text of the alert</param>
+            <param name="callback">The callback which gets called back after confirmation</param>
+            <param name="title">The title of the alert</param>
+            <param name="yes">The text of the "yes"-button</param>
+            <param name="no">The text of the "no"-button</param>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IUI.ShowLoader">
+            <summary>
+            Shows the loader on the screen.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IUI.HideLoader">
+            <summary>
+            Hides the loader from the screen.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.IUI.RegisterModal(System.String)">
+            <summary>
+            Registers a new modal in the system.
+            </summary>
+            <param name="title">The title of the modal</param>
+            <returns>The newly created modal</returns>
+        </member>
+        <member name="E:HowToBeAHelper.UI.IUI.ContainerLoad">
+            <summary>
+            Gets called when a specific container of the main UI gets loaded. Can be used for modifying the container.
+            Removals cannot be done for native UI elements.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Layout.IColumn">
+            <summary>
+            The column is a layout element which aligns other elements.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Layout.IField">
+            <summary>
+            The field is some group of specific elements in a whole UI.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Layout.IFieldBody">
+            <summary>
+            The field body is mostly a direct child of a field. It is used to group multiple fields into one field.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Layout.IParent">
+            <summary>
+            Represents a parent element. If an element is a parent it can hold other elements
+            as their children
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Layout.IParent.Children">
+            <summary>
+            A list containing every children of this parent.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.Layout.IParent.Create``1(System.String,HowToBeAHelper.UI.SetupSettings)">
+            <summary>
+            Creates an element in this parent and adds it to the children.
+            </summary>
+            <typeparam name="T">The type of the element</typeparam>
+            <param name="id">The id of the element. Must be unique over all elements. If null, the id is auto generated</param>
+            <param name="settings">The settings of the newly create element</param>
+            <returns>The created element</returns>
+        </member>
+        <member name="M:HowToBeAHelper.UI.Layout.IParent.Reset">
+            <summary>
+            Resets and clears every element underlying of this parent.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.Layout.IRow">
+            <summary>
+            The row is a layout element to align columns and other elements.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Layout.IRow.IsGapless">
+            <summary>
+            Whether the columns in this row have no gaps.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Layout.IRow.IsCentered">
+            <summary>
+            Whether the columns are centered in this row.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.Layout.IRow.IsFullwidth">
+            <summary>
+            Whether the row takes the fullwidth or not.
+            </summary>
+        </member>
+        <member name="T:HowToBeAHelper.UI.SetupSettings">
+            <summary>
+            The class represents needed settings to setup specific elements.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.SetupSettings.Classes">
+            <summary>
+            All CSS classes which will be appended to the element.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.SetupSettings.Label">
+            <summary>
+            The label of this settings instance.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.SetupSettings.Text">
+            <summary>
+            The text of this settings instance.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.SetupSettings.Color">
+            <summary>
+            The color of this settings instance.
+            </summary>
+        </member>
+        <member name="P:HowToBeAHelper.UI.SetupSettings.Items">
+            <summary>
+            The items of this settings instance.
+            </summary>
+        </member>
+        <member name="M:HowToBeAHelper.UI.SetupSettings.AddClasses(System.String[])">
+            <summary>
+            Sets the CSS classes array for the new element.
+            </summary>
+            <param name="classes">The CSS classes to be set</param>
+            <returns>This instance of setup settings</returns>
+        </member>
+        <member name="M:HowToBeAHelper.UI.SetupSettings.SetItems(System.Collections.Generic.List{System.String})">
+            <summary>
+            Sets the items of a valid <see cref="T:HowToBeAHelper.UI.Controls.ISelect"/>.
+            </summary>
+            <param name="items">The items to be set</param>
+            <returns>This instance of setup settings</returns>
+        </member>
+        <member name="M:HowToBeAHelper.UI.SetupSettings.SetLabel(System.String)">
+            <summary>
+            Sets the label of a valid <see cref="T:HowToBeAHelper.UI.IControl"/>.
+            </summary>
+            <param name="label">The label text to be set</param>
+            <returns>This instance of setup settings</returns>
+        </member>
+        <member name="M:HowToBeAHelper.UI.SetupSettings.SetColor(HowToBeAHelper.UI.Color)">
+            <summary>
+            Sets the color of a valid <see cref="T:HowToBeAHelper.UI.Controls.IButton"/>.
+            </summary>
+            <param name="color">The color to be set</param>
+            <returns>This instance of setup settings</returns>
+        </member>
+        <member name="M:HowToBeAHelper.UI.SetupSettings.SetText(System.String)">
+            <summary>
+            Sets the text of a valid <see cref="T:HowToBeAHelper.UI.Controls.IButton"/> or <see cref="T:HowToBeAHelper.UI.ICard"/> as header
+            or <see cref="T:HowToBeAHelper.UI.Controls.IInput`1"/> as placeholder or <see cref="T:HowToBeAHelper.UI.Controls.ICheckbox"/>.
+            </summary>
+            <param name="text">The text to be set</param>
+            <returns>This instance of setup settings</returns>
+        </member>
+        <member name="M:HowToBeAHelper.UI.SetupSettings.Default(System.String[])">
+            <summary>
+            Creates a default instance of setup settings with just CSS classes.
+            </summary>
+            <param name="classes">The wanted CSS classes</param>
+            <returns>The newly created settings</returns>
         </member>
     </members>
 </doc>

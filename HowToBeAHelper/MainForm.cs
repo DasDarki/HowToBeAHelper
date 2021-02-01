@@ -6,6 +6,7 @@ using CefSharp;
 using CefSharp.WinForms;
 using HowToBeAHelper.Net;
 using HowToBeAHelper.Properties;
+using HowToBeAHelper.UI;
 using Newtonsoft.Json;
 
 namespace HowToBeAHelper
@@ -22,7 +23,9 @@ namespace HowToBeAHelper
 
         internal MainForm()
         {
+            Instance = this;
             Master = new MasterClient();
+            Bootstrap.System.Network = Master;
             InitializeComponent();
             Text = Properties.Settings.Default.Title;
             Icon = Resources.icon;
@@ -53,7 +56,12 @@ namespace HowToBeAHelper
             {
                 if (args.Frame.IsMain)
                 {
-                    //Browser.ShowDevTools();
+                    Bootstrap.ModuleManager.Reload();
+                    CefUI.UI.TriggerContainerLoad("_char-editor-modules", ContainerType.CharEditor);
+                    CefUI.UI.TriggerContainerLoad("_char-viewer-modules", ContainerType.CharViewer);
+#if DEBUG
+                    Browser.ShowDevTools();
+#endif
                     SafeInvoke(() =>
                     {
                         Visible = true;
@@ -76,6 +84,22 @@ namespace HowToBeAHelper
             {
                 WindowState = FormWindowState.Minimized;
             }
+
+            foreach (Plugin plugin in Bootstrap.PluginManager.LoadedPlugins)
+            {
+                Browser.ExecuteScriptAsyncWhenPageLoaded(
+                    $"appendPluginEntry(`{plugin.Meta.Id}`, `{plugin.Meta.Display}`, `{plugin.State.GetName().ToLower()}`)");
+                Browser.ExecuteScriptAsyncWhenPageLoaded($"ui_CreatePluginPage('{plugin.Page.ID}')");
+                plugin.OnPageLoad();
+            }
+        }
+
+        internal void AfterSessionJoin(string invite)
+        {
+            SafeInvoke(() =>
+            {
+                Browser.ExecuteScriptAsync($"afterSessionJoin(`{invite}`)");
+            });
         }
 
         internal void Run(Action callback)
@@ -112,6 +136,16 @@ namespace HowToBeAHelper
         public void NotifyError(string text, int duration = 5000)
         {
             Browser.ExecuteScriptAsync($"notifyError('{text}', {duration})");
+        }
+
+        public void AlertSuccess(string text, string title = "Juhu!")
+        {
+            Browser.ExecuteScriptAsync($"alertSuccess(`{text}`, `{title}`)");
+        }
+
+        public void AlertError(string text, string title = "Juhu!")
+        {
+            Browser.ExecuteScriptAsync($"alertError(`{text}`, `{title}`)");
         }
 
         internal void SafeInvoke(Action action)

@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
-using HowToBeAHelper.BuiltIn;
+using HowToBeAHelper.Model;
 using HowToBeAHelper.Model.Characters;
+using HowToBeAHelper.UI;
+using HowToBeAHelper.UI.Controls;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using Button = HowToBeAHelper.UI.Controls.Button;
 
 // ReSharper disable InconsistentNaming
 namespace HowToBeAHelper
@@ -22,6 +26,161 @@ namespace HowToBeAHelper
         {
             _form = form;
             _browser = _form.Browser;
+        }
+
+        public void setCurrentSession(string json)
+        {
+            if (string.IsNullOrEmpty(json))
+            {
+                Bootstrap.System.CurrentSession = null;
+                return;
+            }
+
+            try
+            {
+                Bootstrap.System.CurrentSession = JsonConvert.DeserializeObject<Session>(json);
+            }
+            catch
+            {
+                // Ignore
+            }
+        }
+
+        public void changeSessionView(bool isSessionView)
+        {
+            Bootstrap.System.IsSessionView = isSessionView;
+        }
+
+        public void triggerCharLoad(string charId, bool isLocal)
+        {
+            Bootstrap.System.IsLocalCharacter = isLocal;
+            Character character = Bootstrap.System.GetCharacter(charId, isLocal);
+            if (character != null)
+                Bootstrap.System.TriggerCharacterLoad(character);
+        }
+
+        public void openFolder(string pathType)
+        {
+            MainForm.Instance.SafeInvoke(() =>
+            {
+                switch (pathType.ToUpper())
+                {
+                    case "PLUGINS":
+                        //Process.Start(Bootstrap.PluginsPath);
+                        break;
+                    case "MODULES":
+                        Process.Start(Bootstrap.ModulesPath);
+                        break;
+                }
+            });
+        }
+
+        public void sendBackSuccessLogin(string username, string charactersJson)
+        {
+            Bootstrap.System.User = username;
+            Bootstrap.System.Characters = JsonConvert.DeserializeObject<List<Character>>(charactersJson);
+            Bootstrap.System.TriggerLoggedIn();
+        }
+
+        public void ui_OnCheckboxChange(string id, bool val)
+        {
+            IElement element = CefUI.CreatedElements.SelectFirst(o => o.ID == id);
+            if (element is ICheckbox checkbox)
+            {
+                ((Checkbox) checkbox).TriggerChange(val);
+            }
+        }
+
+        public void ui_OnTimeout(string id, string raw)
+        {
+            IElement element = CefUI.CreatedElements.SelectFirst(o => o.ID == id);
+            if (element != null)
+            {
+                switch (element)
+                {
+                    case ITextInput textInput:
+                        ((TextInput) textInput).TriggerTimeout(raw);
+                        break;
+                    case INumberInput numberInput:
+                        ((NumberInput) numberInput).TriggerTimeout(raw);
+                        break;
+                }
+            }
+        }
+
+        public void ui_OnChange(string id, string val)
+        {
+            IElement element = CefUI.CreatedElements.SelectFirst(o => o.ID == id);
+            if (element != null)
+            {
+                switch (element)
+                {
+                    case ITextInput textInput:
+                        ((TextInput) textInput).TriggerChange(val);
+                        break;
+                    case INumberInput numberInput:
+                        ((NumberInput) numberInput).TriggerChange(val);
+                        break;
+                    case ISelect select:
+                        ((Select) select).TriggerChange(val);
+                        break;
+                }
+            }
+        }
+
+        public void ui_OnFocusOut(string id)
+        {
+            IElement element = CefUI.CreatedElements.SelectFirst(o => o.ID == id);
+            if (element != null)
+            {
+                switch (element)
+                {
+                    case ITextInput textInput:
+                        ((TextInput) textInput).TriggerFocusOut();
+                        break;
+                    case INumberInput numberInput:
+                        ((NumberInput) numberInput).TriggerFocusOut();
+                        break;
+                }
+            }
+        }
+
+        public void ui_TriggerConfirm(string id, bool val)
+        {
+            CefUI.UI.TriggerConfirm(id, val);
+        }
+
+        public void ui_FooterClick(string id, string clickId)
+        {
+            IElement element = CefUI.CreatedElements.SelectFirst(o => o.ID == id);
+            if (element != null && element is ICard card)
+            {
+                ((Card) card).TriggerFooterClick(clickId);
+            }
+        }
+
+        public void ui_OnClick(string id)
+        {
+            IElement element = CefUI.CreatedElements.SelectFirst(o => o.ID == id);
+            if (element != null)
+            {
+                if (element is IButton btn)
+                {
+                    ((Button) btn).TriggerClick();
+                }
+            }
+        }
+
+        public void ui_OnDoubleClick(string id)
+        {
+            IElement element = CefUI.CreatedElements.SelectFirst(o => o.ID == id);
+            if (element != null)
+            {
+                if (element is IButton btn)
+                {
+                    ((Button)btn).TriggerDoubleClick();
+                }
+            }
         }
 
         public void saveSessionBattle(string session, string data)
@@ -229,10 +388,13 @@ namespace HowToBeAHelper
                 {
                     await _form.Master.Logout();
                 });
+                Bootstrap.System.User = null;
+                Bootstrap.System.Characters.Clear();
                 Bootstrap.IsAutomaticallyLoggedIn = false;
                 Bootstrap.StoredPassword = null;
                 Bootstrap.StoredUsername = null;
                 Bootstrap.DeleteLogin();
+                Bootstrap.System.TriggerLoggedOut();
             }
             catch
             {
@@ -251,6 +413,7 @@ namespace HowToBeAHelper
 
                 _form.Run(async () =>
                 {
+                    Bootstrap.System.SetCharSkills(charId, json);
                     await _form.Master.SyncSkills(username, charId, json);
                 });
             }
@@ -268,7 +431,7 @@ namespace HowToBeAHelper
                 Bootstrap.CharacterManager.Characters.RemoveAll(o => o.ID == character.ID);
                 Bootstrap.CharacterManager.Characters.Add(character);
                 Bootstrap.CharacterManager.Save();
-
+                Bootstrap.System.TriggerCharacterUpdate(character);
             }
             catch
             {
@@ -287,6 +450,7 @@ namespace HowToBeAHelper
 
                 _form.Run(async () =>
                 {
+                    Bootstrap.System.SetCharData(charId, key, val);
                     await _form.Master.SyncCharData(username, charId, key, val);
                 });
             }
@@ -302,8 +466,11 @@ namespace HowToBeAHelper
             {
                 if (isLocal)
                 {
-                    Bootstrap.CharacterManager.Characters.RemoveAll(o => o.ID == charId);
+                    Character character = Bootstrap.CharacterManager.Characters.SelectFirst(o => o.ID == charId);
+                    if(character == null) return;
+                    Bootstrap.CharacterManager.Characters.Remove(character);
                     Bootstrap.CharacterManager.Save();
+                    Bootstrap.System.TriggerCharacterDelete(character);
                     callback.ExecuteAsync(true);
                 }
                 else
@@ -316,6 +483,7 @@ namespace HowToBeAHelper
 
                     _form.Run(async () =>
                     {
+                        Bootstrap.System.OnDeleteChar(charId);
                         await _form.Master.DeleteCharacter(username, charId, success =>
                         {
                             callback.ExecuteAsync(success);
@@ -341,7 +509,7 @@ namespace HowToBeAHelper
                         dialog.Filter = "PDF | *.pdf";
                         if (dialog.ShowDialog() == DialogResult.OK)
                         {
-                            CharacterGenerator.GeneratePdf(character, dialog.FileName);
+                            character.Export(dialog.FileName);
                             callback.ExecuteAsync(true);
                         }
                     }
@@ -369,6 +537,8 @@ namespace HowToBeAHelper
                     {
                         Bootstrap.CharacterManager.Characters.RemoveAll(o => o.ID == lastId);
                         Bootstrap.CharacterManager.Save();
+                        Bootstrap.System.Characters.Add(character);
+                        Bootstrap.System.TriggerCharacterCreate(character);
                     }
 
                     callback.ExecuteAsync(status);
@@ -399,6 +569,11 @@ namespace HowToBeAHelper
                             Bootstrap.CharacterManager.Characters.Add(character);
                             Bootstrap.CharacterManager.Save();
                             local = true;
+                        }
+                        else
+                        {
+                            Bootstrap.System.Characters.Add(character);
+                            Bootstrap.System.TriggerCharacterCreate(character);
                         }
 
                         callback.ExecuteAsync(status, local);
@@ -478,6 +653,13 @@ namespace HowToBeAHelper
 
                 return builder.ToString();
             }
+        }
+
+        internal static string EncodeBase64(string toEncode)
+        {
+            byte[] bytes = Encoding.GetEncoding(28591).GetBytes(toEncode);
+            string toReturn = Convert.ToBase64String(bytes);
+            return toReturn;
         }
     }
 }

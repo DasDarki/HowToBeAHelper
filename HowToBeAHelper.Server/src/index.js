@@ -100,6 +100,22 @@ database.start(() => {
                 other.emit("character:sync-data", charId, key, json);
             });
         });
+        socket.on("character:mod-update", function (username, charId, key, json) {
+            database.updateCharacterMod(username, charId, key, JSON.parse(json));
+            multicastLogin(socket.id, username, other => {
+                other.emit("character:sync-mod-data", charId, key, json);
+            });
+        });
+        socket.on("session:mod-update", function (sessionId, username, charId, key, json) {
+            database.updateSessionCharacterMod(sessionId, username, charId, key, JSON.parse(json), (hostName, playerName) => {
+                multicastLogin(socket.id, hostName, other => {
+                    other.emit("session:sync-mod-data", sessionId, key, json, charId);
+                });
+                multicastLogin(socket.id, playerName, other => {
+                    other.emit("session:sync-mod-data", sessionId, key, json, charId);
+                });
+            });
+        });
         socket.on("user:char-refresh", function (username, fn) {
             database.refreshCharacters(username, fn);
         });
@@ -130,7 +146,16 @@ database.start(() => {
                 other.emit("character:sync-delete", charId);
             });
         });
-        console.log("User Connected!");
+        socket.on("plugins:custom-event", function (eventName, usernamesJson, args) {
+            let usernames = JSON.parse(usernamesJson);
+            for (let socketId in io.sockets.sockets) {
+                let socket = io.sockets.sockets[socketId];
+                if (socket.id && socket.id == socket.id) continue;
+                if (usernames.includes(socket.loginName)) {
+                    socket.emit("plugins:custom-event", eventName, args);
+                }
+            }
+        });
     });
 
     const port = process.env.PORT || 1339;

@@ -176,10 +176,18 @@ namespace HowToBeAHelper
                                     break;
                                 case "number":
                                     if (_numberInputs.ContainsKey(key)) continue;
+                                    string dataDbl = "";
+                                    string dblAction = "";
+                                    if (formInput.DblClickAction == "dice_roll" && extra == "viewer")
+                                    {
+                                        dataDbl = "data-dbl=\"dice\"";
+                                        dblAction = $"ondblclick=\"onDiceValue(this, \\`{formInput.Label}\\`)\"";
+                                    }
+
                                     INumberInput numberInput = column.Create<INumberInput>(null, SetupSettings.Default(extra + "-modinput")
                                         .SetLabel(formInput.Label).SetText(formInput.Placeholder)
                                         .SetData(
-                                            $"data-type=\"number\" data-key=\"{key}\""));
+                                            $"data-type=\"number\" data-key=\"{key}\" {dataDbl} {dblAction}"));
                                     if (extra == "viewer")
                                     {
                                         _numberInputs.Add(key, numberInput);

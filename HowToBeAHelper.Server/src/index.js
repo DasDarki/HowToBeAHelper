@@ -106,6 +106,13 @@ database.start(() => {
                 other.emit("character:sync-mod-data", charId, key, json);
             });
         });
+        socket.on("session:dice-roll", function (username, sessionId, result) {
+            database.getSessionHost(sessionId, (hostName) => {
+                multicastLogin(socket.id, hostName, other => {
+                    other.emit("session:dice-roll", username, result);
+                });
+            });
+        });
         socket.on("session:mod-update", function (sessionId, username, charId, key, json) {
             database.updateSessionCharacterMod(sessionId, username, charId, key, JSON.parse(json), (hostName, playerName) => {
                 multicastLogin(socket.id, hostName, other => {

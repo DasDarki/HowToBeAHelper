@@ -134,6 +134,19 @@ namespace HowToBeAHelper.Net
                     // Ignore; needs handling
                 }
             });
+            Client.On("session:dice-roll", response =>
+            {
+                try
+                {
+                    string username = response.GetValue<string>();
+                    string resultData = response.GetValue<string>(1);
+                    MainForm.Instance.Browser.ExecuteScriptAsync($"onRollHostCallback(`{username}`, `{resultData}`)");
+                }
+                catch
+                {
+                    // Ignore
+                }
+            });
         }
 
         private void OnDisconnected(object sender, string e)
@@ -318,6 +331,11 @@ namespace HowToBeAHelper.Net
             {
                 callback(response.GetValue<string>());
             }, name, password);
+        }
+
+        internal async Task SyncDiceRoll(string user, string sessionID, string result)
+        {
+            await Client.EmitAsync("session:dice-roll", user, sessionID, result);
         }
 
         /// <summary>

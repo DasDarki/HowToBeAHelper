@@ -41,6 +41,9 @@ namespace HowToBeAHelper.Modules
 
             [XmlAttribute("placeholder")]
             public string Placeholder { get; set; }
+
+            [XmlAttribute("dblaction")]
+            public string DblClickAction { get; set; }
         }
     }
 }

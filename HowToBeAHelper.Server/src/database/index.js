@@ -451,6 +451,16 @@ function Database() {
         });
     };
 
+    this.getSessionHost = function (sessionId, hostSync) {
+        schemas.Session.findOne({uuid: sessionId}).exec(function (err, session) {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            hostSync(session.hostName);
+        });
+    };
+
     this.updateSessionCharacterMod = function (sessionId, username, charId, key, val, hostSync) {
         schemas.Session.findOne({uuid: sessionId}).populate("players").exec(function (err, session) {
             if (err) {

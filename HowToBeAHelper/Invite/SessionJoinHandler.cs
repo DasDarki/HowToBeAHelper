@@ -6,6 +6,9 @@ namespace HowToBeAHelper.Invite
     {
         public static bool Handle(object invite)
         {
+#if DEBUG
+            return true;
+#else
             if (!InviteHandler.CheckAndPush(invite))
             {
                 InviteHandler.Start();
@@ -15,6 +18,7 @@ namespace HowToBeAHelper.Invite
             }
 
             return false;
+#endif
         }
     }
 }

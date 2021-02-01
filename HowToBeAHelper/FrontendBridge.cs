@@ -28,6 +28,26 @@ namespace HowToBeAHelper
             _browser = _form.Browser;
         }
 
+        public void rollDiceCheck(string s, string text, string bonusS, string user)
+        {
+            _form.Run(async () =>
+            {
+                if (string.IsNullOrEmpty(s) || string.IsNullOrEmpty(text)) return;
+                int bonus = 0;
+                if (bonusS.Contains(".")) bonusS = bonusS.Split('.')[0];
+                if (int.TryParse(bonusS, out int b))
+                    bonus = b;
+                if (s.Contains(".")) s = s.Split('.')[0];
+                if (int.TryParse(s, out int val))
+                {
+                    DiceRoller.Result result = DiceRoller.Roll(text, val, bonus, user);
+                    await DiceRoller.SyncWithHost(result);
+                    _form.Browser.ExecuteScriptAsync(
+                        $"onRollCallback(`{JsonConvert.SerializeObject(result)}`)");
+                }
+            });
+        }
+
         public void setCurrentSession(string json)
         {
             if (string.IsNullOrEmpty(json))

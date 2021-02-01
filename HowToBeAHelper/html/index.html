@@ -209,6 +209,20 @@
             margin-bottom: 0.57em;
             font-weight: bolder;
         }
+
+        * {
+            user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-user-select: none;
+        }
+
+        textarea, input[type="email"] {
+            user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            -webkit-user-select: text;
+        }
     </style>
 </head>
 <body>
@@ -1975,7 +1989,8 @@
                                                         id="viewer-actSkills-brainstorm">0</i>)</label>
                                                 <div class="control">
                                                     <div class="field" id="viewer-skils-act">
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('actSkills-0')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2005,7 +2020,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('actSkills-1')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2036,7 +2052,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('actSkills-2')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2067,7 +2084,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('actSkills-3')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2097,7 +2115,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('actSkills-4')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2127,7 +2146,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('actSkills-5')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2157,7 +2177,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('actSkills-6')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2187,7 +2208,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('actSkills-7')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2217,7 +2239,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('actSkills-8')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2247,7 +2270,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('actSkills-9')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2287,7 +2311,8 @@
                                                             id="viewer-knowledgeSkills-brainstorm">0</i>)</label>
                                                 <div class="control">
                                                     <div class="field" id="viewer-skils-knowledge">
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('knowledgeSkills-0')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2317,7 +2342,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('knowledgeSkills-1')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2349,7 +2375,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('knowledgeSkills-2')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2381,7 +2408,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('knowledgeSkills-3')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2412,7 +2440,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('knowledgeSkills-4')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2443,7 +2472,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('knowledgeSkills-5')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2474,7 +2504,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('knowledgeSkills-6')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2505,7 +2536,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('knowledgeSkills-7')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2536,7 +2568,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('knowledgeSkills-8')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2567,7 +2600,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('knowledgeSkills-9')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2608,7 +2642,8 @@
                                                             id="viewer-socialSkills-brainstorm">0</i>)</label>
                                                 <div class="control">
                                                     <div class="field" id="viewer-skils-social">
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('socialSkills-0')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2638,7 +2673,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('socialSkills-1')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2670,7 +2706,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('socialSkills-2')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2702,7 +2739,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('socialSkills-3')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2733,7 +2771,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('socialSkills-4')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2764,7 +2803,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('socialSkills-5')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2795,7 +2835,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('socialSkills-6')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2826,7 +2867,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('socialSkills-7')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2857,7 +2899,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('socialSkills-8')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -2888,7 +2931,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="columns is-gapless">
+                                                        <div class="columns is-gapless"
+                                                             ondblclick="viewerDiceValue('socialSkills-9')">
                                                             <div class="column is-half">
                                                                 <div class="field">
                                                                     <div class="control">
@@ -3079,6 +3123,52 @@
             </div>
             <div id="module-pages">
             </div>
+        </div>
+    </div>
+    <div class="modal" id="dice-roll-host-modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Würfelergebnisse</p>
+                <button class="delete" aria-label="close"
+                        onclick="onRollHostModalClose()"></button>
+            </header>
+            <section class="modal-card-body">
+                <div class="columns is-fullwidth">
+                    <div class="column" style="text-align: center">
+                        <table class="table is-fullwidth is-striped">
+                            <thead>
+                            <tr>
+                                <th>Spieler</th>
+                                <th>Fertigkeit</th>
+                                <th>Resultat</th>
+                                <th>Wurf</th>
+                            </tr>
+                            </thead>
+                            <tbody id="dice-roll-host-results">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="modal" id="dice-roll-modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title" id="dice-roll-name"></p>
+                <button class="delete" aria-label="close"
+                        onclick="$('#dice-roll-modal').removeClass('is-active')"></button>
+            </header>
+            <section class="modal-card-body">
+                <div class="columns is-fullwidth">
+                    <div class="column" style="text-align: center">
+                        <h1 class="title" id="dice-roll-reason"></h1>
+                        <h2 class="subtitle" id="dice-roll-rolled"></h2>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
     <div class="modal" id="add-battler-modal">
@@ -3463,6 +3553,109 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="showdown.js"></script>
     <script src="dompurify.js"></script>
+    <script>
+        let hostModalOpen = false;
+
+        function onRollHostModalClose() {
+            hostModalOpen = false;
+            $('#dice-roll-host-results').html("");
+            $('#dice-roll-host-modal').removeClass('is-active');
+        }
+
+        function viewerDiceValue(id) {
+            let input = $("#viewer-" + id + "-calc");
+            let val = (input.val() || "").toString().trim();
+            let name = $("#viewer-" + id + "-name");
+            let text = (name.val() || "").toString().trim();
+            getDiceBonus(bonus => {
+                bridge.rollDiceCheck(val, text, bonus, loginName);
+            });
+        }
+
+        function onDiceValue(input, text) {
+            let q = $(input);
+            let val = (q.val() || "").toString().trim();
+            getDiceBonus(bonus => {
+                bridge.rollDiceCheck(val, text, bonus, loginName);
+            });
+        }
+
+        function onRollHostCallback(user, resultS) {
+            let result = JSON.parse(resultS);
+            if (result) {
+                $('#dice-roll-host-results').append(`<tr>
+                    <td>` + result.user + `</td>
+                    <td>` + result.name + `</td>
+                    <td>` + generateReason(result) + `</td>
+                    <td>` + result.rolled + `</td>
+                </tr>`);
+                if (!hostModalOpen) {
+                    hostModalOpen = true;
+                    $('#dice-roll-host-modal').addClass('is-active');
+                }
+            }
+        }
+
+        function onRollCallback(resultS) {
+            let result = JSON.parse(resultS);
+            if (result) {
+                $('#dice-roll-name').html(result.name);
+                $('#dice-roll-reason').html(generateReason(result));
+                $('#dice-roll-rolled').html("Dein gewürfelter Wert: " + result.rolled);
+                $('#dice-roll-modal').addClass('is-active');
+            }
+        }
+
+        function generateReason(result) {
+            let reason = "";
+            if (result.crit == 0 && result.success) {
+                reason = "Probe geschafft"
+            } else if (result.crit == 0 && !result.success) {
+                reason = "Probe fehlgeschlagen"
+            } else if (result.crit == 1) {
+                reason = "Kritischer Misserfolg"
+            } else if (result.crit == 2) {
+                reason = "Kritischer Erfolg"
+            }
+            reason += " (" + result.diff + ")"
+            return reason;
+        }
+
+        function getDiceBonus(callback) {
+            if (!shiftDown) return callback("0");
+            Swal.fire({
+                title: 'Bonus eingeben (bei Malus, einfach negative Zahl):',
+                input: 'number',
+                showCancelButton: true,
+                confirmButtonText: 'Werfen!',
+                showLoaderOnConfirm: true,
+                allowOutsideClick: () => true,
+                allowEscapeKey: () => true,
+                allowEnterKey: () => true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    callback(result.value || "0");
+                }
+            });
+        }
+    </script>
+    <script>
+        var shiftDown = false;
+        const setShiftDown = function (event) {
+            if (event.keyCode === 16 || event.charCode === 16) {
+                shiftDown = true;
+            }
+        };
+
+        const setShiftUp = function (event) {
+            if (event.keyCode === 16 || event.charCode === 16) {
+                shiftDown = false;
+            }
+        };
+
+        window.addEventListener ? document.addEventListener('keydown', setShiftDown) : document.attachEvent('keydown', setShiftDown);
+        window.addEventListener ? document.addEventListener('keyup', setShiftUp) : document.attachEvent('keyup', setShiftUp);
+    </script>
     <script>
         let timeoutControls = {};
 

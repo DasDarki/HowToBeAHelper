@@ -131,6 +131,7 @@
     <Compile Include="Bootstrap.cs" />
     <Compile Include="Changelog.cs" />
     <Compile Include="CharacterManager.cs" />
+    <Compile Include="DiceRoller.cs" />
     <Compile Include="FrontendBridge.cs" />
     <Compile Include="Invite\InviteHandler.cs" />
     <Compile Include="Invite\SessionJoinHandler.cs" />

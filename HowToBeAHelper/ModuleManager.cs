@@ -105,7 +105,7 @@ namespace HowToBeAHelper
                     Module module = TryExtract(file);
                     if (module == null) continue;
                     Modules.Add(module);
-                    modulesForJs.Add(new {meta = module.Meta, ruleset = module.Ruleset});
+                    modulesForJs.Add(new {meta = module.Meta, ruleset = FrontendBridge.EncodeBase64(module.Ruleset) });
                 }
             }
 

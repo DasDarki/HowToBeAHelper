@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SevenZipSharp", "SevenZipSh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowToBeAHelper.Packer", "HowToBeAHelper.Packer\HowToBeAHelper.Packer.csproj", "{43FF2FB8-027B-4149-86F8-C31311FF48CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowToBeAHelper.Planner", "HowToBeAHelper.Planner\HowToBeAHelper.Planner.csproj", "{F7A36836-FC51-4B68-88CD-B6A6C4B0418A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,14 @@ Global
 		{43FF2FB8-027B-4149-86F8-C31311FF48CD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{43FF2FB8-027B-4149-86F8-C31311FF48CD}.Release|x64.ActiveCfg = Release|Any CPU
 		{43FF2FB8-027B-4149-86F8-C31311FF48CD}.Release|x64.Build.0 = Release|Any CPU
+		{F7A36836-FC51-4B68-88CD-B6A6C4B0418A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7A36836-FC51-4B68-88CD-B6A6C4B0418A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7A36836-FC51-4B68-88CD-B6A6C4B0418A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F7A36836-FC51-4B68-88CD-B6A6C4B0418A}.Debug|x64.Build.0 = Debug|Any CPU
+		{F7A36836-FC51-4B68-88CD-B6A6C4B0418A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7A36836-FC51-4B68-88CD-B6A6C4B0418A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7A36836-FC51-4B68-88CD-B6A6C4B0418A}.Release|x64.ActiveCfg = Release|Any CPU
+		{F7A36836-FC51-4B68-88CD-B6A6C4B0418A}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

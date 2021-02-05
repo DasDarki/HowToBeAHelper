@@ -24,6 +24,23 @@ namespace HowToBeAHelper.Modules
         {
             [XmlElement("input")]
             public List<Input> Inputs { get; set; }
+
+            [XmlElement("select")]
+            public List<Select> Selects { get; set; }
+        }
+
+        [Serializable]
+        [XmlRoot("select")]
+        public class Select
+        {
+            [XmlAttribute("key")]
+            public string Key { get; set; }
+
+            [XmlAttribute("label")]
+            public string Label { get; set; }
+
+            [XmlElement("option")] 
+            public List<string> Options { get; set; } = new List<string>();
         }
 
         [Serializable]

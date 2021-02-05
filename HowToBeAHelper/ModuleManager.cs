@@ -18,6 +18,7 @@ namespace HowToBeAHelper
         private readonly List<IElement> _createdElements;
         private readonly Dictionary<string, INumberInput> _numberInputs;
         private readonly Dictionary<string, ITextInput> _textInputs;
+        private readonly Dictionary<string, ISelect> _selects;
         private Character _currentCharacter;
 
         internal ModuleManager()
@@ -25,6 +26,7 @@ namespace HowToBeAHelper
             _createdElements = new List<IElement>();
             _numberInputs = new Dictionary<string, INumberInput>();
             _textInputs = new Dictionary<string, ITextInput>();
+            _selects = new Dictionary<string, ISelect>();
             Modules = new List<Module>();
         }
 
@@ -51,6 +53,8 @@ namespace HowToBeAHelper
             {
                 if (_textInputs.ContainsKey(key))
                     _textInputs[key].Value = s;
+                else if (_selects.ContainsKey(key) && int.TryParse(s, out int i))
+                    _selects[key].CurrentIndex = i;
             }
             else if (val is double d)
             {
@@ -101,7 +105,7 @@ namespace HowToBeAHelper
                     Module module = TryExtract(file);
                     if (module == null) continue;
                     Modules.Add(module);
-                    modulesForJs.Add(new {meta = module.Meta, ruleset = module.Ruleset});
+                    modulesForJs.Add(new {meta = module.Meta, ruleset = FrontendBridge.EncodeBase64(module.Ruleset) });
                 }
             }
 
@@ -146,6 +150,30 @@ namespace HowToBeAHelper
                     foreach (ModuleForm.Column formColumn in formRow.Columns)
                     {
                         IColumn column = row.Create<IColumn>();
+                        foreach (ModuleForm.Select formSelect in formColumn.Selects)
+                        {
+                            if (string.IsNullOrEmpty(formSelect.Key)) continue;
+                            string key = $"{module.Meta.Name}:{formSelect.Key}";
+                            if (_selects.ContainsKey(key)) continue;
+                            ISelect select = column.Create<ISelect>(null,
+                                SetupSettings.Default(extra + "-modinput")
+                                    .SetLabel(formSelect.Label).SetItems(formSelect.Options)
+                                    .SetData(
+                                        $"data-type=\"select\" data-key=\"{key}\""));
+                            select.IsFullwidth = true;
+                            if (extra == "viewer")
+                            {
+                                _selects.Add(key, select);
+                                select.Change += s =>
+                                {
+                                    MainForm.Instance.Run(() =>
+                                    {
+                                        SyncData(key, s);
+                                    });
+                                };
+                            }
+                        }
+
                         foreach (ModuleForm.Input formInput in formColumn.Inputs)
                         {
                             if (string.IsNullOrEmpty(formInput.Key)) continue;

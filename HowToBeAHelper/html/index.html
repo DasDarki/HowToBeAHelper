@@ -4021,7 +4021,7 @@
                     if (module.ruleset && module.ruleset.toString().trim().length > 0) {
                         ruleset = `<hr style="border-top: 1px solid rgba(0, 0, 0, 0.3);">
                                                 <div>
-                                                    ` + DOMPurify.sanitize(MD_CONVERTER.makeHtml(module.ruleset)) + `
+                                                    ` + DOMPurify.sanitize(MD_CONVERTER.makeHtml(atob(module.ruleset))) + `
                                                 </div>`;
                     }
                     MODULE_PAGES.append(`<div id="page-module-` + i + `" style="display: none">

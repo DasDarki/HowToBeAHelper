@@ -16,7 +16,7 @@ namespace HowToBeAHelper.UI.Controls
                 string val = GetValueOfIndex(value);
                 if(val == null) return;
                 _currentIndex = value;
-                MainForm.Instance.Browser.ExecuteScriptAsyncWhenPageLoaded($"ui_SetSelectValue('{ID}', '{val}')");
+                MainForm.Instance.Browser.ExecuteScriptAsyncWhenPageLoaded($"ui_SetSelectValue('{ID}', {_currentIndex})");
             }
         }
 
@@ -30,11 +30,11 @@ namespace HowToBeAHelper.UI.Controls
                 _fullwidth = value;
                 if (value)
                 {
-                    CefUI.AddElementClass(ID, "is-fullwidth");
+                    CefUI.AddElementClass(ID + "_parent", "is-fullwidth");
                 }
                 else
                 {
-                    CefUI.RemoveElementClass(ID, "is-fullwidth");
+                    CefUI.RemoveElementClass(ID + "_parent", "is-fullwidth");
                 }
             }
         }
@@ -43,13 +43,16 @@ namespace HowToBeAHelper.UI.Controls
 
         public List<string> Items { get; }
 
-        public event Action<string> Change; 
+        public event Action<string> Change;
+
+        private readonly string _data;
 
         public Select(IElement parent, string id, SetupSettings settings) : base(parent, id, settings)
         {
             Items = settings.Items;
             DefaultIndex = 0;
             _currentIndex = DefaultIndex;
+            _data = settings.Data;
         }
 
         protected override string GetInnerHTML(string classes)
@@ -63,7 +66,7 @@ namespace HowToBeAHelper.UI.Controls
                 index++;
             }
 
-            return $"<div class=\"select\"><select onchange=\"ui_OnChange('{ID}')\" id=\"{ID}\" >" + items + "</select></div>";
+            return $"<div class=\"select\" id=\"{ID}_parent\"><select class=\"{classes}\" {_data} onchange=\"ui_OnChange('{ID}')\" id=\"{ID}\" >" + items + "</select></div>";
         }
 
         public override void Reset()

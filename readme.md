@@ -1,4 +1,7 @@
 # HowToBeAHelper
+
+> :warning: Das Tool wird unter dem folgenden Link komplett neuentwickelt. Wir haben bei der Entwicklung dieses Tools einige Fehlentscheidungen getroffen, die man nicht hätte umändern können, oder zumindest wäre es mehr arbeit, als komplett neuanzufangen: [KLICK](https://github.com/EternityLife-de/HowToBeAHelper)
+
 Diese Software ist ein Hilfstool für das Pen and Paper How To Be A Hero. Um mehr über das Pen and Paper System zu erfahren, klicke auf den folgenden Link:
 https://howtobeahero.de/index.php?title=Hauptseite
 
